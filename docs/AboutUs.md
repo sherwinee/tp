@@ -15,22 +15,47 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 <img src="images/inquisitivrx.png" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
 [[github](https://github.com/inquisitivrx)]
 [[portfolio](team/inquisitivrx.md)]
 
 * Role: TBC
 * Responsibilities: TBC
 
-### Jane Doe
+### Chee Yang
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/cheeyang.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](https://github.com/GCheeYang)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Team Lead
-* Responsibilities: UI
+### Sherwin Ee
+
+<img src="images/sherwinee.png" width="200px">
+
+[[homepage](http://www.comp.nus.edu.sg/~e1293805)]
+[[github](https://github.com/sherwinee)]
+[[portfolio](team/sherwinee.md)]
+
+### Kea Harvan Suyanto
+
+<img src="images/kea-s.png" width="200px">
+
+[[homepage](https://keaharvan.vercel.app)]
+[[github](https://github.com/kea-S)]
+[[portfolio](team/kea.md)]
+
+* Role: TBC
+* Responsibilities: TBC
+
+### Parry Chan
+
+<img src="images/parrycys.png" width="200px">
+
+[[github](http://github.com/parrycys)]
+[[portfolio](team/parrycys.md)]
+
+* Role: TBC
+* Responsibilities: TBC
 
 ### Johnny Doe
 
@@ -38,8 +63,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 [[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
 
-* Role: Developer
-* Responsibilities: Data
+- Role: Developer
+- Responsibilities: Data
 
 ### Jean Doe
 
@@ -48,8 +73,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/johndoe)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
+- Role: Developer
+- Responsibilities: Dev Ops + Threading
 
 ### James Doe
 
@@ -58,5 +83,5 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/johndoe)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Developer
-* Responsibilities: UI
+- Role: Developer
+- Responsibilities: UI
