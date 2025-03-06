@@ -19,6 +19,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/sherwinee)]
 [[portfolio](team/sherwinee.md)]
 
+### Kea Harvan Suyanto
+
+<img src="images/kea-s.png" width="200px">
+
+[[homepage](https://keaharvan.vercel.app)]
+[[github](https://github.com/kea-S)]
+[[portfolio](team/kea.md)]
+
 * Role: TBC
 * Responsibilities: TBC
 
