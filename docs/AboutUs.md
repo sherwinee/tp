@@ -11,6 +11,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
+### Sherwin Ee
+
+<img src="images/sherwinee.png" width="200px">
+
+[[homepage](http://www.comp.nus.edu.sg/~e1293805)]
+[[github](https://github.com/sherwinee)]
+[[portfolio](team/sherwinee.md)]
+
 ### Kea Harvan Suyanto
 
 <img src="images/kea-s.png" width="200px">
@@ -22,15 +30,15 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: TBC
 * Responsibilities: TBC
 
-### Jane Doe
+### Parry Chan
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/parrycys.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/parrycys)]
+[[portfolio](team/parrycys.md)]
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: TBC
+* Responsibilities: TBC
 
 ### Johnny Doe
 
