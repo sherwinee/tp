@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import seedu.address.commons.core.LogsCenter;
 
-//add photo
+//add photo 2
 /**
  * The main entry point to the application.
  *
