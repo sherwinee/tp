@@ -23,7 +23,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Chee Yang
 
-<img src="images/cheeyang.png" width="200px">
+<img src="images/gcheeyang.png" width="200px">
 
 [[github](https://github.com/GCheeYang)]
 [[portfolio](team/johndoe.md)]
