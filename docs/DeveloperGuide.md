@@ -339,6 +339,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Admin Staff** - An individual performing secretarial and administrative duties such as managing, liaising, and scheduling contacts
+* **Contact** - An individual an organisation/party has interest in communicating with.
+* **Contact Details** - Adjectives that can describe a contact including but not limited to Contact Name, Phone Number, and Email
+* **CSV File** - a simple text file that stores data in a tabular format, where each line represents a row and values within a row are separated by commas
+* **Tag** - To associate a Contact with a particular group
 
 --------------------------------------------------------------------------------------------------------------------
 
