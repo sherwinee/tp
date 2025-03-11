@@ -279,6 +279,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
+* wants to upload and manage multiple contacts at once
 
 **Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
