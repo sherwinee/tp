@@ -291,10 +291,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 |----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
 | `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
 | `* * *`  | user                                       | add a new person             |                                                                        |
+| `* * *`  | user                                       | view all contacts            |                                                                        |
 | `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
 | `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| `* * *`  | user                                       | find a person by number      | locate details of persons without having to go through the entire list |
+| `* *`    | user with many persons in the address book | sort contacts alphabetically | organise details of persons easily                                       |
+| `* *`    | user                                       | import contacts from a VCF   | load multiple entries of persons details quickly                         |
+| `*`      | user with wrong details of a person        | edit the persons information | modify a persons information                                             |
+| `*`      | user contacting the same person frequently | mark a person as favourite   | quickly access the persons information                                   |
 
 *{More to be added}*
 
@@ -325,7 +329,140 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-*{More to be added}*
+**Use case: View all contacts**
+
+**MSS**
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+**Use case: Find a person by name**
+
+**MSS**
+
+1.  User requests to find a person by name
+2.  AddressBook shows the specific person user requested
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The persons name is not added to AddressBook
+
+    * 2a1. AddressBook shows an error message.
+
+
+Use case ends.
+
+**Use case: Find a person by number**
+
+**MSS**
+
+1.  User requests to find a person by number
+2.  AddressBook shows the specific person user requested
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The persons number is not added to AddressBook
+
+    * 2a1. AddressBook shows an error message.
+
+  Use case ends.
+
+**Use case: Sort contacts alphabetically**
+
+**MSS**
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+3.  User requests to sort contacts based on persons name
+4.  AddressBook shows sorted list of persons
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+**Use case: Import contacts from VCF**
+
+**MSS**
+
+1.  User requests to import contacts from a VCF file
+2.  AddressBook takes in a VCF file
+3.  AddressBook adds contacts from VCF file to current contact list
+4.  AddressBook shows list of persons with added contacts from VCF file
+
+    Use case ends.
+
+**Extensions**
+
+* 3a. The VCF file is empty.
+
+  Use case ends.
+
+* 3a. The list is empty.
+
+  Use case ends.
+
+**Use case: Edit persons information**
+
+**MSS**
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+3.  User requests to edit a specific person in the list
+4.  AddressBook updates the person information
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The updated information is not valid.
+
+    * 3a1. AddressBook shows an error message.
+
+      Use case resumes at step 2.
+      *{More to be added}*
+
+**Use case: Mark person as favourite**
+
+**MSS**
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+3.  User requests to favourite a specific person in the list
+4.  AddressBook favourites the person
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. AddressBook shows an error message.
+
+      Use case resumes at step 2.
 
 ### Non-Functional Requirements
 
