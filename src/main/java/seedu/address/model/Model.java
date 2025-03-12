@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
-
+import java.util.Comparator;
 /**
  * The API of the Model component.
  */
@@ -84,4 +84,14 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Sorts the filtered list of persons based on the provided comparator.
+     * The filtered list will be sorted according to the criteria defined by the comparator.
+     *
+     * @param comparator The comparator used to compare the persons. The comparator defines
+     *                   the sorting order. It must not be null.
+     * @throws NullPointerException if the provided comparator is null.
+     */
+    void sortFilteredPersonList(Comparator<Person> comparator);
 }
