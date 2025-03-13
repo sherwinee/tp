@@ -3,6 +3,7 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -95,6 +96,19 @@ public class UniquePersonList implements Iterable<Person> {
         }
 
         internalList.setAll(persons);
+    }
+
+    /**
+     * Sorts the list of persons in this collection according to the provided comparator.
+     * The list will be sorted in-place, meaning the internal list will be directly modified.
+     *
+     * @param comparator The comparator used to compare the persons. The comparator determines
+     *                   the order in which persons will appear in the sorted list. The comparator
+     *                   should not be null.
+     * @throws NullPointerException if the provided comparator is null.
+     */
+    public void sort(Comparator<Person> comparator) {
+        internalList.sort(comparator);
     }
 
     /**
