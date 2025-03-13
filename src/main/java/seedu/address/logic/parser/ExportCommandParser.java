@@ -1,11 +1,13 @@
 package seedu.address.logic.parser;
 
 import seedu.address.logic.commands.ExportCommand;
-import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+/**
+ * Parses input arguments and creates a new ExportCommand object
+ */
 public class ExportCommandParser implements Parser<ExportCommand> {
 
     @Override

@@ -3,12 +3,10 @@ package seedu.address.logic.commands;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-
+/**
+ * Exports all contacts to a CSV file, which can then be imported to AB3.
+ * vcf file format support will be implemented at a future date.
+ */
 public class ExportCommand extends Command {
     public static final String COMMAND_WORD = "export";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exports all contacts to CSV/VCF file "
