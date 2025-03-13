@@ -279,6 +279,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
+* wants to upload and manage multiple contacts at once
 
 **Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
@@ -469,6 +470,10 @@ Use case ends.
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  Should be portable in the form of a FAT Jar file.
+5.  Programme size (excluding user data) should not exceed 5MB.
+6.  The programme should not use more than 1GB of memory with no contacts added.
+7.  The programme should be persistent.
 
 *{More to be added}*
 
