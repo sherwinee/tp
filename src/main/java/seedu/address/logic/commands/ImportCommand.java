@@ -1,9 +1,5 @@
 package seedu.address.logic.commands;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -11,14 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CSVParser;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -33,10 +28,6 @@ public class ImportCommand extends Command{
             + "(case-sensitive) and displays them as list with index numbers.\n"
             + "Parameters: import [filename.csv]\n"
             + "Example: " + COMMAND_WORD + " addressbook.csv";
-
-    public static final String MESSAGE_NOT_IMPLEMENTED_YET = "Import command not implemented yet!";
-
-    public static final String MESSAGE_ARGUMENTS = "Filename: %s";
 
     private final Path filePath;
 
@@ -66,6 +57,7 @@ public class ImportCommand extends Command{
         for (Person person : importedPersons) {
             model.addPerson(person);
         }
+
         return new CommandResult("Successfully imported " + importedPersons.size()
                 + " contacts!");
     }
@@ -99,7 +91,7 @@ public class ImportCommand extends Command{
                 if (values.size() > 4) {
                     String[] tagArray = values.get(4).split("[;,]");
                     for (String tag : tagArray) {
-                        tag = tag.trim(); // Keep alphanumeric
+                        tag = tag.trim();
                         if (!tag.isEmpty()) {
                             tags.add(new Tag(tag));
                         }
