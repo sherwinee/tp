@@ -20,7 +20,6 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SortCommand;
-
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
