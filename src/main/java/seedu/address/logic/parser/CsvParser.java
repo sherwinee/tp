@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class CsvParser {
     public static List<List<String>> parseCsv(String filePath) throws IOException {
         List<List<String>> data = new ArrayList<>();

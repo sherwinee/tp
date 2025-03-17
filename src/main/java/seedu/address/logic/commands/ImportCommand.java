@@ -24,11 +24,12 @@ public class ImportCommand extends Command {
 
     public static final String COMMAND_WORD = "import";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports all data from the specified filepath "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports all data from the specified file path "
             + "(case-sensitive) and displays them as list with index numbers.\n"
-            + "Parameters: import [filename.csv]\n"
-            + "Example: " + COMMAND_WORD + " addressbook.csv";
+            + "Parameters: FILENAME (must end with .csv)\n"
+            + "Example: " + COMMAND_WORD + " data/addressbook.csv";
 
+    public static final String MESSAGE_CONSTRAINTS = "File name must end with .csv";
     private final Path filePath;
 
     /**
