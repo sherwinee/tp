@@ -13,6 +13,13 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class ImportCommandParser implements Parser<ImportCommand> {
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the ImportCommand
+     * and returns an ImportCommand object for execution.
+     * @param args The user input argument representing the file path.
+     * @return An {@code ImportCommand} object with the specified file path.
+     * @throws ParseException If the input is empty or does not end with ".csv".
+     */
     public ImportCommand parse(String args) throws ParseException {
         requireNonNull(args);
         String trimmedArgs = args.trim();

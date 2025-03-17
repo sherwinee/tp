@@ -10,6 +10,14 @@ import java.util.List;
  *
  */
 public class CsvParser {
+
+    /**
+     * Parses a CSV file and returns the data as a list of lists of strings.
+     *
+     * @param filePath The path to the CSV file.
+     * @return A list of rows, where each row is a list of string values.
+     * @throws IOException If an error occurs while reading the file.
+     */
     public static List<List<String>> parseCsv(String filePath) throws IOException {
         List<List<String>> data = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -22,6 +30,13 @@ public class CsvParser {
         return data;
     }
 
+    /**
+     * Parses a single line from a CSV file into a list of string values.
+     * Handles quoted values correctly, ensuring that commas inside quotes are not treated as separators.
+     *
+     * @param line The CSV line to parse.
+     * @return A list of string values extracted from the line.
+     */
     private static List<String> parseLine(String line) {
         List<String> fields = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
