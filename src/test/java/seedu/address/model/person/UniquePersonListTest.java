@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalPersons.BOB;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -172,4 +173,31 @@ public class UniquePersonListTest {
     public void toStringMethod() {
         assertEquals(uniquePersonList.asUnmodifiableObservableList().toString(), uniquePersonList.toString());
     }
+
+    @Test
+    public void sort_sortByNameAscending_success() {
+        uniquePersonList.add(BOB);
+        uniquePersonList.add(ALICE);
+
+        UniquePersonList expectedUniquePersonList = new UniquePersonList();
+        expectedUniquePersonList.add(ALICE);
+        expectedUniquePersonList.add(BOB);
+
+        uniquePersonList.sort(Comparator.comparing(Person::getName));
+        assertEquals(expectedUniquePersonList, uniquePersonList);
+    }
+
+    @Test
+    public void sort_sortByNameDescending_success() {
+        uniquePersonList.add(ALICE);
+        uniquePersonList.add(BOB);
+
+        UniquePersonList expectedUniquePersonList = new UniquePersonList();
+        expectedUniquePersonList.add(BOB);
+        expectedUniquePersonList.add(ALICE);
+
+        uniquePersonList.sort(Comparator.comparing(Person::getName).reversed());
+        assertEquals(expectedUniquePersonList, uniquePersonList);
+    }
+
 }

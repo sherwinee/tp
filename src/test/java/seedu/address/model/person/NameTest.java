@@ -2,6 +2,8 @@ package seedu.address.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -56,5 +58,33 @@ public class NameTest {
 
         // different values -> returns false
         assertFalse(name.equals(new Name("Other Valid Name")));
+    }
+
+    @Test
+    public void hashCode_test() {
+        Name name1 = new Name("Alice");
+        Name name2 = new Name("Alice");
+        Name name3 = new Name("Bob");
+
+        // Same object -> same hashCode
+        assertEquals(name1.hashCode(), name1.hashCode());
+
+        // Equal objects -> same hashCode
+        assertEquals(name1.hashCode(), name2.hashCode());
+
+        // Different objects -> different hashCode
+        assertNotEquals(name1.hashCode(), name3.hashCode());
+    }
+
+    @Test
+    public void compareTo_test() {
+        Name nameA = new Name("Alice");
+        Name nameB = new Name("Bob");
+        Name nameC = new Name("alice"); // Same name, different case
+
+        // Alphabetical order comparison
+        assertTrue(nameA.compareTo(nameB) < 0); // Alice < Bob
+        assertTrue(nameB.compareTo(nameA) > 0); // Bob > Alice
+        assertEquals(0, nameA.compareTo(nameC)); // Alice == alice (case-insensitive)
     }
 }

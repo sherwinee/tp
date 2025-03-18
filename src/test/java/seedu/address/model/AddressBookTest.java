@@ -7,11 +7,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -87,6 +89,22 @@ public class AddressBookTest {
     public void toStringMethod() {
         String expected = AddressBook.class.getCanonicalName() + "{persons=" + addressBook.getPersonList() + "}";
         assertEquals(expected, addressBook.toString());
+    }
+
+    @Test
+    public void sortPersons_sortsCorrectly() {
+        Person person1 = new PersonBuilder(ALICE).withName("Charlie").build();
+        Person person2 = new PersonBuilder(BOB).withName("Alice").build();
+        addressBook.addPerson(person1);
+        addressBook.addPerson(person2);
+
+        // Ascending order
+        addressBook.sortPersons(Comparator.comparing(Person::getName));
+        assertEquals(Arrays.asList(person2, person1), addressBook.getPersonList());
+
+        // Descending order
+        addressBook.sortPersons(Comparator.comparing(Person::getName).reversed());
+        assertEquals(Arrays.asList(person1, person2), addressBook.getPersonList());
     }
 
     /**
