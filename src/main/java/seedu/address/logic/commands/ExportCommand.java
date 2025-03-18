@@ -1,15 +1,11 @@
 package seedu.address.logic.commands;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
+
 import seedu.address.storage.CsvAddressBookStorage;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
 
 import static seedu.address.storage.CsvAddressBookStorage.EXPORT_DIR_PREFIX;
 
