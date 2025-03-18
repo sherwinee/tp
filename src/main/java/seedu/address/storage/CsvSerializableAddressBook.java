@@ -1,14 +1,14 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import seedu.address.model.ReadOnlyAddressBook;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * An Immutable AddressBook that is serializable to CSV format.
@@ -21,6 +21,9 @@ class CsvSerializableAddressBook {
 
     private final List<CsvAdaptedPerson> persons = new ArrayList<>();
 
+    /**
+     * Constructs a {@code CsvSerializableAddressBook} with the given persons.
+     */
     @JsonCreator
     public CsvSerializableAddressBook(@JsonProperty("persons") List<CsvAdaptedPerson> persons) {
         this.persons.addAll(persons);

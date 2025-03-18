@@ -1,13 +1,12 @@
 package seedu.address.logic.commands;
 
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-
-import seedu.address.storage.CsvAddressBookStorage;
+import static seedu.address.storage.CsvAddressBookStorage.EXPORT_DIR_PREFIX;
 
 import java.io.IOException;
 
-import static seedu.address.storage.CsvAddressBookStorage.EXPORT_DIR_PREFIX;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.storage.CsvAddressBookStorage;
 
 /**
  * Exports all contacts to a CSV file, which can then be imported to AB3.

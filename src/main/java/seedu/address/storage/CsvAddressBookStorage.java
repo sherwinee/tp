@@ -1,12 +1,6 @@
 package seedu.address.storage;
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.exceptions.DataLoadingException;
-import seedu.address.commons.util.FileUtil;
-import seedu.address.model.ReadOnlyAddressBook;
-
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -14,7 +8,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import static java.util.Objects.requireNonNull;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.commons.util.FileUtil;
+import seedu.address.model.ReadOnlyAddressBook;
+
 
 /**
  * A class to access AddressBook data stored as a CSV file on the hard disk.
@@ -27,6 +28,10 @@ public class CsvAddressBookStorage implements AddressBookStorage {
     private final Path filePath;
     private final CsvMapper csvMapper;
 
+    /**
+     * Creates a CsvAddressBookStorage object with the specified filePath
+     * @param filePath csv filepath relative from ./exports/
+     */
     public CsvAddressBookStorage(String filePath) {
         this.filePath = Path.of(EXPORT_DIR_PREFIX + filePath);
         this.csvMapper = new CsvMapper(); // Jackson CSV mapper

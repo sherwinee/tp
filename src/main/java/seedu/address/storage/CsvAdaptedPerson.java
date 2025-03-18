@@ -1,12 +1,13 @@
 package seedu.address.storage;
 
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.stream.Collectors;
-
 import seedu.address.model.person.Person;
+
 /**
  * CSV-friendly version of {@link Person}.
  */
