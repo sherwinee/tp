@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,8 +16,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.tag.Tag;
 
 /**
  * Imports a file ending with CSV format
@@ -83,8 +82,8 @@ public class ImportCommand extends Command {
         }
 
         if (!duplicateErrors.isEmpty()) {
-            throw new CommandException("Duplicate persons found:\n" +
-                    duplicateErrors.stream().collect(Collectors.joining("\n")));
+            throw new CommandException("Duplicate persons found:\n"
+                    + duplicateErrors.stream().collect(Collectors.joining("\n")));
         }
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, importedPersons.size()));

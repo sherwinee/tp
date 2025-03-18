@@ -72,10 +72,10 @@ public class ImportCommandTest {
         // - No tags (Row 2)
         // - Empty tags field (Row 3)
         // - Tags field with an empty entry (Row 4)
-        String csvData = "Name,Phone,Email,Address,Tags\n" +
-                "Alice Tan,91234567,alice@example.com,123 Street\n" +  // No tags
-                "Bob Lim,98765432,bob@example.com,456 Avenue,\n" +  // Empty tags field
-                "Carl Kurz,812348,carl@yahoo.com,Wall Street,\"friend, ,colleague\"\n";  // Tags field with an empty entry
+        String csvData = "Name,Phone,Email,Address,Tags\n"
+                + "Alice Tan,91234567,alice@example.com,123 Street\n"  // No tags
+                + "Bob Lim,98765432,bob@example.com,456 Avenue,\n" // Empty tags field
+                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,\"friend, ,colleague\"\n";  // Tags field with an empty entry
 
         Files.write(tempFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
 
