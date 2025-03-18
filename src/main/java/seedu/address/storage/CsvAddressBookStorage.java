@@ -22,8 +22,9 @@ import seedu.address.model.ReadOnlyAddressBook;
  */
 public class CsvAddressBookStorage implements AddressBookStorage {
 
-    private static final Logger logger = LogsCenter.getLogger(CsvAddressBookStorage.class);
     public static final String EXPORT_DIR_PREFIX = "./exports/";
+
+    private static final Logger logger = LogsCenter.getLogger(CsvAddressBookStorage.class);
 
     private final Path filePath;
     private final CsvMapper csvMapper;
