@@ -24,7 +24,7 @@ import static java.util.Objects.requireNonNull;
 public class CsvAddressBookStorage implements AddressBookStorage {
 
     private static final Logger logger = LogsCenter.getLogger(CsvAddressBookStorage.class);
-    private static final String EXPORT_DIR_PREFIX = "./exports/";
+    public static final String EXPORT_DIR_PREFIX = "./exports/";
 
     private final Path filePath;
     private final CsvMapper csvMapper;
