@@ -22,7 +22,7 @@ public class ImportCommandParserTest {
 
     @Test
     public void parse_validFilePath_success() {
-        String filePath = "data/address_book.csv";
+        String filePath = "address_book.csv";
         ImportCommand expectedCommand = new ImportCommand(Path.of(filePath));
         assertParseSuccess(parser, filePath, expectedCommand);
     }
@@ -32,7 +32,7 @@ public class ImportCommandParserTest {
         assertParseFailure(parser, "addressbook", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 ImportCommand.MESSAGE_CONSTRAINTS));
 
-        assertParseFailure(parser, "addressbook.VCF", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+        assertParseFailure(parser, "addressbook.vcf", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 ImportCommand.MESSAGE_CONSTRAINTS));
     }
 }

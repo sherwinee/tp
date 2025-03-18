@@ -24,6 +24,10 @@ public class CsvParser {
             br.readLine(); // Excludes header
             String line;
             while ((line = br.readLine()) != null) {
+                line = line.replace("\r\n", "\n");
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 data.add(parseLine(line));
             }
         }

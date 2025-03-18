@@ -103,7 +103,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_import() throws Exception {
-        String filePath = "data/address_book.csv";
+        String filePath = "address_book.csv";
         ImportCommand command = (ImportCommand) parser.parseCommand(ImportCommand.COMMAND_WORD
                 + " " + filePath);
 
