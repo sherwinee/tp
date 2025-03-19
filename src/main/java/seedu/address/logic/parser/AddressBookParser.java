@@ -80,10 +80,10 @@ public class AddressBookParser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
-            
+
         case ExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
-        
+
         case SortCommand.COMMAND_WORD:
             return new SortCommandParser().parse(arguments);
 

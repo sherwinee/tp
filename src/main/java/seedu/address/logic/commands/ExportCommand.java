@@ -1,7 +1,12 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.storage.CsvAddressBookStorage.EXPORT_DIR_PREFIX;
+
+import java.io.IOException;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.storage.CsvAddressBookStorage;
 
 /**
  * Exports all contacts to a CSV file, which can then be imported to AB3.
@@ -14,7 +19,7 @@ public class ExportCommand extends Command {
             + "Parameters: FILENAME.csv\n"
             + "Example: export contacts_dump.csv";
 
-    public static final String MESSAGE_EXPORT_SUCCESS = "Exported all contacts to %1$s";
+    public static final String MESSAGE_EXPORT_SUCCESS = "Successfully exported all contacts to %1$s%2$s";
     public static final String MESSAGE_EXPORT_FAILURE = "Failed to export contacts to %1$s due to:\n%2$s";
     public static final String MESSAGE_EXPORT_WORK_IN_PROGRESS = "Export command is still a work-in-progress :D";
 
@@ -26,6 +31,27 @@ public class ExportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        throw new CommandException(MESSAGE_EXPORT_WORK_IN_PROGRESS);
+        CsvAddressBookStorage csvStorage = new CsvAddressBookStorage(filename);
+        try {
+            csvStorage.saveAddressBook(model.getAddressBook());
+            return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, EXPORT_DIR_PREFIX, filename));
+        } catch (IOException e) {
+            throw new CommandException(String.format(MESSAGE_EXPORT_FAILURE, filename, e.getMessage()));
+        }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ExportCommand)) {
+            return false;
+        }
+
+        ExportCommand otherExportCommand = (ExportCommand) other;
+        return filename.equals(otherExportCommand.filename);
     }
 }
