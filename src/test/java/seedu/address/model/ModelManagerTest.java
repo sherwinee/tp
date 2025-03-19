@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
@@ -92,6 +93,24 @@ public class ModelManagerTest {
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
     }
+
+    @Test
+    public void sortFilteredPersonList_validComparator_sortsList() {
+        ModelManager modelManager = new ModelManager();
+
+        // Add sample persons
+        modelManager.addPerson(ALICE); // Assume ALICE's name is "Alice"
+        modelManager.addPerson(BENSON); // Assume BENSON's name is "Benson"
+
+        // Sort in ascending order by name
+        modelManager.sortFilteredPersonList(Comparator.comparing(person -> person.getName().fullName));
+        assertEquals(Arrays.asList(ALICE, BENSON), modelManager.getFilteredPersonList());
+
+        // Sort in descending order by name
+        modelManager.sortFilteredPersonList(Comparator.comparing(person -> person.getName().fullName, Comparator.reverseOrder()));
+        assertEquals(Arrays.asList(BENSON, ALICE), modelManager.getFilteredPersonList());
+    }
+
 
     @Test
     public void equals() {
