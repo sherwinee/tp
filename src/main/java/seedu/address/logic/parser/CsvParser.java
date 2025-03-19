@@ -1,24 +1,46 @@
 package seedu.address.logic.parser;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVParser {
-    public static List<List<String>> parseCSV(String filePath) throws IOException {
+/**
+ *
+ */
+public class CsvParser {
+
+    /**
+     * Parses a CSV file and returns the data as a list of lists of strings.
+     *
+     * @param filePath The path to the CSV file.
+     * @return A list of rows, where each row is a list of string values.
+     * @throws IOException If an error occurs while reading the file.
+     */
+    public static List<List<String>> parseCsv(String filePath) throws IOException {
         List<List<String>> data = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine(); // Excludes header
             String line;
             while ((line = br.readLine()) != null) {
+                line = line.replace("\r\n", "\n");
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 data.add(parseLine(line));
             }
         }
         return data;
     }
 
+    /**
+     * Parses a single line from a CSV file into a list of string values.
+     * Handles quoted values correctly, ensuring that commas inside quotes are not treated as separators.
+     *
+     * @param line The CSV line to parse.
+     * @return A list of string values extracted from the line.
+     */
     private static List<String> parseLine(String line) {
         List<String> fields = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
@@ -47,8 +69,8 @@ public class CSVParser {
 
     public static void main(String[] args) {
         try {
-            List<List<String>> parsedCSV = parseCSV("data.csv");
-            for (List<String> row : parsedCSV) {
+            List<List<String>> parsedCsv = parseCsv("data.csv");
+            for (List<String> row : parsedCsv) {
                 System.out.println(row);
             }
         } catch (IOException e) {
