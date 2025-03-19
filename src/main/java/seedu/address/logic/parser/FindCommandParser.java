@@ -27,19 +27,35 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_TAG, PREFIX_NAME);
 
-        if (!(arePrefixesPresent(argMultimap, PREFIX_TAG) ^ arePrefixesPresent(argMultimap, PREFIX_NAME))) {
+        // Check if both prefixes are present
+        if (arePrefixesPresent(argMultimap, PREFIX_TAG) && arePrefixesPresent(argMultimap, PREFIX_NAME)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
+        // Check if no prefix is present
+        if (!arePrefixesPresent(argMultimap, PREFIX_TAG) && !arePrefixesPresent(argMultimap, PREFIX_NAME)) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME);
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_TAG);
-
+      
         if (arePrefixesPresent(argMultimap, PREFIX_NAME)) {
-            String[] keywords = argMultimap.getValue(PREFIX_NAME).get().split("\\s+");
+            String[] keywords = argMultimap.getValue(PREFIX_NAME).get().trim().split("\\s+");
+              if (keywords.length == 0) {
+                throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+              }
             return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         } else if (arePrefixesPresent(argMultimap, PREFIX_TAG)) {
-            String[] keywords = argMultimap.getValue(PREFIX_TAG).get().split("\\s+");
+            String[] keywords = argMultimap.getValue(PREFIX_TAG).get().trim().split("\\s+");
+              if (keywords.length == 0) {
+                throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+              }
+
             return new FindCommand(new TagsContainsKeywordsPredicate(Arrays.asList(keywords)));
         } else {
             throw new ParseException(
