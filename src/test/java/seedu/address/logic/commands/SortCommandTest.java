@@ -30,15 +30,19 @@ public class SortCommandTest {
     @Test
     public void execute_sortAscending_sortsListCorrectly() {
         SortCommand sortCommand = new SortCommand(true);
-        expectedModel.sortFilteredPersonList(Comparator.comparing(Person::getName).thenComparing(Person::getPhone));
-        assertCommandSuccess(sortCommand, model, String.format(SortCommand.MESSAGE_SUCCESS, "ascending"), expectedModel);
+        expectedModel.sortFilteredPersonList(Comparator.comparing(Person::getName)
+                .thenComparing(Person::getPhone));
+        assertCommandSuccess(sortCommand, model, String.format(
+                SortCommand.MESSAGE_SUCCESS, "ascending"), expectedModel);
     }
 
     @Test
     public void execute_sortDescending_sortsListCorrectly() {
         SortCommand sortCommand = new SortCommand(false);
-        expectedModel.sortFilteredPersonList(Comparator.comparing(Person::getName).thenComparing(Person::getPhone).reversed());
-        assertCommandSuccess(sortCommand, model, String.format(SortCommand.MESSAGE_SUCCESS, "descending"), expectedModel);
+        expectedModel.sortFilteredPersonList(Comparator.comparing(Person::getName)
+                .thenComparing(Person::getPhone).reversed());
+        assertCommandSuccess(sortCommand, model, String.format(
+                SortCommand.MESSAGE_SUCCESS, "descending"), expectedModel);
     }
 
     @Test
