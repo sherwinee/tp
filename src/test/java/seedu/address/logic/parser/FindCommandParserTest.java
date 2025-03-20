@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_COLLEAGUE;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_COLLEAGUE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
@@ -28,8 +28,7 @@ public class FindCommandParserTest {
     @Test
     public void parse_emptyArg_throwsParseException() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
-        assertAll("empty argument tests",
-                () -> assertParseFailure(parser, "     ", expectedMessage),
+        assertAll("empty argument tests", () -> assertParseFailure(parser, "     ", expectedMessage),
                 () -> assertParseFailure(parser, "n/     ", expectedMessage),
                 () -> assertParseFailure(parser, "t/     ", expectedMessage)
         );
