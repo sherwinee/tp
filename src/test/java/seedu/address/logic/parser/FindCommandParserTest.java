@@ -28,9 +28,9 @@ public class FindCommandParserTest {
     @Test
     public void parse_emptyArg_throwsParseException() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
-        assertAll("empty argument tests", () -> assertParseFailure(parser, "     ", expectedMessage),
-                () -> assertParseFailure(parser, "n/     ", expectedMessage),
-                () -> assertParseFailure(parser, "t/     ", expectedMessage));
+        assertAll("empty argument tests", () -> assertParseFailure(parser, "    ", expectedMessage), (
+                ) -> assertParseFailure(parser, "n/     ", expectedMessage), (
+        ) -> assertParseFailure(parser, "t/     ", expectedMessage));
     }
 
     @Test
