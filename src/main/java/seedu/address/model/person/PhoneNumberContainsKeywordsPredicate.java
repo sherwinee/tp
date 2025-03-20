@@ -5,7 +5,9 @@ import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
 
-
+/**
+ * Tests that a {@code Person}'s {@code Phone} matches any of the keywords given.
+ */
 public class PhoneNumberContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
 
@@ -30,7 +32,8 @@ public class PhoneNumberContainsKeywordsPredicate implements Predicate<Person> {
             return false;
         }
 
-        PhoneNumberContainsKeywordsPredicate otherPhoneNumberContainsKeywordsPredicate = (PhoneNumberContainsKeywordsPredicate) other;
+        PhoneNumberContainsKeywordsPredicate otherPhoneNumberContainsKeywordsPredicate
+                = (PhoneNumberContainsKeywordsPredicate) other;
         return keywords.equals(otherPhoneNumberContainsKeywordsPredicate.keywords);
     }
 
