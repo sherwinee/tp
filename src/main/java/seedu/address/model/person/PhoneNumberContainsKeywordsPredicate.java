@@ -32,8 +32,8 @@ public class PhoneNumberContainsKeywordsPredicate implements Predicate<Person> {
             return false;
         }
 
-        PhoneNumberContainsKeywordsPredicate otherPhoneNumberContainsKeywordsPredicate
-                = (PhoneNumberContainsKeywordsPredicate) other;
+        PhoneNumberContainsKeywordsPredicate otherPhoneNumberContainsKeywordsPredicate =
+                (PhoneNumberContainsKeywordsPredicate) other;
         return keywords.equals(otherPhoneNumberContainsKeywordsPredicate.keywords);
     }
 
