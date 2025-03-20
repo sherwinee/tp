@@ -6,22 +6,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static seedu.address.commons.util.FileUtil.readFromFile;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-
-import org.junit.jupiter.api.Test;
-
-import seedu.address.commons.util.FileUtil;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Collections;
-
 import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_SUCCESS;
 import static seedu.address.storage.CsvAddressBookStorage.EXPORT_DIR_PREFIX;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
+
 
 /**
  * Contains integration tests (interaction with the Model) for {@code ExportCommand}.
