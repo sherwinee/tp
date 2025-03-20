@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 public class CsvAdaptedPersonTest {
