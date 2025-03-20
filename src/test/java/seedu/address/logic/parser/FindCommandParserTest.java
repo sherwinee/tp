@@ -30,8 +30,7 @@ public class FindCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
         assertAll("empty argument tests", () -> assertParseFailure(parser, "     ", expectedMessage),
                 () -> assertParseFailure(parser, "n/     ", expectedMessage),
-                () -> assertParseFailure(parser, "t/     ", expectedMessage)
-        );
+                () -> assertParseFailure(parser, "t/     ", expectedMessage));
     }
 
     @Test
