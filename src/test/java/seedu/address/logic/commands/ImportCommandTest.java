@@ -20,6 +20,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -89,7 +90,6 @@ public class ImportCommandTest {
         assertEquals(0, persons.get(1).getTags().size()); // Empty tags
         assertEquals(2, persons.get(2).getTags().size()); // "friend" and "colleague" (empty space skipped)
     }
-
 
 
     @Test
