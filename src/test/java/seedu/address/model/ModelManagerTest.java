@@ -107,7 +107,8 @@ public class ModelManagerTest {
         assertEquals(Arrays.asList(ALICE, BENSON), modelManager.getFilteredPersonList());
 
         // Sort in descending order by name
-        modelManager.sortFilteredPersonList(Comparator.comparing(person -> person.getName().fullName, Comparator.reverseOrder()));
+        modelManager.sortFilteredPersonList(Comparator.comparing(person -> person.getName()
+                .fullName, Comparator.reverseOrder()));
         assertEquals(Arrays.asList(BENSON, ALICE), modelManager.getFilteredPersonList());
     }
 

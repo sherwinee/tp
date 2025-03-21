@@ -19,7 +19,9 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class ArgumentMultimap {
 
-    /** Prefixes mapped to their respective arguments**/
+    /**
+     * Prefixes mapped to their respective arguments
+     **/
     private final Map<Prefix, List<String>> argMultimap = new HashMap<>();
 
     /**
@@ -81,6 +83,7 @@ public class ArgumentMultimap {
      * Returns a string representation of this ArgumentMultimap.
      * The string representation consists of a list of key-value mappings in the order they are stored.
      * Each mapping is rendered as a prefix followed by its associated argument values.
+     *
      * @return a string representation of this ArgumentMultimap
      */
     @Override
@@ -97,3 +100,4 @@ public class ArgumentMultimap {
         return sb.toString();
     }
 }
+

@@ -3,6 +3,10 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,11 +24,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-import seedu.address.testutil.Assert;
-import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 /**
  * Contains tests for {@code ImportCommand}.
@@ -73,9 +72,9 @@ public class ImportCommandTest {
         // - Empty tags field (Row 3)
         // - Tags field with an empty entry (Row 4)
         String csvData = "Name,Phone,Email,Address,Tags\n"
-                + "Alice Tan,91234567,alice@example.com,123 Street\n"  // No tags
+                + "Alice Tan,91234567,alice@example.com,123 Street\n" // No tags
                 + "Bob Lim,98765432,bob@example.com,456 Avenue,\n" // Empty tags field
-                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,\"friend, ,colleague\"\n";  // Tags field with an empty entry
+                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,\"friend, ,colleague\"\n"; // Tags field with empty entry
 
         Files.write(tempFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
 
@@ -90,7 +89,6 @@ public class ImportCommandTest {
         assertEquals(0, persons.get(1).getTags().size()); // Empty tags
         assertEquals(2, persons.get(2).getTags().size()); // "friend" and "colleague" (empty space skipped)
     }
-
 
 
     @Test
