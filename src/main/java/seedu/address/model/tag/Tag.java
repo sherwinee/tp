@@ -15,10 +15,10 @@ public class Tag implements Comparable<Tag>{
   public final String tagName;
 
   /**
-     * Constructs a {@code Tag}.
-     *
-     * @param tagName A valid tag name.
-     */
+   * Constructs a {@code Tag}.
+   *
+   * @param tagName A valid tag name.
+   */
   public Tag(String tagName) {
     requireNonNull(tagName);
     checkArgument(isValidTagName(tagName), MESSAGE_CONSTRAINTS);
@@ -26,8 +26,8 @@ public class Tag implements Comparable<Tag>{
   }
 
   /**
-     * Returns true if a given string is a valid tag name.
-     */
+   * Returns true if a given string is a valid tag name.
+   */
   public static boolean isValidTagName(String test) {
     return test.matches(VALIDATION_REGEX);
   }
@@ -53,8 +53,8 @@ public class Tag implements Comparable<Tag>{
   }
 
   /**
-     * Format state as text for viewing.
-     */
+   * Format state as text for viewing.
+   */
   public String toString() {
     return '[' + tagName + ']';
   }

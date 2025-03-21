@@ -83,17 +83,17 @@ public class ArgumentMultimap {
      * Each mapping is rendered as a prefix followed by its associated argument values.
      * @return a string representation of this ArgumentMultimap
      */
-     @Override
-     public String toString() {
-         StringBuilder sb = new StringBuilder("ArgumentMultimap{");
-         if (!argMultimap.isEmpty()) {
-             argMultimap.forEach((prefix, values) ->
-                 sb.append("\n  ")
-                   .append(prefix)
-                   .append(" -> ")
-                   .append(values));
-         }
-         sb.append(argMultimap.isEmpty() ? "}" : "\n}");
-         return sb.toString();
-     }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("ArgumentMultimap{");
+        if (!argMultimap.isEmpty()) {
+            argMultimap.forEach((prefix, values) ->
+                    sb.append("\n  ")
+                            .append(prefix)
+                            .append(" -> ")
+                            .append(values));
+        }
+        sb.append(argMultimap.isEmpty() ? "}" : "\n}");
+        return sb.toString();
+    }
 }
