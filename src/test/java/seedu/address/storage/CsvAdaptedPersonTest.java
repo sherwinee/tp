@@ -1,9 +1,5 @@
 package seedu.address.storage;
 
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.databind.MappingIterator;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static seedu.address.testutil.TypicalPersons.BENSON;
@@ -11,6 +7,10 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 public class CsvAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
@@ -106,8 +106,8 @@ public class CsvAdaptedPersonTest {
     @Test
     public void deserializeCsvAdaptedPerson_fromCsvRow_correctlyDeserializes() throws Exception {
         // Prepare CSV data with a header row and one data row.
-        String csvData = "name,phone,email,address,tags\n" +
-                "Alice Pauline,94351253,alice@example.com,\"123, Jurong West Ave 6, #08-111\",friends";
+        String csvData = "name,phone,email,address,tags\n"
+                + "Alice Pauline,94351253,alice@example.com,\"123, Jurong West Ave 6, #08-111\",friends";
 
         // Create a CsvMapper and build a schema based on CsvAdaptedPerson.
         CsvMapper mapper = new CsvMapper();
