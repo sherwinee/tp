@@ -2,8 +2,8 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.function.Predicate;
 
@@ -23,7 +23,8 @@ public class FindCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names or tags contain any of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: EITHER " + PREFIX_NAME + "KEYWORD" + PREFIX_NAME + "[MORE KEYWORDS] OR " + PREFIX_TAG
-            + "KEYWORD" + PREFIX_TAG + "[MORE KEYWORDS] OR" + PREFIX_PHONE + "KEYWORD" + PREFIX_PHONE + "[MORE_KEYWORDS]...\n"
+            + "KEYWORD" + PREFIX_TAG + "[MORE KEYWORDS] OR" + PREFIX_PHONE + "KEYWORD" + PREFIX_PHONE
+            + "[MORE_KEYWORDS]\n"
             + "Example for name search: " + COMMAND_WORD + " " + PREFIX_NAME + "alice" + PREFIX_NAME + "bob\n"
             + "Example for tag search: " + COMMAND_WORD + " " + PREFIX_TAG + "friends" + PREFIX_TAG + "colleagues\n"
             + "Example for phone search: " + COMMAND_WORD + " " + PREFIX_PHONE + "81293829";
