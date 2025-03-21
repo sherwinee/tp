@@ -23,6 +23,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.TagsContainsKeywordsPredicate;
+import seedu.address.model.person.PhoneNumberContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -83,6 +84,33 @@ public class FindCommandTest {
 
         // different predicate -> returns false
         assertFalse(findFirstTagCommand.equals(findFirstNameCommand));
+
+        PhoneNumberContainsKeywordsPredicate phoneFirstPredicate =
+                new PhoneNumberContainsKeywordsPredicate(Collections.singletonList("123"));
+        PhoneNumberContainsKeywordsPredicate phoneSecondPredicate =
+                new PhoneNumberContainsKeywordsPredicate(Collections.singletonList("456"));
+
+        FindCommand findFirstPhoneCommand = new FindCommand(phoneFirstPredicate);
+        FindCommand findSecondPhoneCommand = new FindCommand(phoneSecondPredicate);
+
+        // same object -> returns true
+        assertTrue(findFirstPhoneCommand.equals(findFirstPhoneCommand));
+
+        // same values -> returns true
+        FindCommand findFirstPhoneCommandCopy = new FindCommand(phoneFirstPredicate);
+        assertTrue(findFirstPhoneCommand.equals(findFirstPhoneCommandCopy));
+
+        // different types -> returns false
+        assertFalse(findFirstPhoneCommand.equals(1));
+
+        // null -> returns false
+        assertFalse(findFirstPhoneCommand.equals(null));
+
+        // different person -> returns false
+        assertFalse(findFirstPhoneCommand.equals(findSecondPhoneCommand));
+
+        // different predicate -> returns false
+        assertFalse(findFirstPhoneCommand.equals(findFirstTagCommand));
     }
 
     @Test
@@ -123,6 +151,15 @@ public class FindCommandTest {
         assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredPersonList());
     }
 
+    @Test
+    public void execute_singlePhoneKeyword_singlePersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
+        PhoneNumberContainsKeywordsPredicate predicate = preparePhonePredicate("94351253");
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Collections.singletonList(ALICE), model.getFilteredPersonList());
+    }
 
     @Test
     public void toStringMethod() {
@@ -144,6 +181,13 @@ public class FindCommandTest {
      */
     private TagsContainsKeywordsPredicate prepareTagPredicate(String userInput) {
         return new TagsContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+    }
+
+    /**
+     * Parses {@code userInput} into a {@code PhoneNumberContainsKeywordsPredicate}.
+     */
+    private PhoneNumberContainsKeywordsPredicate preparePhonePredicate(String userInput) {
+        return new PhoneNumberContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
     }
 
 }
