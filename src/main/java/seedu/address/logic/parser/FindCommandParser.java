@@ -34,11 +34,12 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_TAG);
 
-
         boolean tagPresent = arePrefixesPresent(argMultimap, PREFIX_TAG);
         boolean namePresent = arePrefixesPresent(argMultimap, PREFIX_NAME);
         boolean phonePresent = arePrefixesPresent(argMultimap, PREFIX_PHONE);
-        boolean hasExactlyOnePrefix = (tagPresent ? 1 : 0) + (namePresent ? 1 : 0) + (phonePresent ? 1 : 0) == 1;
+        boolean hasExactlyOnePrefix = (tagPresent ? 1 : 0)
+                + (namePresent ? 1 : 0)
+                + (phonePresent ? 1 : 0) == 1;
 
         if (!hasExactlyOnePrefix) {
             throw new ParseException(
