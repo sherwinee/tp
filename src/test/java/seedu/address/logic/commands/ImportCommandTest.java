@@ -1,6 +1,5 @@
 package seedu.address.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
@@ -67,28 +66,22 @@ public class ImportCommandTest {
 
     @Test
     public void importCsv_variousTagCases() throws IOException {
-        // CSV data with:
-        // - No tags (Row 2)
-        // - Empty tags field (Row 3)
-        // - Tags field with an empty entry (Row 4)
         String csvData = "Name,Phone,Email,Address,Tags\n"
-                + "Alice Tan,91234567,alice@example.com,123 Street\n" // No tags
-                + "Bob Lim,98765432,bob@example.com,456 Avenue,\n" // Empty tags field
-                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,\"friend, ,colleague\"\n"; // Tags field with empty entry
+                + "Alice Tan,91234567,alice@example.com,123 Street\n"
+                + "Bob Lim,98765432,bob@example.com,456 Avenue,\n"
+                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,\"friend, ,colleague\"\n";
 
         Files.write(tempFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
 
         List<String> errors = new ArrayList<>();
         List<Person> persons = ImportCommand.importCsv(tempFile.toString(), errors);
 
-        // Ensure persons are added
-        assertEquals(3, persons.size());
-
-        // Ensure tags are assigned correctly
-        assertEquals(0, persons.get(0).getTags().size()); // No tags
-        assertEquals(0, persons.get(1).getTags().size()); // Empty tags
-        assertEquals(2, persons.get(2).getTags().size()); // "friend" and "colleague" (empty space skipped)
+        assert persons.size() == 3 : "Expected 3 persons, got " + persons.size();
+        assert persons.get(0).getTags().size() == 0 : "Expected no tags for first person";
+        assert persons.get(1).getTags().size() == 0 : "Expected no tags for second person";
+        assert persons.get(2).getTags().size() == 2 : "Expected 2 tags for third person";
     }
+
 
 
     @Test
