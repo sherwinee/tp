@@ -124,6 +124,19 @@ public class ModelManager implements Model {
         return filteredPersons;
     }
 
+    /**
+     * Deletes all persons in the address book that match the given predicate.
+     * @param predicate the predicate to match persons against
+     */
+    @Override
+    public void deleteAllPersons(Predicate<Person> predicate) {
+        requireNonNull(predicate);
+        addressBook.getPersonList().stream()
+                .filter(predicate)
+                .toList() // maybe a bit sus LOOK AGAIN
+                .forEach(this::deletePerson);
+    }
+
     @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
