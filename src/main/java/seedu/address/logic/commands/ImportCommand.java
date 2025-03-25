@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,8 @@ import seedu.address.model.tag.Tag;
  * Imports a file ending with CSV format
  */
 public class ImportCommand extends Command {
+
+    private static final Logger logger = Logger.getLogger(ImportCommand.class.getName());
 
     public static final String COMMAND_WORD = "import";
 
@@ -50,22 +53,27 @@ public class ImportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        logger.info("Executing ImportCommand with file: " + filePath);
         List<Person> importedPersons;
         List<String> errors = new ArrayList<>();
-        List<String> duplicateErrors = new ArrayList<>();
+        List<String> duplicatePersonErrors = new ArrayList<>();
 
         try {
             importedPersons = importCsv(filePath.toString(), errors);
+            logger.info("Parsed " + importedPersons.size() + " valid persons from CSV.");
         } catch (IOException e) {
+            logger.severe("Error reading file: " + e.getMessage());
             throw new CommandException(MESSAGE_READ_INPUT_ERROR + e.getMessage());
         }
 
         if (!errors.isEmpty()) {
+            logger.warning("Import errors: " + String.join("; ", errors));
             throw new CommandException(MESSAGE_ERROR_DURING_IMPORT
                     + errors.stream().collect(Collectors.joining("\n")));
         }
 
         if (importedPersons.isEmpty()) {
+            logger.warning("No persons were imported — file may be empty or invalid.");
             throw new CommandException(MESSAGE_EMPTY_FILE);
         }
 
@@ -77,15 +85,16 @@ public class ImportCommand extends Command {
             try {
                 model.addPerson(person);
             } catch (DuplicatePersonException e) {
-                duplicateErrors.add("Row " + rowNumber + ": " + e.getMessage());
+                duplicatePersonErrors.add("Row " + rowNumber + ": " + e.getMessage());
             }
         }
 
-        if (!duplicateErrors.isEmpty()) {
+        if (!duplicatePersonErrors.isEmpty()) {
+            logger.warning("Duplicate entries found during import.");
             throw new CommandException("Duplicate persons found:\n"
-                    + duplicateErrors.stream().collect(Collectors.joining("\n")));
+                    + duplicatePersonErrors.stream().collect(Collectors.joining("\n")));
         }
-
+        logger.info("Import successful! Imported " + importedPersons.size() + " persons.");
         return new CommandResult(String.format(MESSAGE_SUCCESS, importedPersons.size()));
     }
 
