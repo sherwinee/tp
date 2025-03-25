@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.function.Predicate;
@@ -19,13 +20,15 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names or tags contain any of "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names, tags, or phone "
+            + "number contain any of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: EITHER " + PREFIX_NAME + "KEYWORD [MORE KEYWORDS] OR " + PREFIX_TAG
-            + "KEYWORD [MORE KEYWORDS] (cannot mix name and tag searches) OR [/p] KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example for name search: " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob\n"
-            + "Example for tag search: " + COMMAND_WORD + " " + PREFIX_TAG + "friends colleagues"
-            + "Example for phone search: " + COMMAND_WORD + " /p 81293829";
+            + "Parameters: EITHER " + PREFIX_NAME + "KEYWORD" + PREFIX_NAME + "[MORE KEYWORDS] OR " + PREFIX_TAG
+            + "KEYWORD" + PREFIX_TAG + "[MORE KEYWORDS] OR" + PREFIX_PHONE + "KEYWORD" + PREFIX_PHONE
+            + "[MORE_KEYWORDS]\n"
+            + "Example for name search: " + COMMAND_WORD + " " + PREFIX_NAME + "alice" + PREFIX_NAME + "bob\n"
+            + "Example for tag search: " + COMMAND_WORD + " " + PREFIX_TAG + "friends" + PREFIX_TAG + "colleagues\n"
+            + "Example for phone search: " + COMMAND_WORD + " " + PREFIX_PHONE + "81293829";
 
     private final Predicate<Person> predicate;
 
