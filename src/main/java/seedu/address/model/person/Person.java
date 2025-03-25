@@ -55,7 +55,9 @@ public class Person {
         return address;
     }
 
-    public Role getRole() { return role; }
+    public Role getRole() {
+        return role;
+    }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
