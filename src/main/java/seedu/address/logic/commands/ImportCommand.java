@@ -17,6 +17,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.Role;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -125,6 +126,7 @@ public class ImportCommand extends Command {
                 Phone phone = new Phone(values.get(1).trim());
                 Email email = new Email(values.get(2).trim());
                 Address address = new Address(values.get(3).trim());
+                Role role = new Role(values.get(4).trim());
                 Set<Tag> tags = new HashSet<>();
 
                 if (values.size() > 4) {
@@ -137,7 +139,7 @@ public class ImportCommand extends Command {
                     }
                 }
 
-                persons.add(new Person(name, phone, email, address, tags));
+                persons.add(new Person(name, phone, email, address, role, tags));
 
             } catch (IllegalArgumentException e) {
                 errors.add("Row " + (i + 2) + ": " + e.getMessage() + ".");
