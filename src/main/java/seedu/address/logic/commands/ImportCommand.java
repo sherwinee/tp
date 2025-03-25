@@ -5,8 +5,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -24,9 +24,6 @@ import seedu.address.model.tag.Tag;
  * Imports a file ending with CSV format
  */
 public class ImportCommand extends Command {
-
-    private static final Logger logger = Logger.getLogger(ImportCommand.class.getName());
-
     public static final String COMMAND_WORD = "import";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports all data from the specified file path "
@@ -40,6 +37,7 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_EMPTY_FILE = "No persons were imported. Check your CSV file.";
     public static final String MESSAGE_SUCCESS = "Successfully imported %d contacts!";
 
+    private static final Logger logger = Logger.getLogger(ImportCommand.class.getName());
 
     private final Path filePath;
 
