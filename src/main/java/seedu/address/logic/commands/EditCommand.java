@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -100,8 +101,10 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        LocalDateTime updatedLastContacted = editPersonDescriptor.getLastContacted()
+                .orElse(personToEdit.getLastContacted().orElse(null));
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, Optional.ofNullable(updatedLastContacted));
     }
 
     @Override
@@ -138,6 +141,7 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private LocalDateTime lastContacted;
 
         public EditPersonDescriptor() {}
 
@@ -151,6 +155,7 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setLastContacted(toCopy.lastContacted);
         }
 
         /**
@@ -209,6 +214,14 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
+        public void setLastContacted(LocalDateTime lastContacted) {
+            this.lastContacted = lastContacted;
+        }
+
+        public Optional<LocalDateTime> getLastContacted() {
+            return Optional.ofNullable(lastContacted);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -225,7 +238,8 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(lastContacted, otherEditPersonDescriptor.lastContacted);
         }
 
         @Override
@@ -236,6 +250,7 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("tags", tags)
+                    .add("lastContacted", lastContacted)
                     .toString();
         }
     }

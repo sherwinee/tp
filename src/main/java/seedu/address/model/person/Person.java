@@ -2,6 +2,9 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,16 +28,21 @@ public class Person {
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
 
+    private final Optional<LocalDateTime> lastContacted;
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                  Optional<LocalDateTime> lastContacted) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.lastContacted = lastContacted;
     }
 
     public Name getName() {
@@ -59,6 +67,18 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    public Optional<LocalDateTime> getLastContacted() {
+        return lastContacted;
+    }
+
+    /**
+     * Returns a new Person object with an updated lastContacted time.
+     */
+    public Person markAsContacted() {
+        return new Person(this.getName(), this.getPhone(), this.getEmail(),
+                this.getAddress(), this.getTags(), Optional.of(LocalDateTime.now()));
     }
 
     /**
@@ -94,7 +114,8 @@ public class Person {
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && lastContacted.equals(otherPerson.lastContacted);
     }
 
     @Override
@@ -111,6 +132,7 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("lastContacted", lastContacted)
                 .toString();
     }
 
