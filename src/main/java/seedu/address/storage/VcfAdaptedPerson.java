@@ -2,6 +2,9 @@ package seedu.address.storage;
 
 import seedu.address.model.person.Person;
 
+/**
+ * ez-vcard-friendly version of {@link Person}.
+ */
 public class VcfAdaptedPerson {
     private final String fn;
     private final String tel;

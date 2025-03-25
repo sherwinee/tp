@@ -1,11 +1,13 @@
 package seedu.address.storage;
 
-import seedu.address.model.ReadOnlyAddressBook;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import seedu.address.model.ReadOnlyAddressBook;
+
+/**
+ * An Immutable AddressBook that is serializable to VCF format.
+ */
 public class VcfSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
 

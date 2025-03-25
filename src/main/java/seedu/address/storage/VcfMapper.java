@@ -1,12 +1,19 @@
 package seedu.address.storage;
 
+import java.util.List;
+
 import ezvcard.VCard;
 import ezvcard.parameter.TelephoneType;
 import ezvcard.property.Address;
 
-import java.util.List;
-
+/**
+ * Contains methods to map Lists of VcfAdaptedPerson objects to list of Vcards
+ */
 public class VcfMapper {
+    /**
+     * Maps a given List of VcfAdaptedPerson objects to list of Vcard
+     * @param persons List of VcfAdaptedPersons to map
+     */
     public static List<VCard> mapToVcards(List<VcfAdaptedPerson> persons) {
         return persons.stream()
                 .map(VcfMapper::toVcard)

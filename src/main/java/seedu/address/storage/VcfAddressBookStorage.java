@@ -1,9 +1,6 @@
 package seedu.address.storage;
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.exceptions.DataLoadingException;
-import seedu.address.commons.util.FileUtil;
-import seedu.address.model.ReadOnlyAddressBook;
+import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -13,9 +10,14 @@ import java.util.logging.Logger;
 
 import ezvcard.Ezvcard;
 import ezvcard.VCard;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.commons.util.FileUtil;
+import seedu.address.model.ReadOnlyAddressBook;
 
-import static java.util.Objects.requireNonNull;
-
+/**
+ * A class to access AddressBook data stored as a VCF file on the hard disk.
+ */
 public class VcfAddressBookStorage implements AddressBookStorage {
     public static final String EXPORT_DIR_PREFIX = "./exports/";
 
