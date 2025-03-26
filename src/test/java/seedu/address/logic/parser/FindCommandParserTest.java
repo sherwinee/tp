@@ -10,6 +10,15 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_COLLEAGUE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_BOB;
+
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -19,6 +28,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.PhoneNumberContainsKeywordsPredicate;
+import seedu.address.model.person.RoleContainsKeywordsPredicate;
 import seedu.address.model.person.TagsContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
@@ -53,6 +64,22 @@ public class FindCommandParserTest {
                 new FindCommand(new TagsContainsKeywordsPredicate(
                         Arrays.asList(VALID_TAG_COLLEAGUE, VALID_TAG_FRIEND)));
         assertParseSuccess(parser, TAG_DESC_COLLEAGUE + " " + TAG_DESC_FRIEND, expectedFindCommand);
+    }
+
+    @Test
+    public void parse_validPhoneArgs_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new PhoneNumberContainsKeywordsPredicate(
+                        Arrays.asList(VALID_PHONE_AMY, VALID_PHONE_BOB)));
+        assertParseSuccess(parser, PHONE_DESC_AMY + " " + PHONE_DESC_BOB, expectedFindCommand);
+    }
+
+    @Test
+    public void parse_validRoleArgs_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new RoleContainsKeywordsPredicate(
+                        Arrays.asList(VALID_ROLE_AMY, VALID_ROLE_BOB)));
+        assertParseSuccess(parser, ROLE_DESC_AMY + " " + ROLE_DESC_BOB, expectedFindCommand);
     }
 
 }
