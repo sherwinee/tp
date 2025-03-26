@@ -19,6 +19,8 @@ import seedu.address.model.tag.Tag;
  */
 public class Person {
 
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     // Identity fields
     private final Name name;
     private final Phone phone;
@@ -30,7 +32,7 @@ public class Person {
     private final Set<Tag> tags = new HashSet<>();
 
     private final Optional<LocalDateTime> lastContacted;
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 
     /**
      * Every field must be present and not null.
