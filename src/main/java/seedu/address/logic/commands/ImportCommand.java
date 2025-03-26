@@ -2,10 +2,7 @@ package seedu.address.logic.commands;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -127,7 +124,7 @@ public class ImportCommand extends Command {
      * @return A list of successfully parsed {@code Person} objects.
      * @throws IOException If reading the file fails.
      */
-    public static List<Person> importCsv(String filePath, List<String> errors) throws IOException {
+   public static List<Person> importCsv(String filePath, List<String> errors) throws IOException {
         List<Person> persons = new ArrayList<>();
         List<List<String>> rawData = CsvParser.parseCsv(filePath);
 
