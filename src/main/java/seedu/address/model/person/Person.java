@@ -35,8 +35,8 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Role role, 
-        Set<Tag> tags, Optional<LocalDateTime> lastContacted) {
+    public Person(Name name, Phone phone, Email email, Address address, Role role,
+                  Set<Tag> tags, Optional<LocalDateTime> lastContacted) {
         requireAllNonNull(name, phone, email, address, role, tags);
         this.name = name;
         this.phone = phone;
@@ -84,7 +84,7 @@ public class Person {
      */
     public Person markAsContacted() {
         return new Person(this.getName(), this.getPhone(), this.getEmail(),
-                this.getAddress(), this.getTags(), Optional.of(LocalDateTime.now()));
+                this.getAddress(), this.getRole(), this.getTags(), Optional.of(LocalDateTime.now()));
     }
 
     /**
@@ -121,7 +121,7 @@ public class Person {
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
                 && role.equals(otherPerson.role)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
                 && lastContacted.equals(otherPerson.lastContacted);
     }
 

@@ -2,10 +2,7 @@ package seedu.address.logic.commands;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -146,7 +143,7 @@ public class ImportCommand extends Command {
                     }
                 }
 
-                persons.add(new Person(name, phone, email, address, role, tags));
+                persons.add(new Person(name, phone, email, address, role, tags, Optional.empty()));
 
             } catch (IllegalArgumentException e) {
                 errors.add("Row " + (i + 2) + ": " + e.getMessage() + ".");
