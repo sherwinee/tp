@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.VcfParser;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -29,52 +30,72 @@ import seedu.address.model.person.Person;
  */
 public class ImportCommandTest {
 
-    private Path tempFile;
-    private Path testFile = Path.of("import_test_files/Typical_Persons_CSV.csv");
+    private Path tempCsvFile;
+    private Path testCsvFile = Path.of("import_test_files/Typical_Persons_CSV.csv");
+    private Path testVcfFile = Path.of("import_test_files/contacts.vcf");
     private Model model = new ModelManager();
     private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @BeforeEach
     public void setUp() throws IOException {
         // Create a temporary CSV file for testing
-        tempFile = Files.createTempFile("test_import", ".csv");
+        tempCsvFile = Files.createTempFile("test_import", ".csv");
 
     }
 
     @AfterEach
     public void tearDown() throws IOException {
-        Files.deleteIfExists(tempFile);
+        Files.deleteIfExists(tempCsvFile);
     }
 
     @Test
     public void execute_validCsv_importsSuccessfully() {
-        ImportCommand command = new ImportCommand(testFile);
+        ImportCommand command = new ImportCommand(testCsvFile);
         assertCommandSuccess(command, model, String.format(ImportCommand.MESSAGE_SUCCESS, 7), expectedModel);
     }
 
     @Test
-    public void execute_missingFields_importFailure() throws IOException {
+    public void execute_validVcf_importsSuccessfully() throws Exception {
+        ImportCommand command = new ImportCommand(testVcfFile);
+
+        // Start with an empty expected model
+        Model expectedModel = new ModelManager();
+
+        // Use the same parser to get the expected persons from the VCF
+        List<Person> expectedPersons = VcfParser.parseVcf(testVcfFile.toString());
+        for (Person person : expectedPersons) {
+            expectedModel.addPerson(person);
+        }
+
+        // Assert command success with expected message and model
+        assertCommandSuccess(command, model,
+                String.format(ImportCommand.MESSAGE_SUCCESS, expectedPersons.size()), expectedModel);
+    }
+
+
+    @Test
+    public void execute_missingFields_importCsvFailure() throws IOException {
         String csvData = "Name,Phone,Email,Address,Tags\n"
                 + "Alice Tan,91234567,,\"123, Jurong West Ave 6, #08-111\",\n" // Missing email
                 + "Bob Lim,,bob@example.com,456 Avenue\n" // Missing phone
                 + "Carl Kurz,812348,carl@yahoo.com,,\"friend, ,colleague\"\n"; // Missing address
 
-        Files.write(tempFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
-        ImportCommand command = new ImportCommand(tempFile);
+        Files.write(tempCsvFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        ImportCommand command = new ImportCommand(tempCsvFile);
         assertThrows(CommandException.class, () -> command.execute(model));
     }
 
     @Test
     public void importCsv_variousTagCases() throws IOException {
-        String csvData = "Name,Phone,Email,Address,Tags\n"
-                + "Alice Tan,91234567,alice@example.com,123 Street\n"
-                + "Bob Lim,98765432,bob@example.com,456 Avenue,\n"
-                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,\"friend, ,colleague\"\n";
+        String csvData = "Name,Phone,Email,Address,Role,Tags\n"
+                + "Alice Tan,91234567,alice@example.com,123 Street, Software Engineer,\n" // Empty tag
+                + "Bob Lim,98765432,bob@example.com,456 Avenue, Banker\n"
+                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,Project Manager, \"friend, ,colleague\"\n";
 
-        Files.write(tempFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(tempCsvFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
 
         List<String> errors = new ArrayList<>();
-        List<Person> persons = ImportCommand.importCsv(tempFile.toString(), errors);
+        List<Person> persons = ImportCommand.importCsv(tempCsvFile.toString(), errors);
 
         assert persons.size() == 3 : "Expected 3 persons, got " + persons.size();
         assert persons.get(0).getTags().size() == 0 : "Expected no tags for first person";
@@ -90,29 +111,29 @@ public class ImportCommandTest {
                 + "Alice Tan,91234567"
                 + "Bob Lim, 81234567";
 
-        Files.write(tempFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
-        ImportCommand command = new ImportCommand(tempFile);
+        Files.write(tempCsvFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        ImportCommand command = new ImportCommand(tempCsvFile);
         assertThrows(CommandException.class, () -> command.execute(model));
     }
 
     @Test
-    public void execute_duplicatePersons_importFailure() throws IOException {
+    public void execute_duplicatePersons_importCsvFailure() throws IOException {
         String csvData = "Name,Phone,Email,Address,Tags\n"
                 + "Alice Tan,91234567, alice@example.com, \"123, Jurong West Ave 6, #08-111\",friend\n"
                 + "Alice Tan,91234567, alice@example.com, \"123, Jurong West Ave 6, #08-111\",friend";
 
 
-        Files.write(tempFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
-        ImportCommand command = new ImportCommand(tempFile);
+        Files.write(tempCsvFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        ImportCommand command = new ImportCommand(tempCsvFile);
         assertThrows(CommandException.class, () -> command.execute(model));
     }
 
     @Test
     public void execute_emptyCsv_failure() throws IOException {
         // Write only the header (no data)
-        Files.write(tempFile, "Name,Phone,Email,Address,Tags\n".getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(tempCsvFile, "Name,Phone,Email,Address,Tags\n".getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
 
-        ImportCommand command = new ImportCommand(tempFile);
+        ImportCommand command = new ImportCommand(tempCsvFile);
         assertCommandFailure(command, model, ImportCommand.MESSAGE_EMPTY_FILE);
     }
 
@@ -123,6 +144,15 @@ public class ImportCommandTest {
         ImportCommand command = new ImportCommand(invalidPath);
         assertThrows(CommandException.class, () -> command.execute(model));
     }
+
+    @Test
+    public void execute_unsupportedFileType_throwsCommandException() {
+        Path unsupportedFile = Path.of("import_test_files/invalid_file.txt"); // any non-csv/vcf file
+        ImportCommand command = new ImportCommand(unsupportedFile);
+
+        assertThrows(CommandException.class, () -> command.execute(model));
+    }
+
 
 
     @Test

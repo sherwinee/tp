@@ -2,9 +2,12 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -16,6 +19,8 @@ import seedu.address.model.tag.Tag;
  */
 public class Person {
 
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     // Identity fields
     private final Name name;
     private final Phone phone;
@@ -26,10 +31,14 @@ public class Person {
     private final Role role;
     private final Set<Tag> tags = new HashSet<>();
 
+    private final Optional<LocalDateTime> lastContacted;
+
+
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Role role, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Role role,
+                  Set<Tag> tags, Optional<LocalDateTime> lastContacted) {
         requireAllNonNull(name, phone, email, address, role, tags);
         this.name = name;
         this.phone = phone;
@@ -37,6 +46,7 @@ public class Person {
         this.address = address;
         this.role = role;
         this.tags.addAll(tags);
+        this.lastContacted = lastContacted;
     }
 
     public Name getName() {
@@ -65,6 +75,18 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    public Optional<LocalDateTime> getLastContacted() {
+        return lastContacted;
+    }
+
+    /**
+     * Returns a new Person object with an updated lastContacted time.
+     */
+    public Person markAsContacted() {
+        return new Person(this.getName(), this.getPhone(), this.getEmail(),
+                this.getAddress(), this.getRole(), this.getTags(), Optional.of(LocalDateTime.now()));
     }
 
     /**
@@ -101,7 +123,8 @@ public class Person {
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
                 && role.equals(otherPerson.role)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && lastContacted.equals(otherPerson.lastContacted);
     }
 
     @Override
@@ -119,6 +142,7 @@ public class Person {
                 .add("address", address)
                 .add("role", role)
                 .add("tags", tags)
+                .add("lastContacted", lastContacted)
                 .toString();
     }
 

@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
 import javafx.fxml.FXML;
@@ -42,6 +43,8 @@ public class PersonCard extends UiPart<Region> {
     private Label role;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Label lastContactedLabel;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -58,5 +61,14 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        if (lastContactedLabel != null) {
+            if (person.getLastContacted().isPresent()) {
+                lastContactedLabel.setText("Last Contacted: "
+                        + person.getLastContacted().get().format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")));
+            } else {
+                lastContactedLabel.setText("Not Contacted");
+            }
+        }
+
     }
 }

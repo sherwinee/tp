@@ -27,7 +27,7 @@ public class ImportCommandParser implements Parser<ImportCommand> {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
         }
-        if (!(trimmedArgs.toLowerCase().endsWith(".csv"))) {
+        if (!(trimmedArgs.toLowerCase().endsWith(".csv") || trimmedArgs.toLowerCase().endsWith(".vcf"))) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_CONSTRAINTS));
         }
         return new ImportCommand(Paths.get(trimmedArgs));
