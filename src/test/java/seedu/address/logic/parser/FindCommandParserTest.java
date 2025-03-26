@@ -50,7 +50,6 @@ public class FindCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
-
     @Test
     public void parse_validNameArgs_returnsFindCommand() {
         FindCommand expectedFindCommand =

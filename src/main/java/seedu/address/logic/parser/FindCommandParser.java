@@ -36,7 +36,6 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_ROLE, PREFIX_TAG);
 
-
         boolean tagPresent = arePrefixesPresent(argMultimap, PREFIX_TAG);
         boolean namePresent = arePrefixesPresent(argMultimap, PREFIX_NAME);
         boolean phonePresent = arePrefixesPresent(argMultimap, PREFIX_PHONE);
