@@ -1,6 +1,8 @@
 package seedu.address.testutil;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
@@ -29,6 +31,7 @@ public class PersonBuilder {
     private Address address;
     private Role role;
     private Set<Tag> tags;
+    private Optional<LocalDateTime> lastContacted;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -40,6 +43,7 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         role = new Role(DEFAULT_ROLE);
         tags = new HashSet<>();
+        lastContacted = Optional.empty();
     }
 
     /**
@@ -52,6 +56,7 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         role = personToCopy.getRole();
         tags = new HashSet<>(personToCopy.getTags());
+        lastContacted = personToCopy.getLastContacted();
     }
 
     /**
@@ -102,8 +107,16 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code lastContacted} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withLastContacted(LocalDateTime lastContacted) {
+        this.lastContacted = Optional.ofNullable(lastContacted);
+        return this;
+    }
+
     public Person build() {
-        return new Person(name, phone, email, address, role, tags);
+        return new Person(name, phone, email, address, role, tags, lastContacted);
     }
 
 }
