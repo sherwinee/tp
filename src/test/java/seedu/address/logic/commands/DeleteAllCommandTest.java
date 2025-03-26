@@ -44,7 +44,7 @@ public class DeleteAllCommandTest {
         assertCommandSuccess(deleteAllCommand, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(CARL, ELLE, FIONA, GEORGE), model.getFilteredPersonList());
     }
-    
+
     @Test
     public void equals() {
         TagsContainsKeywordsPredicate deleteAllFirstPredicate =
