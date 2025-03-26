@@ -2,9 +2,11 @@ package seedu.address.logic.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import ezvcard.Ezvcard;
 import ezvcard.VCard;
@@ -56,7 +58,8 @@ public class VcfParser {
                         new Email(email),
                         new Address(address),
                         new Role(role),
-                        new HashSet<>()
+                        new HashSet<>(),
+                        Optional.empty()
                 ));
 
             } catch (Exception e) {

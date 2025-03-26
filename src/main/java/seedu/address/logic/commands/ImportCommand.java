@@ -2,7 +2,11 @@ package seedu.address.logic.commands;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -124,7 +128,7 @@ public class ImportCommand extends Command {
      * @return A list of successfully parsed {@code Person} objects.
      * @throws IOException If reading the file fails.
      */
-   public static List<Person> importCsv(String filePath, List<String> errors) throws IOException {
+    public static List<Person> importCsv(String filePath, List<String> errors) throws IOException {
         List<Person> persons = new ArrayList<>();
         List<List<String>> rawData = CsvParser.parseCsv(filePath);
 
@@ -154,7 +158,7 @@ public class ImportCommand extends Command {
 
             Set<Tag> tags = (values.size() > 5) ? parseTags(values.get(5)) : new HashSet<>();
 
-            return new Person(name, phone, email, address, role, tags);
+            return new Person(name, phone, email, address, role, tags, Optional.empty());
         } catch (IllegalArgumentException e) {
             errors.add("Row " + rowNumber + ": " + e.getMessage());
             return null;
