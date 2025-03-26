@@ -1,9 +1,8 @@
 package seedu.address.storage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -31,6 +30,7 @@ class JsonAdaptedPerson {
     private final String address;
     private final String role;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final String lastContacted;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -38,7 +38,8 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("role") String role, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("role") String role, @JsonProperty("tags") List<JsonAdaptedTag> tags, 
+            @JsonProperty("lastContacted") String lastContacted) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -47,6 +48,7 @@ class JsonAdaptedPerson {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.lastContacted = lastContacted;
     }
 
     /**
@@ -61,6 +63,9 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        this.lastContacted = source.getLastContacted()
+                .map(LocalDateTime::toString)
+                .orElse(null);
     }
 
     /**
@@ -115,7 +120,19 @@ class JsonAdaptedPerson {
         final Role modelRole = new Role(role);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelRole, modelTags);
+
+        Optional<LocalDateTime> modelLastContacted = Optional.empty();
+        if (lastContacted != null && !lastContacted.equals("Optional.empty")) {
+            try {
+                // Handle both formats - with and without Optional[] wrapper
+                String dateStr = lastContacted.replace("Optional[", "").replace("]", "");
+                modelLastContacted = Optional.of(LocalDateTime.parse(dateStr));
+            } catch (DateTimeParseException e) {
+                throw new IllegalValueException("Invalid date format for lastContacted");
+            }
+        }
+
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelRole, modelTags, modelLastContacted);
     }
 
 }
