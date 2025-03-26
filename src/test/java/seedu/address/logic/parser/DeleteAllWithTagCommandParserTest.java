@@ -8,24 +8,24 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.DeleteAllCommand;
+import seedu.address.logic.commands.DeleteAllWithTagCommand;
 import seedu.address.model.person.TagsContainsKeywordsPredicate;
 
-public class DeleteAllCommandParserTest {
+public class DeleteAllWithTagCommandParserTest {
 
-    private DeleteAllCommandParser parser = new DeleteAllCommandParser();
+    private DeleteAllWithTagCommandParser parser = new DeleteAllWithTagCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-            DeleteAllCommand.MESSAGE_USAGE));
+            DeleteAllWithTagCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_validArgs_returnsDeleteAllCommand() {
+    public void parse_validArgs_returnsDeleteAllWithTagCommand() {
         // no leading and trailing whitespaces
-        DeleteAllCommand expectedFindCommand =
-                new DeleteAllCommand(new TagsContainsKeywordsPredicate(Collections.singletonList("friends")));
+        DeleteAllWithTagCommand expectedFindCommand =
+                new DeleteAllWithTagCommand(new TagsContainsKeywordsPredicate(Collections.singletonList("friends")));
         assertParseSuccess(parser, "friends", expectedFindCommand);
     }
 

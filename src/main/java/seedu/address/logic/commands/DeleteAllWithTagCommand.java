@@ -14,9 +14,9 @@ import seedu.address.model.person.Person;
 /**
  * Deletes a person identified using it's displayed index from the address book.
  */
-public class DeleteAllCommand extends Command {
+public class DeleteAllWithTagCommand extends Command {
 
-    public static final String COMMAND_WORD = "deleteall";
+    public static final String COMMAND_WORD = "deletetag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes all person(s) associated with the specified tag in the person list.\n"
@@ -25,7 +25,7 @@ public class DeleteAllCommand extends Command {
 
     private final Predicate<Person> predicate;
 
-    public DeleteAllCommand(Predicate<Person> predicate) {
+    public DeleteAllWithTagCommand(Predicate<Person> predicate) {
         this.predicate = predicate;
     }
 
@@ -49,12 +49,12 @@ public class DeleteAllCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof DeleteAllCommand)) {
+        if (!(other instanceof DeleteAllWithTagCommand)) {
             return false;
         }
 
-        DeleteAllCommand otherDeleteAllCommand = (DeleteAllCommand) other;
-        return predicate.equals(otherDeleteAllCommand.predicate);
+        DeleteAllWithTagCommand otherDeleteAllWithTagCommand = (DeleteAllWithTagCommand) other;
+        return predicate.equals(otherDeleteAllWithTagCommand.predicate);
     }
 
     @Override

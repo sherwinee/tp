@@ -25,16 +25,16 @@ import seedu.address.model.person.TagsContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
- * {@code DeleteAllCommand}.
+ * {@code DeleteAllWithTagCommand}.
  */
-public class DeleteAllCommandTest {
+public class DeleteAllWithTagCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void execute_validTag_success() {
         TagsContainsKeywordsPredicate predicate = prepareTagPredicate(VALID_TAG_FRIEND);
-        DeleteAllCommand deleteAllCommand = new DeleteAllCommand(predicate);
+        DeleteAllWithTagCommand deleteAllCommand = new DeleteAllWithTagCommand(predicate);
 
         String expectedMessage = String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, 4);
 
@@ -52,14 +52,14 @@ public class DeleteAllCommandTest {
         TagsContainsKeywordsPredicate deleteAllSecondPredicate =
                 new TagsContainsKeywordsPredicate(Collections.singletonList("second"));
 
-        DeleteAllCommand deleteAllFirstCommand = new DeleteAllCommand(deleteAllFirstPredicate);
-        DeleteAllCommand deleteAllSecondCommand = new DeleteAllCommand(deleteAllSecondPredicate);
+        DeleteAllWithTagCommand deleteAllFirstCommand = new DeleteAllWithTagCommand(deleteAllFirstPredicate);
+        DeleteAllWithTagCommand deleteAllSecondCommand = new DeleteAllWithTagCommand(deleteAllSecondPredicate);
 
         // same object -> returns true
         assertTrue(deleteAllFirstCommand.equals(deleteAllFirstCommand));
 
         // same values -> returns true
-        DeleteAllCommand deleteAllFirstCommandCopy = new DeleteAllCommand(deleteAllFirstPredicate);
+        DeleteAllWithTagCommand deleteAllFirstCommandCopy = new DeleteAllWithTagCommand(deleteAllFirstPredicate);
         assertTrue(deleteAllFirstCommand.equals(deleteAllFirstCommandCopy));
 
         // different types -> returns false
