@@ -63,8 +63,8 @@ public class PersonCard extends UiPart<Region> {
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
         if (lastContactedLabel != null) {
             if (person.getLastContacted().isPresent()) {
-                lastContactedLabel.setText("Last Contacted: " +
-                        person.getLastContacted().get().format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")));
+                lastContactedLabel.setText("Last Contacted: "
+                        + person.getLastContacted().get().format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")));
             } else {
                 lastContactedLabel.setText("Not Contacted");
             }

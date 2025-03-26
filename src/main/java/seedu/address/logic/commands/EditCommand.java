@@ -108,7 +108,8 @@ public class EditCommand extends Command {
         LocalDateTime updatedLastContacted = editPersonDescriptor.getLastContacted()
                 .orElse(personToEdit.getLastContacted().orElse(null));
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRole, updatedTags, Optional.ofNullable(updatedLastContacted));
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRole,
+                updatedTags, Optional.ofNullable(updatedLastContacted));
     }
 
     @Override
