@@ -81,7 +81,7 @@ public class CsvParserTest {
     }
 
     @Test
-    public void parseCsv_nonExistentFile_throwsIOException() {
+    public void parseCsv_nonExistentFile_throwsIoException() {
         String invalidPath = "nonexistent/file.csv";
         assertThrows(IOException.class, () -> CsvParser.parseCsv(invalidPath));
     }

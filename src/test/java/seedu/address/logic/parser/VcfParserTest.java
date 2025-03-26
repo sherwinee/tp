@@ -6,14 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ezvcard.VCard;
 import seedu.address.model.person.Person;
 
 public class VcfParserTest {
@@ -54,7 +52,7 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_missingEmail_throwsIOException() throws IOException {
+    public void parseVcf_missingEmail_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "VERSION:4.0\n"
                 + "FN:Alice Pauline\n"
@@ -68,7 +66,7 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_multipleNames_throwsIOException() throws IOException {
+    public void parseVcf_multipleNames_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "VERSION:4.0\n"
                 + "FN:Alice Pauline\n"
@@ -84,7 +82,7 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_multipleEmails_throwsIOException() throws IOException {
+    public void parseVcf_multipleEmails_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "VERSION:4.0\n"
                 + "FN:Bob Lim\n"
@@ -100,7 +98,7 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_multipleTitle_throwsIOException() throws IOException {
+    public void parseVcf_multipleTitle_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "VERSION:4.0\n"
                 + "FN:Bob Lim\n"
@@ -116,7 +114,7 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_multiplePhone_throwsIOException() throws IOException {
+    public void parseVcf_multiplePhone_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "VERSION:4.0\n"
                 + "FN:Bob Lim\n"
@@ -151,7 +149,7 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_missingAllFields_throwsIOException() throws IOException {
+    public void parseVcf_missingAllFields_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "FN:\n"
                 + "VERSION:4.0\n"
@@ -166,7 +164,7 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_emptyVcf_throwsIOException() throws IOException {
+    public void parseVcf_emptyVcf_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "END:VCARD\n";
 
@@ -175,7 +173,7 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_missingName_throwsIOException() throws IOException {
+    public void parseVcf_missingName_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "FN:\n"
                 + "VERSION:4.0\n"
