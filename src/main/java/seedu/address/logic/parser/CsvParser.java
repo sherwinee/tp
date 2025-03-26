@@ -68,8 +68,13 @@ public class CsvParser {
     }
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            System.err.println("Usage: java CsvParser <path-to-csv-file>");
+            return;
+        }
+
         try {
-            List<List<String>> parsedCsv = parseCsv("data.csv");
+            List<List<String>> parsedCsv = parseCsv(args[0]);
             for (List<String> row : parsedCsv) {
                 System.out.println(row);
             }
@@ -77,4 +82,5 @@ public class CsvParser {
             e.printStackTrace();
         }
     }
+
 }
