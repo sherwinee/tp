@@ -16,8 +16,6 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneNumberContainsKeywordsPredicate;
 import seedu.address.model.person.TagsContainsKeywordsPredicate;
 
-
-
 /**
  * Parses input arguments and creates a new FindCommand object
  */
