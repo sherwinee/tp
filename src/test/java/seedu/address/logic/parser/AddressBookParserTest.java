@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.DeleteAllCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
@@ -28,6 +29,7 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.TagsContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -121,6 +123,12 @@ public class AddressBookParserTest {
         assertThrows(ParseException.class, () -> parser.parseCommand(ImportCommand.COMMAND_WORD));
     }
 
+    @Test
+    public void parseCommand_deleteAll() throws Exception {
+        List<String> keywords = Arrays.asList("foo");
+        DeleteAllCommand command = (DeleteAllCommand) parser.parseCommand(DeleteAllCommand.COMMAND_WORD + " foo");
+        assertEquals(new DeleteAllCommand(new TagsContainsKeywordsPredicate(keywords)), command);
+    }
 
 }
 

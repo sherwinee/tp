@@ -1,6 +1,5 @@
 package seedu.address.model.person;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -14,10 +13,6 @@ public class TagsContainsKeywordsPredicate implements Predicate<Person> {
 
     public TagsContainsKeywordsPredicate(List<String> keywords) {
         this.keywords = keywords;
-    }
-
-    public TagsContainsKeywordsPredicate(String keyword) {
-        this.keywords = Arrays.asList(keyword);
     }
 
     @Override
