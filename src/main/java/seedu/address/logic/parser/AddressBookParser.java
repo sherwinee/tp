@@ -89,7 +89,7 @@ public class AddressBookParser {
 
         case ImportCommand.COMMAND_WORD:
             return new ImportCommandParser().parse(arguments);
-            
+
         case ContactCommand.COMMAND_WORD:
             return new ContactCommandParser().parse(arguments);
 
