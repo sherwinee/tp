@@ -9,6 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -104,8 +105,11 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        LocalDateTime updatedLastContacted = editPersonDescriptor.getLastContacted()
+                .orElse(personToEdit.getLastContacted().orElse(null));
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRole, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRole,
+                updatedTags, Optional.ofNullable(updatedLastContacted));
     }
 
     @Override
@@ -143,6 +147,7 @@ public class EditCommand extends Command {
         private Address address;
         private Role role;
         private Set<Tag> tags;
+        private LocalDateTime lastContacted;
 
         public EditPersonDescriptor() {}
 
@@ -157,6 +162,7 @@ public class EditCommand extends Command {
             setAddress(toCopy.address);
             setRole(toCopy.role);
             setTags(toCopy.tags);
+            setLastContacted(toCopy.lastContacted);
         }
 
         /**
@@ -223,6 +229,14 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
+        public void setLastContacted(LocalDateTime lastContacted) {
+            this.lastContacted = lastContacted;
+        }
+
+        public Optional<LocalDateTime> getLastContacted() {
+            return Optional.ofNullable(lastContacted);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -240,7 +254,8 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(role, otherEditPersonDescriptor.role)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(lastContacted, otherEditPersonDescriptor.lastContacted);
         }
 
         @Override
@@ -252,6 +267,7 @@ public class EditCommand extends Command {
                     .add("address", address)
                     .add("role", role)
                     .add("tags", tags)
+                    .add("lastContacted", lastContacted)
                     .toString();
         }
     }

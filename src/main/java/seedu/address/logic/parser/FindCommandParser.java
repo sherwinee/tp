@@ -4,6 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneNumberContainsKeywordsPredicate;
+import seedu.address.model.person.RoleContainsKeywordsPredicate;
 import seedu.address.model.person.TagsContainsKeywordsPredicate;
 
 
@@ -32,14 +34,13 @@ public class FindCommandParser implements Parser<FindCommand> {
     public FindCommand parse(String args) throws ParseException {
 
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_ROLE, PREFIX_TAG);
 
         boolean tagPresent = arePrefixesPresent(argMultimap, PREFIX_TAG);
         boolean namePresent = arePrefixesPresent(argMultimap, PREFIX_NAME);
         boolean phonePresent = arePrefixesPresent(argMultimap, PREFIX_PHONE);
-        boolean hasExactlyOnePrefix = (tagPresent ? 1 : 0)
-                + (namePresent ? 1 : 0)
-                + (phonePresent ? 1 : 0) == 1;
+        boolean rolePresent = arePrefixesPresent(argMultimap, PREFIX_ROLE);
+        boolean hasExactlyOnePrefix = (tagPresent ? 1 : 0) + (namePresent ? 1 : 0) + (phonePresent ? 1 : 0) + (rolePresent ? 1 : 0) == 1;
 
         if (!hasExactlyOnePrefix) {
             throw new ParseException(
@@ -76,6 +77,14 @@ public class FindCommandParser implements Parser<FindCommand> {
             }
 
             return new FindCommand(new PhoneNumberContainsKeywordsPredicate(keywords));
+        } else if (arePrefixesPresent(argMultimap, PREFIX_ROLE)) {
+            List<String> keywords = argMultimap.getAllValues(PREFIX_ROLE);
+            if (keywords.isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+
+            return new FindCommand(new RoleContainsKeywordsPredicate(keywords));
         } else {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }

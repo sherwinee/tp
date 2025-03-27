@@ -67,7 +67,7 @@ public class Role implements Comparable<Role> {
 
     @Override
     public int compareTo(Role other) {
-        return this.value.compareToIgnoreCase(other.value);
+        return this.value.compareToIgnoreCase(other.value.trim());
     }
 
 }

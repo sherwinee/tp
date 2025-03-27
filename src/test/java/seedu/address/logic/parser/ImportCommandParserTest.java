@@ -21,8 +21,15 @@ public class ImportCommandParserTest {
     }
 
     @Test
-    public void parse_validFilePath_success() {
+    public void parse_validCsvFilePath_success() {
         String filePath = "address_book.csv";
+        ImportCommand expectedCommand = new ImportCommand(Path.of(filePath));
+        assertParseSuccess(parser, filePath, expectedCommand);
+    }
+
+    @Test
+    public void parse_validVcfFilePath_success() {
+        String filePath = "address_book.vcf";
         ImportCommand expectedCommand = new ImportCommand(Path.of(filePath));
         assertParseSuccess(parser, filePath, expectedCommand);
     }
@@ -32,7 +39,7 @@ public class ImportCommandParserTest {
         assertParseFailure(parser, "addressbook", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 ImportCommand.MESSAGE_CONSTRAINTS));
 
-        assertParseFailure(parser, "addressbook.vcf", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+        assertParseFailure(parser, "addressbook.doc", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 ImportCommand.MESSAGE_CONSTRAINTS));
     }
 }
