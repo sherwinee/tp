@@ -38,7 +38,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         boolean namePresent = arePrefixesPresent(argMultimap, PREFIX_NAME);
         boolean phonePresent = arePrefixesPresent(argMultimap, PREFIX_PHONE);
         boolean rolePresent = arePrefixesPresent(argMultimap, PREFIX_ROLE);
-        boolean hasExactlyOnePrefix = (tagPresent ? 1 : 0) + (namePresent ? 1 : 0) + (phonePresent ? 1 : 0) + (rolePresent ? 1 : 0) == 1;
+        boolean hasExactlyOnePrefix = (tagPresent ? 1 : 0) + (namePresent ? 1 : 0) + (phonePresent ? 1 : 0)
+                + (rolePresent ? 1 : 0) == 1;
 
         if (!hasExactlyOnePrefix) {
             throw new ParseException(

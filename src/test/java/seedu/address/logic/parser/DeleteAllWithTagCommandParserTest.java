@@ -9,7 +9,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.DeleteAllWithTagCommand;
-import seedu.address.model.person.TagsContainsKeywordsPredicate;
+import seedu.address.model.person.TagMatchesKeywordPredicate;
 
 public class DeleteAllWithTagCommandParserTest {
 
@@ -25,7 +25,7 @@ public class DeleteAllWithTagCommandParserTest {
     public void parse_validArgs_returnsDeleteAllWithTagCommand() {
         // no leading and trailing whitespaces
         DeleteAllWithTagCommand expectedFindCommand =
-                new DeleteAllWithTagCommand(new TagsContainsKeywordsPredicate(Collections.singletonList("friends")));
+                new DeleteAllWithTagCommand(new TagMatchesKeywordPredicate(Collections.singletonList("friends")));
         assertParseSuccess(parser, "friends", expectedFindCommand);
     }
 

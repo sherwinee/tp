@@ -33,13 +33,16 @@ public class DeleteAllWithTagCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        int latestSize = model.getFilteredPersonList().size();
+
         model.deleteAllPersons(this.predicate);
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
+        int newSize = model.getFilteredPersonList().size();
         // should change to more meaningful message
-        return new CommandResult(String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW,
-      model.getFilteredPersonList().size()));
+        return new CommandResult(String.format(Messages.MESSAGE_PERSONS_DELETED_OVERVIEW,
+      latestSize - newSize));
     }
 
     @Override

@@ -31,7 +31,7 @@ import seedu.address.logic.commands.ContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.TagsContainsKeywordsPredicate;
+import seedu.address.model.person.TagMatchesKeywordPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -130,7 +130,7 @@ public class AddressBookParserTest {
         List<String> keywords = Arrays.asList("foo");
         DeleteAllWithTagCommand command = (DeleteAllWithTagCommand) parser.parseCommand(
               DeleteAllWithTagCommand.COMMAND_WORD + " foo");
-        assertEquals(new DeleteAllWithTagCommand(new TagsContainsKeywordsPredicate(keywords)), command);
+        assertEquals(new DeleteAllWithTagCommand(new TagMatchesKeywordPredicate(keywords)), command);
     }
 
     public void parseCommand_contact_validArgs_returnsContactCommand() throws Exception {

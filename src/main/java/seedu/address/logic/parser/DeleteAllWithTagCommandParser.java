@@ -7,7 +7,7 @@ import java.util.List;
 
 import seedu.address.logic.commands.DeleteAllWithTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.TagsContainsKeywordsPredicate;
+import seedu.address.model.person.TagMatchesKeywordPredicate;
 
 /**
  * Parses input arguments and creates a new FindCommand object
@@ -29,6 +29,6 @@ public class DeleteAllWithTagCommandParser implements Parser<DeleteAllWithTagCom
 
         List<String> keyword = Collections.singletonList(trimmedArgs);
 
-        return new DeleteAllWithTagCommand(new TagsContainsKeywordsPredicate(keyword));
+        return new DeleteAllWithTagCommand(new TagMatchesKeywordPredicate(keyword));
     }
 }
