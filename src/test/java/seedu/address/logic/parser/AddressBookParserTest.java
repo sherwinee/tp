@@ -133,7 +133,7 @@ public class AddressBookParserTest {
         assertEquals(new DeleteAllWithTagCommand(new TagMatchesKeywordPredicate(keywords)), command);
     }
 
-    @Test  
+    @Test
     public void parseContactCommand_validArgs_returnsContactCommand() throws Exception {
         ContactCommand command = (ContactCommand) parser.parseCommand(ContactCommand.COMMAND_WORD + " 1");
         assertEquals(new ContactCommand(Index.fromOneBased(1)), command);
