@@ -18,6 +18,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.ContactCommand;
+import seedu.address.logic.commands.DeleteAllWithTagCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
@@ -30,6 +31,7 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.TagMatchesKeywordPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -123,6 +125,15 @@ public class AddressBookParserTest {
         assertThrows(ParseException.class, () -> parser.parseCommand(ImportCommand.COMMAND_WORD));
     }
 
+    @Test
+    public void parseCommand_deleteAll() throws Exception {
+        List<String> keywords = Arrays.asList("foo");
+        DeleteAllWithTagCommand command = (DeleteAllWithTagCommand) parser.parseCommand(
+              DeleteAllWithTagCommand.COMMAND_WORD + " foo");
+        assertEquals(new DeleteAllWithTagCommand(new TagMatchesKeywordPredicate(keywords)), command);
+    }
+
+    @Test
     public void parseContactCommand_validArgs_returnsContactCommand() throws Exception {
         ContactCommand command = (ContactCommand) parser.parseCommand(ContactCommand.COMMAND_WORD + " 1");
         assertEquals(new ContactCommand(Index.fromOneBased(1)), command);

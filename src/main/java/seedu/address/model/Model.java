@@ -64,6 +64,12 @@ public interface Model {
     void deletePerson(Person target);
 
     /**
+     * Deletes all person(s) that match the given {@code predicate}
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void deleteAllPersons(Predicate<Person> predicate);
+
+    /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */
