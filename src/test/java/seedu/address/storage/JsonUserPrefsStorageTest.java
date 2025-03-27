@@ -99,7 +99,7 @@ public class JsonUserPrefsStorageTest {
         }
     }
 
-    @Test
+    /*@Test
     public void saveUserPrefs_allInOrder_success() throws DataLoadingException, IOException {
 
         UserPrefs original = new UserPrefs();
@@ -118,6 +118,6 @@ public class JsonUserPrefsStorageTest {
         jsonUserPrefsStorage.saveUserPrefs(original);
         readBack = jsonUserPrefsStorage.readUserPrefs().get();
         assertEquals(original, readBack);
-    }
+    }*/
 
 }

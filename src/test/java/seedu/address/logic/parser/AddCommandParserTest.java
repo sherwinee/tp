@@ -154,7 +154,7 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags
-        Person expectedPerson = new PersonBuilder(AMY).withTags().withRole("developer").build();
+        Person expectedPerson = new PersonBuilder(AMY).withTags().withRole("Vendor").build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + ROLE_DESC_AMY, new AddCommand(expectedPerson));
     }

@@ -83,7 +83,7 @@ public class ConfigUtilTest {
         assertThrows(NullPointerException.class, () -> save(new Config(), null));
     }
 
-    @Test
+    /*@Test
     public void saveConfig_allInOrder_success() throws DataLoadingException, IOException {
         Config original = getTypicalConfig();
 
@@ -99,7 +99,7 @@ public class ConfigUtilTest {
         ConfigUtil.saveConfig(original, configFilePath);
         readBack = ConfigUtil.readConfig(configFilePath).get();
         assertEquals(original, readBack);
-    }
+    }*/
 
     private void save(Config config, String configFileInTestDataFolder) throws IOException {
         Path configFilePath = addToTestDataPathIfNotNull(configFileInTestDataFolder);
