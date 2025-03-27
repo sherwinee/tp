@@ -35,7 +35,7 @@ public class ContactCommandParserTest {
     }
 
     @Test
-    public void parse_extraWhitespace_validArgs_returnsContactCommand() throws Exception {
+    public void parse_validArgsWithExtraWhitespace_returnsContactCommand() throws Exception {
         ContactCommand expectedCommand = new ContactCommand(Index.fromOneBased(2));
         assertEquals(expectedCommand, parser.parse("  2  "));
     }
