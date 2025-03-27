@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteAllWithTagCommand;
@@ -26,6 +27,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -129,6 +131,21 @@ public class AddressBookParserTest {
         DeleteAllWithTagCommand command = (DeleteAllWithTagCommand) parser.parseCommand(
               DeleteAllWithTagCommand.COMMAND_WORD + " foo");
         assertEquals(new DeleteAllWithTagCommand(new TagsContainsKeywordsPredicate(keywords)), command);
+    }
+
+    public void parseCommand_contact_validArgs_returnsContactCommand() throws Exception {
+        ContactCommand command = (ContactCommand) parser.parseCommand(ContactCommand.COMMAND_WORD + " 1");
+        assertEquals(new ContactCommand(Index.fromOneBased(1)), command);
+    }
+
+    @Test
+    public void parseCommand_contact_invalidArgs_throwsParseException() {
+        assertThrows(ParseException.class, () -> parser.parseCommand(ContactCommand.COMMAND_WORD + " abc"));
+    }
+
+    @Test
+    public void parseCommand_contact_emptyArgs_throwsParseException() {
+        assertThrows(ParseException.class, () -> parser.parseCommand(ContactCommand.COMMAND_WORD));
     }
 
 }
