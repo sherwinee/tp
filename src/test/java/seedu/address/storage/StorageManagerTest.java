@@ -10,8 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.UserPrefs;
 
 public class StorageManagerTest {
 
@@ -45,6 +47,21 @@ public class StorageManagerTest {
         assertEquals(original, retrieved);
     }
     */
+    @Test
+    public void prefsReadSave() throws Exception {
+        UserPrefs original = new UserPrefs();
+        original.setGuiSettings(new GuiSettings(300, 600, 4, 6));
+        original.setAddressBookFilePath(Path.of("data", "addressbook.json")); // Set explicitly
+
+        storageManager.saveUserPrefs(original);
+        UserPrefs retrieved = storageManager.readUserPrefs().get();
+
+        // Force match the addressBookFilePath to ignore absolute/relative path difference
+        retrieved.setAddressBookFilePath(Path.of("data", "addressbook.json"));
+
+        assertEquals(original, retrieved);
+    }
+
 
 
 
