@@ -7,7 +7,6 @@ import java.io.IOException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.storage.CsvAddressBookStorage;
-import seedu.address.storage.VcfAddressBookStorage;
 
 /**
  * Exports all contacts to a CSV file, which can then be imported to AB3.
@@ -52,13 +51,7 @@ public class ExportCommand extends Command {
     }
 
     private CommandResult executeVcf(Model model) throws CommandException {
-        VcfAddressBookStorage vcfStorage = new VcfAddressBookStorage(filename);
-        try {
-            vcfStorage.saveAddressBook(model.getAddressBook());
-            return new CommandResult(String.format(MESSAGE_EXPORT_SUCCESS, EXPORT_DIR_PREFIX, filename));
-        } catch (IOException e) {
-            throw new CommandException(String.format(MESSAGE_EXPORT_FAILURE, filename, e.getMessage()));
-        }
+        throw new CommandException("");
     }
 
     @Override
