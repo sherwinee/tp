@@ -34,7 +34,8 @@ public class ExportCommandTest {
         String expectedMsg = String.format(MESSAGE_EXPORT_SUCCESS, EXPORT_DIR_PREFIX, filename);
         assertCommandSuccess(ec, model, expectedMsg, expectedModel);
         try {
-            assertEquals("name,phone,email,address,tags\n", readFromFile(Path.of(EXPORT_DIR_PREFIX + filename)));
+            assertEquals("name,phone,email,address,role,tags\n",
+                    readFromFile(Path.of(EXPORT_DIR_PREFIX + filename)));
         } catch (IOException e) {
             fail();
         }
