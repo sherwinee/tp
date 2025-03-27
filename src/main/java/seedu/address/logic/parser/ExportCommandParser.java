@@ -24,8 +24,6 @@ public class ExportCommandParser implements Parser<ExportCommand> {
     private boolean validateFilename(String filename) {
         if (filename.toLowerCase().endsWith(".csv")) {
             return true;
-        } else if (filename.toLowerCase().endsWith(".vcf")) {
-            return true;
         }
         return false;
     }
