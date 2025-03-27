@@ -39,7 +39,7 @@ public class CommandTestUtil {
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_COLLEAGUE = "colleague";
     public static final String VALID_TAG_FRIEND = "friend";
-    public static final String VALID_ROLE_AMY = "developer";
+    public static final String VALID_ROLE_AMY = "Vendor";
     public static final String VALID_ROLE_BOB = "manager";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
