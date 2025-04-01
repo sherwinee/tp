@@ -21,9 +21,6 @@ import seedu.address.model.ReadOnlyAddressBook;
  * A class to access AddressBook data stored as a CSV file on the hard disk.
  */
 public class CsvAddressBookStorage implements AddressBookStorage {
-
-    public static final String EXPORT_DIR_PREFIX = "./exports/";
-
     private static final Logger logger = LogsCenter.getLogger(CsvAddressBookStorage.class);
 
     private final Path filePath;
@@ -34,13 +31,13 @@ public class CsvAddressBookStorage implements AddressBookStorage {
      * @param filePath csv filepath relative from ./exports/
      */
     public CsvAddressBookStorage(String filePath) {
-        this.filePath = Path.of(EXPORT_DIR_PREFIX + filePath);
+        this.filePath = Path.of(filePath);
         this.csvMapper = new CsvMapper(); // Jackson CSV mapper
     }
 
     @Override
     public Path getAddressBookFilePath() {
-        return filePath;
+        return filePath.toAbsolutePath();
     }
 
     @Override
