@@ -7,9 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TO BE DONE LATER
+ * A utility class for parsing CSV files into structured data.
+ * This parser supports reading CSV files where each line represents a record
+ * with fields separated by commas. It also supports quoted values containing commas.
+ *
+ * The CSV file must begin with a header line matching:
+ * "Name,Phone,Email,Address,Role,Tags"
+ *
+ * Throws an {@code IOException} if the file reading fails or if the header is invalid.
  */
 public class CsvParser {
+
+    private static final String EXPECTED_HEADER = "Name,Phone,Email,Address,Role,Tags";
 
     /**
      * Parses a CSV file and returns the data as a list of lists of strings.
@@ -20,8 +29,14 @@ public class CsvParser {
      */
     public static List<List<String>> parseCsv(String filePath) throws IOException {
         List<List<String>> data = new ArrayList<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            br.readLine(); // Excludes header
+            String headerLine = br.readLine(); // Read the header line
+
+            if (headerLine == null || !headerLine.trim().equalsIgnoreCase(EXPECTED_HEADER)) {
+                throw new IOException("Invalid CSV Header. Expected header: " + EXPECTED_HEADER);
+            }
+
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.replace("\r\n", "\n");
@@ -31,6 +46,7 @@ public class CsvParser {
                 data.add(parseLine(line));
             }
         }
+
         return data;
     }
 

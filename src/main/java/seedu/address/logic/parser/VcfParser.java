@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +18,6 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Role;
-
 
 /**
  * Parses VCF files using the ez-vcard library and returns a list of Person objects.
@@ -33,15 +34,14 @@ public class VcfParser {
     public static List<Person> parseVcf(String filePath) throws IOException {
         List<Person> persons = new ArrayList<>();
         List<String> errors = new ArrayList<>();
-
         List<VCard> vcards = Ezvcard.parse(new File(filePath)).all();
 
         for (int i = 0; i < vcards.size(); i++) {
             VCard vcard = vcards.get(i);
             int rowNumber = i + 1;
-
+            String fullName = "";
             try {
-                String fullName = parseName(vcard, rowNumber, errors);
+                fullName = parseName(vcard, rowNumber, errors);
                 String phone = parsePhone(vcard, fullName, errors);
                 String email = parseEmail(vcard, fullName, errors);
                 String address = parseAddress(vcard, fullName, errors);
@@ -51,18 +51,12 @@ public class VcfParser {
                     continue;
                 }
 
-                persons.add(new Person(
-                        new Name(fullName),
-                        new Phone(phone),
-                        new Email(email),
-                        new Address(address),
-                        new Role(role),
-                        new HashSet<>(),
-                        Optional.empty()
+                persons.add(new Person(new Name(fullName), new Phone(phone), new Email(email), new Address(address),
+                        new Role(role), new HashSet<>(), Optional.empty()
                 ));
 
             } catch (Exception e) {
-                errors.add("Row " + rowNumber + ": " + e.getMessage());
+                errors.add((fullName.isEmpty() ? "Contact" + rowNumber : fullName) + ": " + e.getMessage());
             }
         }
 

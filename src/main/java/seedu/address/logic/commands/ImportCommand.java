@@ -96,6 +96,7 @@ public class ImportCommand extends Command {
 
     private List<String> addPersonsToModel(Model model, List<Person> persons, int startingRowNumber) {
         List<String> duplicateErrors = new ArrayList<>();
+        boolean isVcf = filePath.toString().toLowerCase().endsWith(".vcf");
 
         for (int i = 0; i < persons.size(); i++) {
             Person person = persons.get(i);
@@ -104,7 +105,10 @@ public class ImportCommand extends Command {
             try {
                 model.addPerson(person);
             } catch (DuplicatePersonException e) {
-                duplicateErrors.add("Row " + rowNumber + ": " + e.getMessage());
+                String errorPrefix = isVcf
+                        ? person.getName().fullName + ": "
+                        : "Row " + rowNumber + ": ";
+                duplicateErrors.add(errorPrefix + e.getMessage());
             }
         }
 
