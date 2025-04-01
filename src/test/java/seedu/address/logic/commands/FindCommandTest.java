@@ -203,13 +203,15 @@ public class FindCommandTest {
 
     @Test
     public void execute_multipleRoleKeywords_multiplePersonsFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 4);
         RoleContainsKeywordsPredicate predicate = prepareRolePredicate("Developer Manager");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(BENSON, DANIEL, GEORGE), model.getFilteredPersonList());
+        assertEquals(Arrays.asList(BENSON, DANIEL, FIONA, GEORGE), model.getFilteredPersonList());
     }
+
+
 
     @Test
     public void toStringMethod() {

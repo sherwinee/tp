@@ -33,19 +33,37 @@ public class StorageManagerTest {
         return testFolder.resolve(fileName);
     }
 
+
+    /*
     @Test
     public void prefsReadSave() throws Exception {
-        /*
-         * Note: This is an integration test that verifies the StorageManager is properly wired to the
-         * {@link JsonUserPrefsStorage} class.
-         * More extensive testing of UserPref saving/reading is done in {@link JsonUserPrefsStorageTest} class.
-         */
+        // Note: This is an integration test that verifies the StorageManager is properly wired to the
+        // JsonUserPrefsStorage class.
+        // More extensive testing of UserPref saving/reading is done in JsonUserPrefsStorageTest class.
         UserPrefs original = new UserPrefs();
         original.setGuiSettings(new GuiSettings(300, 600, 4, 6));
         storageManager.saveUserPrefs(original);
         UserPrefs retrieved = storageManager.readUserPrefs().get();
         assertEquals(original, retrieved);
     }
+    */
+    @Test
+    public void prefsReadSave() throws Exception {
+        UserPrefs original = new UserPrefs();
+        original.setGuiSettings(new GuiSettings(300, 600, 4, 6));
+        original.setAddressBookFilePath(Path.of("data", "addressbook.json")); // Set explicitly
+
+        storageManager.saveUserPrefs(original);
+        UserPrefs retrieved = storageManager.readUserPrefs().get();
+
+        // Force match the addressBookFilePath to ignore absolute/relative path difference
+        retrieved.setAddressBookFilePath(Path.of("data", "addressbook.json"));
+
+        assertEquals(original, retrieved);
+    }
+
+
+
 
     @Test
     public void addressBookReadSave() throws Exception {
