@@ -47,4 +47,15 @@ public class SortCommand extends Command {
         model.sortFilteredPersonList(comparator);
         return new CommandResult(String.format(MESSAGE_SUCCESS, isAscending ? "ascending" : "descending"));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof SortCommand otherCommand)) {
+            return false;
+        }
+        return this.isAscending == otherCommand.isAscending;
+    }
 }
