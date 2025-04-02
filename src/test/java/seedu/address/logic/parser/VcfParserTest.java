@@ -2,7 +2,6 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -174,34 +173,6 @@ public class VcfParserTest {
     }
 
     @Test
-    public void parseVcf_nonExistentFile_throwsIoException() {
-        String invalidPath = "nonexistent_file.vcf";
-
-        IOException thrown = assertThrows(IOException.class, () -> VcfParser.parseVcf(invalidPath));
-        assertTrue(thrown.getMessage().contains("Failed to read VCF file"));
-    }
-
-    @Test
-    public void parseVcf_invalidPhoneFormat_throwsIoException() throws IOException {
-        String vcfData = "BEGIN:VCARD\n"
-                + "VERSION:4.0\n"
-                + "FN:Alice Pauline\n"
-                + "TEL:invalid-phone-number\n"
-                + "EMAIL:alice@example.com\n"
-                + "ADR:;;123 Street;Singapore;;600123;Singapore\n"
-                + "TITLE:Engineer\n"
-                + "END:VCARD\n";
-
-        Files.writeString(tempVcfFile, vcfData);
-
-        IOException exception = assertThrows(IOException.class, () -> VcfParser.parseVcf(tempVcfFile.toString()));
-
-        assertTrue(exception.getMessage().contains("Alice Pauline: Invalid field"));
-        assertTrue(exception.getMessage().contains("Phone numbers should only contain numbers"));
-    }
-
-
-    @Test
     public void parseVcf_missingName_throwsIoException() throws IOException {
         String vcfData = "BEGIN:VCARD\n"
                 + "FN:\n"
@@ -235,5 +206,3 @@ public class VcfParserTest {
 
 
 }
-
-

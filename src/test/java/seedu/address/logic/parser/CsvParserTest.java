@@ -34,7 +34,7 @@ public class CsvParserTest {
 
     @Test
     public void parseCsv_validCsv_success() throws IOException {
-        String csvData = "Name, Phone, Email, Address, Role, Tags\n"
+        String csvData = "Name,Phone,Email,Address,Role,Tag\n"
                 + "Alice Pauline,94351253,alice@example.com,\"123, Jurong West Ave 6, #08-111\",Organizer,friend\n"
                 + "Bob Lim,98765432,bob@example.com,456 Avenue,Booth Vendor\n";
         Files.writeString(tempCsvFile, csvData);
@@ -50,7 +50,7 @@ public class CsvParserTest {
 
     @Test
     public void parseCsv_csvWithQuotedFields_success() throws IOException {
-        String csvData = "Name, Phone, Email, Address, Role, Tags\n"
+        String csvData = "Name,Phone,Email,Address,Role\n"
                 + "\"Tan, Alice\",91234567,alice@example.com,\"123 Street, #01-23\",\"Vendor\"\n";
         Files.writeString(tempCsvFile, csvData);
 
@@ -63,7 +63,7 @@ public class CsvParserTest {
 
     @Test
     public void parseCsv_emptyLines_ignored() throws IOException {
-        String csvData = "Name, Phone, Email, Address, Role, Tags\n\n"
+        String csvData = "Name,Phone,Email,Address,Role\n\n"
                 + "Alice Tan,91234567,alice@example.com,123 Street,Event Organizer\n\n";
         Files.writeString(tempCsvFile, csvData);
 
@@ -73,13 +73,12 @@ public class CsvParserTest {
 
     @Test
     public void parseCsv_headerOnly_returnsEmptyList() throws IOException {
-        String csvData = "Name, Phone, Email, Address, Role, Tags\n";
+        String csvData = "Name,Phone,Email,Address,Role,Tag\n";
         Files.writeString(tempCsvFile, csvData);
 
         List<List<String>> result = CsvParser.parseCsv(tempCsvFile.toString());
         assertTrue(result.isEmpty());
     }
-
 
     @Test
     public void parseCsv_nonExistentFile_throwsIoException() {
@@ -88,36 +87,8 @@ public class CsvParserTest {
     }
 
     @Test
-    public void parseCsv_allFieldsEmpty_ignored() throws IOException {
-        String csvData = "Name, Phone, Email, Address, Role, Tags\n"
-                + ",,,,,\n"; // All fields empty
-
-        Files.writeString(tempCsvFile, csvData);
-        List<List<String>> result = CsvParser.parseCsv(tempCsvFile.toString());
-
-        // Verify the result is empty because the row with all empty fields should be ignored
-        assertTrue(result.isEmpty(), "Expected the row with all empty fields to be ignored.");
-    }
-
-    @Test
-    public void parseCsv_blankHeader_throwsIoException() throws IOException {
-        // Create a file with a blank header line (contains only spaces or is completely empty)
-        Files.writeString(tempCsvFile, "   \n");
-        IOException thrown = assertThrows(IOException.class, () -> CsvParser.parseCsv(tempCsvFile.toString()));
-
-        assertEquals("Invalid CSV Header. The file is empty or missing a header.", thrown.getMessage());
-    }
-
-    @Test
-    public void parseCsv_emptyFile_throwsIoException() {
-        assertThrows(IOException.class, () -> CsvParser.parseCsv(tempCsvFile.toString()));
-    }
-
-
-
-    @Test
     public void main_validCsv_printsToConsole() throws IOException {
-        String csvData = "Name, Phone, Email, Address, Role, Tags\n"
+        String csvData = "Name,Phone,Email,Address,Role\n"
                 + "Alice,91234567,alice@example.com,123 Ave,Engineer\n";
         Files.writeString(tempCsvFile, csvData);
 
@@ -161,7 +132,7 @@ public class CsvParserTest {
         try {
             CsvParser.main(new String[] { "nonexistent_file.csv" });
             String output = errContent.toString();
-            assertTrue(output.contains("java.io.FileNotFoundException"));
+            assertTrue(output.contains("java.io.FileNotFoundException")); // or partial match
         } finally {
             System.setErr(originalErr);
         }

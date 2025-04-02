@@ -1,9 +1,7 @@
 package seedu.address;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -39,7 +37,6 @@ import seedu.address.ui.UiManager;
 public class MainApp extends Application {
 
     public static final Version VERSION = new Version(1, 4, 0, true);
-    private static final Path IMPORTS_FOLDER = Paths.get("imports");
 
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
@@ -53,8 +50,6 @@ public class MainApp extends Application {
     public void init() throws Exception {
         logger.info("=============================[ Initializing AddressBook ]===========================");
         super.init();
-
-        ensureImportsFolderExists();
 
         AppParameters appParameters = AppParameters.parse(getParameters());
         config = initConfig(appParameters.getConfigPath());
@@ -186,20 +181,6 @@ public class MainApp extends Application {
             storage.saveUserPrefs(model.getUserPrefs());
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
-        }
-    }
-
-    /**
-     * Ensures that the 'imports' folder exists. If it does not exist, it creates the folder.
-     */
-    private void ensureImportsFolderExists() {
-        try {
-            if (!Files.exists(IMPORTS_FOLDER)) {
-                Files.createDirectories(IMPORTS_FOLDER);
-                logger.info("Created 'imports' folder at: " + IMPORTS_FOLDER.toAbsolutePath());
-            }
-        } catch (IOException e) {
-            logger.warning("Failed to create 'imports' folder: " + e.getMessage());
         }
     }
 }
