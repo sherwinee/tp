@@ -16,7 +16,7 @@ import seedu.address.model.person.Person;
  */
 public class DeleteAllWithTagCommand extends Command {
 
-    public static final String COMMAND_WORD = "deletetag";
+    public static final String COMMAND_WORD = "deletewithtag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes all person(s) associated with the specified tag in the person list.\n"
