@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.IOException;
 import java.util.regex.Pattern;
 
@@ -58,6 +60,7 @@ public class ExportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(filename);
         if (!validateFilename(filename)) {
             throw new CommandException(String.format(MESSAGE_EXPORT_FAILURE,
                     filename, MESSAGE_INVALID_FILENAME));
@@ -99,6 +102,8 @@ public class ExportCommand extends Command {
     }
 
     private boolean validateFilename(String filename) {
+        requireNonNull(filename);
+        assert (!FILENAME_REGEX.isEmpty());
         Pattern pattern = Pattern.compile(FILENAME_REGEX, Pattern.CASE_INSENSITIVE);
         return pattern.matcher(filename).matches();
     }
