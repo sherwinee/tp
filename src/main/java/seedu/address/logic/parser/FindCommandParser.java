@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PHONE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_NAME;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PHONE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_ROLE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -21,8 +21,8 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneNumberContainsKeywordsPredicate;
 import seedu.address.model.person.Role;
 import seedu.address.model.person.RoleContainsKeywordsPredicate;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.person.TagsContainsKeywordsPredicate;
+import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new FindCommand object
