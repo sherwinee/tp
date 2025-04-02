@@ -471,26 +471,96 @@ Use case ends.
 
   Use case ends.
 
-**Use case: Import contacts from VCF**
+**Use case: Import contacts from CSV**
 
 **MSS**
 
-1.  User requests to import contacts from a VCF file
-2.  AddressBook takes in a VCF file
-3.  AddressBook adds contacts from VCF file to current contact list
-4.  AddressBook shows list of persons with added contacts from VCF file
+1.  User requests to import contacts from a CSV file.
+2.  System validates the file path and format.
+3.  System reads the CSV file and parses the contact data.
+4.  System adds valid contacts to the address book.
+5.  System displays a success message with the number of contacts imported.
 
     Use case ends.
 
 **Extensions**
 
-* 3a. The VCF file is empty.
+* 2a. File path is invalid or file does not exist.
 
-  Use case ends.
+    * 2a1. System displays an error message.
+    Use case ends.
 
-* 3a. The list is empty.
+* 2b. File format is not CSV.
 
-  Use case ends.
+    * 2b1. System displays an error message.
+    Use case ends.
+
+* 3a. CSV file has an invalid header.
+
+    * 3a1. System displays an error message.
+    Use case ends.
+
+* 3b. CSV file is empty.
+
+    * 3b1. System displays a message indicating no contacts were imported.
+    Use case ends.
+
+* 4a. Some contacts have invalid data.
+
+    * 4a1. System skips invalid contacts.
+    * 4a2. System continues importing valid contacts.
+    * 4a3. System reports the rows with errors in the result message.
+    Use case resumes from step 5.
+
+* 4b. Some contacts are duplicates of existing contacts.
+
+    * 4b1. System skips duplicate contacts.
+    * 4b2. System continues importing non-duplicate contacts.
+    * 4b3. System reports the duplicate entries in the result message.
+    Use case resumes from step 5.
+
+**Use case: Import contacts from CSV**
+
+**MSS**
+
+1.  User requests to import contacts from a VCF file.
+2.  System validates the file path and format.
+3.  System reads the VCF file and parses the contact data.
+4.  System adds valid contacts to the address book.
+5.  System displays a success message with the number of contacts imported.
+    
+    Use case ends.
+
+**Extensions**
+
+* 2a. File path is invalid or file does not exist.
+
+    * 2a1. System displays an error message.
+    Use case ends.
+
+* 2b. File format is not VCF.
+
+    * 2b1. System displays an error message.
+    Use case ends.
+
+* 3a. Some VCF entries are missing required fields.
+
+    * 3a1. System reports the contacts with missing fields
+    Use case ends.
+
+* 4a. Some contacts have invalid data.
+
+    * 4a1. System skips invalid contacts.
+    * 4a2. System continues importing valid contacts.
+    * 4a3. System reports the contacts with errors in the result message.
+    Use case resumes from step 5.
+
+* 4b. Some contacts are duplicates of existing contacts.
+
+    * 4b1. System skips duplicate contacts.
+    * 4b2. System continues importing non-duplicate contacts.
+    * 4b3. System reports the duplicate entries in the result message.
+    Use case resumes from step 5.
 
 **Use case: Edit persons information**
 
