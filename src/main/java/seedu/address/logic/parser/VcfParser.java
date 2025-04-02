@@ -2,8 +2,6 @@ package seedu.address.logic.parser;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -34,12 +32,19 @@ public class VcfParser {
     public static List<Person> parseVcf(String filePath) throws IOException {
         List<Person> persons = new ArrayList<>();
         List<String> errors = new ArrayList<>();
-        List<VCard> vcards = Ezvcard.parse(new File(filePath)).all();
+        List<VCard> vcards;
+
+        try {
+            vcards = Ezvcard.parse(new File(filePath)).all();
+        } catch (IOException e) {
+            throw new IOException("Failed to read VCF file: " + e.getMessage(), e);
+        }
 
         for (int i = 0; i < vcards.size(); i++) {
             VCard vcard = vcards.get(i);
             int rowNumber = i + 1;
             String fullName = "";
+
             try {
                 fullName = parseName(vcard, rowNumber, errors);
                 String phone = parsePhone(vcard, fullName, errors);
@@ -55,8 +60,12 @@ public class VcfParser {
                         new Role(role), new HashSet<>(), Optional.empty()
                 ));
 
-            } catch (Exception e) {
-                errors.add((fullName.isEmpty() ? "Contact" + rowNumber : fullName) + ": " + e.getMessage());
+            } catch (IllegalArgumentException e) {
+                errors.add((fullName.isEmpty() ? "Contact " + rowNumber : fullName) + ": Invalid field - "
+                        + e.getMessage());
+            } catch (NullPointerException e) {
+                errors.add((fullName.isEmpty() ? "Contact " + rowNumber : fullName) + ": Missing required field - "
+                        + e.getMessage());
             }
         }
 
@@ -66,6 +75,7 @@ public class VcfParser {
 
         return persons;
     }
+
 
     private static String parseName(VCard vcard, int rowNumber, List<String> errors) {
         if (vcard.getFormattedNames().size() > 1) {

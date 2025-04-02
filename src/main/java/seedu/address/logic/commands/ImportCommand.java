@@ -35,15 +35,16 @@ import seedu.address.model.tag.Tag;
 public class ImportCommand extends Command {
 
     public static final String COMMAND_WORD = "import";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports all data from the specified file path "
-            + "(case-sensitive) and displays them as list with index numbers.\n"
+    public static final String IMPORT_DIR_PREFIX = "imports/";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports all data from the given file name located at "
+            + getImportsDirAbsolutePath()
+            + "\nFile names are case-sensitive.\n "
             + "Parameters: FILENAME (must end with .csv or .vcf)\n"
             + "Example: " + COMMAND_WORD + " addressbook.csv";
 
     public static final String MESSAGE_CONSTRAINTS = "File name must end with .csv or .vcf";
     public static final String MESSAGE_READ_INPUT_ERROR = "Error reading file due to: ";
-    public static final String MESSAGE_ERROR_DURING_IMPORT = "Some errors occurred during import:\n";
+    public static final String MESSAGE_ERROR_DURING_IMPORT = "Import failed due to the following errors: \n";
     public static final String MESSAGE_EMPTY_FILE = "No persons were imported. Check your file.";
     public static final String MESSAGE_SUCCESS = "Successfully imported %d contacts!";
 
@@ -62,25 +63,52 @@ public class ImportCommand extends Command {
         List<String> errors = new ArrayList<>();
         List<Person> importedPersons = parseFile(filePath, errors);
 
-        if (!errors.isEmpty()) {
-            throw new CommandException(MESSAGE_ERROR_DURING_IMPORT + String.join("\n", errors));
-        }
-
-        if (importedPersons.isEmpty()) {
+        if (importedPersons.isEmpty() && errors.isEmpty()) {
             throw new CommandException(MESSAGE_EMPTY_FILE);
         }
 
         int startingRowNumber = filePath.toString().toLowerCase().endsWith(".csv") ? 2 : 1;
         List<String> duplicateErrors = addPersonsToModel(model, importedPersons, startingRowNumber);
 
-        if (!duplicateErrors.isEmpty()) {
-            throw new CommandException(formatDuplicateErrors(duplicateErrors));
+        StringBuilder resultMessage = new StringBuilder();
+
+        int successfullyImportedCount = importedPersons.size();
+
+        if (successfullyImportedCount > 0) {
+            resultMessage.append(String.format(MESSAGE_SUCCESS, successfullyImportedCount));
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, importedPersons.size()));
+        if (!duplicateErrors.isEmpty()) {
+            if (successfullyImportedCount > 0) {
+                resultMessage.append("\nHowever, some duplicate entries were found and skipped:\n");
+            } else {
+                resultMessage.append(MESSAGE_ERROR_DURING_IMPORT);
+            }
+            duplicateErrors.forEach(error -> resultMessage.append(error).append("\n"));
+        }
+
+        if (!errors.isEmpty()) {
+            if (successfullyImportedCount > 0 || !duplicateErrors.isEmpty()) {
+                resultMessage.append("\nAdditionally, some rows had errors and were skipped:\n");
+            } else {
+                resultMessage.append(MESSAGE_ERROR_DURING_IMPORT);
+            }
+            errors.forEach(error -> resultMessage.append(error).append("\n"));
+        }
+
+
+        if (successfullyImportedCount == 0 && duplicateErrors.isEmpty() && !errors.isEmpty()) {
+            throw new CommandException(resultMessage.toString());
+        }
+
+        return new CommandResult(resultMessage.toString());
     }
 
+
     private List<Person> parseFile(Path filePath, List<String> errors) throws CommandException {
+        assert filePath != null : "File path should not be null";
+        assert errors != null : "Errors list should not be null";
+
         try {
             if (filePath.toString().toLowerCase().endsWith(".csv")) {
                 return importCsv(filePath.toString(), errors);
@@ -95,59 +123,69 @@ public class ImportCommand extends Command {
     }
 
     private List<String> addPersonsToModel(Model model, List<Person> persons, int startingRowNumber) {
+        assert model != null : "Model should not be null";
+        assert persons != null : "Persons list should not be null";
+        assert startingRowNumber > 0 : "Starting row number should be greater than zero";
+
         List<String> duplicateErrors = new ArrayList<>();
         boolean isVcf = filePath.toString().toLowerCase().endsWith(".vcf");
 
+        List<Person> successfullyImportedPersons = new ArrayList<>();
+
         for (int i = 0; i < persons.size(); i++) {
             Person person = persons.get(i);
+            assert person != null : "Person object should not be null";
             int rowNumber = i + startingRowNumber;
 
             try {
                 model.addPerson(person);
+                successfullyImportedPersons.add(person);
             } catch (DuplicatePersonException e) {
-                String errorPrefix = isVcf
-                        ? person.getName().fullName + ": "
-                        : "Row " + rowNumber + ": ";
+                String errorPrefix = isVcf ? person.getName().fullName + ": " : "Row " + rowNumber + ": ";
                 duplicateErrors.add(errorPrefix + e.getMessage());
             }
         }
 
+        persons.clear();
+        persons.addAll(successfullyImportedPersons);
+
         return duplicateErrors;
     }
 
-    private String formatDuplicateErrors(List<String> duplicateErrors) {
-        return "Duplicate persons found:\n" + String.join("\n", duplicateErrors);
-    }
-
     /**
-     * Parses a CSV file and converts each valid row into a {@code Person} object.
-     * <p>
-     * Each row must contain at least 5 values: Name, Phone, Email, Address, and Role.
-     * The 6th column (optional) can include tags separated by commas or semicolons.
-     * <p>
-     * Invalid rows trigger error messages and abort the import
+     * Imports a list of persons from a CSV file.
      *
-     * @param filePath The path to the CSV file.
-     * @param errors A list to collect error messages for invalid rows.
-     * @return A list of successfully parsed {@code Person} objects.
-     * @throws IOException If reading the file fails.
+     * @param filePath The path to the CSV file to be imported.
+     * @param errors A list to store any errors encountered during the import process.
+     * @return A list of {@code Person} objects parsed from the CSV file.
+     * @throws IOException If an error occurs while reading the CSV file.
      */
     public static List<Person> importCsv(String filePath, List<String> errors) throws IOException {
+        assert filePath != null : "File path should not be null";
+        assert !filePath.trim().isEmpty() : "File path should not be empty";
+        assert errors != null : "Errors list should not be null";
+
         List<Person> persons = new ArrayList<>();
         List<List<String>> rawData = CsvParser.parseCsv(filePath);
+        assert rawData != null : "Parsed CSV data should not be null";
 
         for (int i = 0; i < rawData.size(); i++) {
             List<String> values = rawData.get(i);
-            Person person = createPerson(values, i + 2, errors); // +2 for CSV line number
+            assert values != null : "Parsed row data should not be null";
+            Person person = createPerson(values, i + 2, errors);
             if (person != null) {
                 persons.add(person);
             }
         }
-
+        assert persons != null : "Person list should not be null";
         return persons;
     }
 
     private static Person createPerson(List<String> values, int rowNumber, List<String> errors) {
+        assert values != null : "Input values list should not be null";
+        assert errors != null : "Errors list should not be null";
+        assert rowNumber > 0 : "Row number should be positive";
+
         if (values.size() < 5) {
             errors.add("Row " + rowNumber + ": Missing required fields (Name, Phone, Email, Address, Role).");
             return null;
@@ -163,6 +201,7 @@ public class ImportCommand extends Command {
             Set<Tag> tags = (values.size() > 5) ? parseTags(values.get(5)) : new HashSet<>();
 
             return new Person(name, phone, email, address, role, tags, Optional.empty());
+
         } catch (IllegalArgumentException e) {
             errors.add("Row " + rowNumber + ": " + e.getMessage());
             return null;
@@ -193,10 +232,12 @@ public class ImportCommand extends Command {
         ImportCommand e = (ImportCommand) other;
         return filePath.equals(e.filePath);
     }
+
+    public static String getImportsDirAbsolutePath() {
+        return new java.io.File(IMPORT_DIR_PREFIX).getAbsolutePath();
+    }
+
+    public String toString() {
+        return filePath.toString();
+    }
 }
-
-
-
-
-
-
