@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.ImportCommand.IMPORT_DIR_PREFIX;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -23,14 +24,14 @@ public class ImportCommandParserTest {
     @Test
     public void parse_validCsvFilePath_success() {
         String filePath = "address_book.csv";
-        ImportCommand expectedCommand = new ImportCommand(Path.of(filePath));
+        ImportCommand expectedCommand = new ImportCommand(Path.of(IMPORT_DIR_PREFIX + filePath));
         assertParseSuccess(parser, filePath, expectedCommand);
     }
 
     @Test
     public void parse_validVcfFilePath_success() {
         String filePath = "address_book.vcf";
-        ImportCommand expectedCommand = new ImportCommand(Path.of(filePath));
+        ImportCommand expectedCommand = new ImportCommand(Path.of(IMPORT_DIR_PREFIX + filePath));
         assertParseSuccess(parser, filePath, expectedCommand);
     }
 

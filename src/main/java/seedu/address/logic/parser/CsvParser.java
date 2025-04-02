@@ -19,6 +19,8 @@ import java.util.List;
 public class CsvParser {
 
     private static final String EXPECTED_HEADER = "Name,Phone,Email,Address,Role,Tags";
+    private static final String[] EXPECTED_HEADER_PARTS = EXPECTED_HEADER.split(",");
+
 
     /**
      * Parses a CSV file and returns the data as a list of lists of strings.
@@ -28,22 +30,33 @@ public class CsvParser {
      * @throws IOException If an error occurs while reading the file.
      */
     public static List<List<String>> parseCsv(String filePath) throws IOException {
+        assert filePath != null && !filePath.trim().isEmpty() : "File path should not be null or empty";
         List<List<String>> data = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String headerLine = br.readLine(); // Read the header line
+            String headerLine = br.readLine();
 
-            if (headerLine == null || !headerLine.trim().equalsIgnoreCase(EXPECTED_HEADER)) {
-                throw new IOException("Invalid CSV Header. Expected header: " + EXPECTED_HEADER);
+            if (headerLine == null || headerLine.trim().isEmpty()) {
+                throw new IOException("Invalid CSV Header. The file is empty or missing a header.");
             }
+            assert headerLine != null : "Header line should not be null";
+            assert !headerLine.trim().isEmpty() : "Header line should not be empty";
 
             String line;
             while ((line = br.readLine()) != null) {
-                line = line.replace("\r\n", "\n");
-                if (line.trim().isEmpty()) {
+                line = line.trim();
+                assert line != null : "Read line from CSV should not be null";
+
+                if (line.isEmpty()) {
                     continue;
                 }
-                data.add(parseLine(line));
+
+                List<String> parsedLine = parseLine(line);
+                boolean isAllFieldsEmpty = parsedLine.stream().allMatch(String::isEmpty);
+                if (isAllFieldsEmpty) {
+                    continue;
+                }
+                data.add(parsedLine);
             }
         }
 
@@ -58,6 +71,8 @@ public class CsvParser {
      * @return A list of string values extracted from the line.
      */
     private static List<String> parseLine(String line) {
+        assert line != null : "Line to parse should not be null";
+
         List<String> fields = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         boolean inQuotes = false;
@@ -66,10 +81,8 @@ public class CsvParser {
             char c = line.charAt(i);
 
             if (c == '"') {
-                // Toggle inQuotes flag
                 inQuotes = !inQuotes;
             } else if (c == ',' && !inQuotes) {
-                // If not inside quotes, split field
                 fields.add(sb.toString().trim());
                 sb.setLength(0);
             } else {
@@ -77,11 +90,11 @@ public class CsvParser {
             }
         }
 
-        // Add the last field
         fields.add(sb.toString().trim());
 
         return fields;
     }
+
 
     public static void main(String[] args) {
         if (args.length == 0) {
