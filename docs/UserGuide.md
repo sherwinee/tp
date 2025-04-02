@@ -152,6 +152,23 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+### Exporting all contacts : `export`
+
+Exports all contacts in the app (viewable with the `list` command) into a `vcf` (Vcard) or a proprietary 
+`csv` (Comma Separated Vector) file. `vcf` files can be imported into common contact applications.
+
+Format: `export FILENAME`
+
+* Filenames must end with `.vcf` or `.csv`, the programme will automatically export them to the respective format
+* Exported files are created in the programme's `exports` folder
+* Tags are NOT exported in the `vcf` format
+* Last-contacted times are NOT exported
+* If the address book is empty, it will be exported as an empty file (with headers for `csv`)
+
+Examples:
+* `export contacts.vcf` exports all contacts to a vcf file at `exports/contacts.vcf`
+* `export contacts_dump.csv` exports all contacts to a csv file at `exports/contacts_dump.csv`
+
 ### Exiting the program : `exit`
 
 Exits the program.
