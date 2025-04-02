@@ -158,6 +158,80 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Import feature
+
+The `import` command allows users to import contact data from CSV and VCF files into the address book.
+
+#### Implementation
+
+The import feature is implemented through the `ImportCommand` class, which supports both CSV and VCF file formats. The command works by parsing the specified file and adding valid contacts to the address book, while handling duplicates and reporting errors.
+
+#### Class structure
+
+The import functionality is implemented through several classes:
+
+* `ImportCommandParser`: Parses user input and creates an ImportCommand object.
+* `ImportCommand`: Executes the import operation.
+* `CsvParser`: Handles parsing of CSV files.
+* `VcfParser`: Handles parsing of VCF files using the ez-vcard library.
+
+#### Sequence flow
+
+The sequence diagram below illustrates how the `import` command works:
+
+<puml src="diagrams/ImportSequenceDiagram.puml"
+
+How the `import` command works:
+
+1. The user enters an import command (e.g., `import addressbook.csv`).
+1. `LogicManager` passes the command to `AddressBookParser`.
+1. `AddressBookParser` creates an `ImportCommandParser` to parse the arguments.
+1. `ImportCommandParser` validates the file path and creates an `ImportCommand`.
+1. `LogicManager` executes the `ImportCommand` with the current model.
+1. `ImportCommand` determines the file type and calls the appropriate parser.
+1. For CSV files:
+ * `CsvParser` reads and parses the CSV file.
+ * `ImportCommand` processes the raw data and creates `Person` objects.
+1. For VCF files:
+ * `VcfParser` reads and parses the VCF file using the ez-vcard library.
+ * The parser directly returns a list of `Person` objects.
+1. `ImportCommand` adds each valid person to the model.
+1. Duplicate entries are detected during the `addPerson` operation.
+1. A `CommandResult` is returned with a message indicating success or listing errors.
+
+#### Error handling
+
+The import command handles several types of errors:
+* File format errors (invalid headers, malformed data).
+* Validation errors (invalid phone numbers, emails, etc.).
+* Duplicate entries (contacts that already exist in the address book).
+* Duplicate entries within the imported file itself.
+
+Errors are collected and reported to the user in the command result, allowing partial imports to succeed while clearly indicating which entries failed and why.
+
+#### Design considerations:
+
+**Aspect: How to handle duplicate entries:**
+
+* **Alternative 1 (current choice):** Skip duplicates and report them to the user.
+    * Pros: Prevents accidental data duplication and provides clear feedback about which entries were skipped.
+    * Cons: Requires additional error handling and reporting logic.
+
+* **Alternative 2:** Allow duplicates to be added.
+    * Pros: Simpler implementation.
+    * Cons: Could lead to data integrity issues.
+
+**Aspect: File location:**
+
+* **Alternative 1 (current choice):** Use a fixed imports directory.
+    * Pros: Simplifies the command syntax and provides a standard location for import files.
+    * Cons: Less flexible for users.
+
+* **Alternative 2:** Allow arbitrary file paths.
+    * Pros: More flexibility for users.
+    * Cons: More complex command syntax and security considerations
+
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
