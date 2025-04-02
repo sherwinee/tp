@@ -158,6 +158,24 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Export feature
+The export feature exports the entire address book into a csv or vcf file using the same command.
+
+This is facilitated by the jackson-dataformat-csv and ez-vcard library, jackson is already used for Storage. Classes for this feature follow the structure of existing
+Storage classes used for reading/writing to json storage with necessary modifications to facilitate CSV and VCF
+formatting.
+
+#### Added classes
+* `CsvAddressBookStorage` and `VcfAddressBookStorage` — Implementations of AddressBookStorage with methods tailored to the target filetypes
+* `CsvAdaptedPerson` and `VcfAdaptedPerson` — Adapted Person classes with datatypes suitable to be stored in the target filetype
+* `CsvSerializableAddressBook` and `VcfSerializableAddressBook` — Holds Adapted Persons for processing in implementations of AddressBookStorage
+* `VcfMapper` — Contains static methods to convert `VcfAdaptedPerson`s to Vcard objects
+
+#### Sequence diagram of Export to CSV feature
+<puml src="diagrams/ExportSequenceDiagram.puml" alt="ExportSequenceDiagram.puml" />
+
+The flow applies to vcf exports as well. Difference in data handling can be found within the methods of the above classes.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
