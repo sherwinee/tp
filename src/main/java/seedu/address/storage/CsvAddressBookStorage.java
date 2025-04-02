@@ -70,5 +70,6 @@ public class CsvAddressBookStorage implements AddressBookStorage {
         // Write them out using Jackson CSV
         CsvSchema schema = csvMapper.schemaFor(CsvAdaptedPerson.class).withHeader();
         csvMapper.writer(schema).writeValue(filePath.toFile(), persons);
+        logger.info("Exported CSV contacts dump to " + filePath.toAbsolutePath());
     }
 }

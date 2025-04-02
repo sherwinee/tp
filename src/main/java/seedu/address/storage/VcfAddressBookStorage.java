@@ -62,5 +62,6 @@ public class VcfAddressBookStorage implements AddressBookStorage {
         // Write to VCF file
         List<VCard> vcards = VcfMapper.mapToVcards(persons);
         Ezvcard.write(vcards).go(filePath.toFile());
+        logger.info("Exported VCF contacts dump to " + filePath.toAbsolutePath());
     }
 }
