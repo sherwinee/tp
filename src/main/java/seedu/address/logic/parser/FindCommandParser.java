@@ -2,6 +2,9 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PHONE;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_NAME;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_ROLE;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
@@ -12,10 +15,13 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneNumberContainsKeywordsPredicate;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.RoleContainsKeywordsPredicate;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.person.TagsContainsKeywordsPredicate;
 
 /**
@@ -53,12 +59,24 @@ public class FindCommandParser implements Parser<FindCommand> {
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
 
+            for (String keyword : keywords) {
+                if (!Name.isValidName(keyword)) {
+                    throw new ParseException(MESSAGE_INVALID_NAME);
+                }
+            }
+
             return new FindCommand(new NameContainsKeywordsPredicate(keywords));
         } else if (arePrefixesPresent(argMultimap, PREFIX_TAG)) {
             List<String> keywords = argMultimap.getAllValues(PREFIX_TAG);
             if (keywords.isEmpty()) {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+
+            for (String keyword : keywords) {
+                if (!Tag.isValidTagName(keyword)) {
+                    throw new ParseException(MESSAGE_INVALID_TAG);
+                }
             }
 
             return new FindCommand(new TagsContainsKeywordsPredicate(keywords));
@@ -81,6 +99,12 @@ public class FindCommandParser implements Parser<FindCommand> {
             if (keywords.isEmpty()) {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+
+            for (String keyword : keywords) {
+                if (!Role.isValidRole(keyword)) {
+                    throw new ParseException(MESSAGE_INVALID_ROLE);
+                }
             }
 
             return new FindCommand(new RoleContainsKeywordsPredicate(keywords));
