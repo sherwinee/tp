@@ -174,7 +174,8 @@ formatting.
 #### Sequence diagram of Export to CSV feature
 <puml src="diagrams/ExportSequenceDiagram.puml" alt="ExportSequenceDiagram.puml" />
 
-The flow applies to vcf exports as well. Difference in data handling can be found within the methods of the above classes.
+The flow applies to vcf exports as well. However, the logic in the methods of the above classes are different as they
+utilise different libraries.
 
 ### \[Proposed\] Undo/redo feature
 
