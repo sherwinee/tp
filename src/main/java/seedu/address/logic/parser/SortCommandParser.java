@@ -1,5 +1,7 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -16,7 +18,8 @@ public class SortCommandParser implements Parser<SortCommand> {
         } else if (trimmedArgs.equalsIgnoreCase("desc")) {
             return new SortCommand(false); // Descending order
         } else {
-            throw new ParseException(SortCommand.MESSAGE_INVALID_ORDER);
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
     }
 }

@@ -17,70 +17,182 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Role;
 
-
 /**
  * Parses VCF files using the ez-vcard library and returns a list of Person objects.
  */
 public class VcfParser {
+
+    private static List<String> lastParseErrors = new ArrayList<>();
 
     /**
      * Parses the given .vcf file into a list of Person objects.
      *
      * @param filePath The path to the VCF file.
      * @return A list of parsed Person objects.
-     * @throws IOException If reading the file fails or rows contain invalid data.
+     * @throws IOException If reading the file fails.
      */
     public static List<Person> parseVcf(String filePath) throws IOException {
+        lastParseErrors.clear();
         List<Person> persons = new ArrayList<>();
         List<String> errors = new ArrayList<>();
+        List<VCard> vcards;
+        assert filePath != null : "File path should not be null";
 
-        List<VCard> vcards = Ezvcard.parse(new File(filePath)).all();
+        try {
+            vcards = Ezvcard.parse(new File(filePath)).all();
+        } catch (IOException e) {
+            throw new IOException("Failed to read VCF file: " + e.getMessage(), e);
+        }
 
         for (int i = 0; i < vcards.size(); i++) {
             VCard vcard = vcards.get(i);
             int rowNumber = i + 1;
+            String fullName = "";
+            List<String> contactErrors = new ArrayList<>();
 
             try {
-                String fullName = parseName(vcard, rowNumber, errors);
-                String phone = parsePhone(vcard, fullName, errors);
-                String email = parseEmail(vcard, fullName, errors);
-                String address = parseAddress(vcard, fullName, errors);
-                String role = parseRole(vcard, fullName, errors);
-
-                if (!errors.isEmpty()) {
-                    continue;
-                }
-
-                persons.add(new Person(
-                        new Name(fullName),
-                        new Phone(phone),
-                        new Email(email),
-                        new Address(address),
-                        new Role(role),
-                        new HashSet<>(),
-                        Optional.empty()
-                ));
-
+                fullName = parseName(vcard, rowNumber, contactErrors);
             } catch (Exception e) {
-                errors.add("Row " + rowNumber + ": " + e.getMessage());
+                contactErrors.add("Error parsing name - " + e.getMessage());
+            }
+
+            Result result = getResult(fullName, rowNumber, vcard, contactErrors);
+
+            // Only create and add the Person if there are no errors
+            if (contactErrors.isEmpty()) {
+                try {
+                    persons.add(new Person(new Name(fullName), new Phone(result.phoneText()),
+                            new Email(result.emailText()), new Address(result.addressText()),
+                            new Role(result.roleText()), new HashSet<>(), Optional.empty()));
+                } catch (Exception e) {
+                    contactErrors.add("Error creating person - " + e.getMessage());
+                }
+            }
+
+            // Add all errors for this contact to the global errors list
+            for (String error : contactErrors) {
+                errors.add(result.contactIdentifier() + ": " + error);
             }
         }
 
+        // Store errors in a static field for retrieval by ImportCommand
         if (!errors.isEmpty()) {
-            throw new IOException("VCF Import failed due to:\n" + String.join("\n", errors));
+            storeErrors(errors);
         }
 
         return persons;
     }
 
+
+    /**
+     * Stores the errors from the last parse operation.
+     *
+     * @param errors The errors to store.
+     */
+    private static void storeErrors(List<String> errors) {
+        lastParseErrors.clear();
+        lastParseErrors.addAll(errors);
+    }
+
+    /**
+     * Gets the errors from the last parse operation.
+     *
+     * @return The errors from the last parse operation.
+     */
+    public static List<String> getLastParseErrors() {
+        return new ArrayList<>(lastParseErrors);
+    }
+
+    private static Result getResult(String fullName, int rowNumber, VCard vcard, List<String> contactErrors) {
+        ParseFields fields = getParseFields(fullName, rowNumber, vcard, contactErrors);
+
+        // Validate all fields explicitly
+        validateField(fullName, Name.class, contactErrors);
+        validateField(fields.phoneText(), Phone.class, contactErrors);
+        validateField(fields.emailText(), Email.class, contactErrors);
+        validateField(fields.addressText(), Address.class, contactErrors);
+        validateField(fields.roleText(), Role.class, contactErrors);
+
+        Result result = new Result(fields.contactIdentifier(), fields.phoneText(), fields.emailText(),
+                fields.addressText(), fields.roleText());
+        return result;
+    }
+
+    private static void validateField(String value, Class<?> fieldClass, List<String> contactErrors) {
+        if (value.isEmpty()) {
+            return;
+        }
+
+        try {
+            if (fieldClass == Name.class) {
+                new Name(value);
+            } else if (fieldClass == Phone.class) {
+                new Phone(value);
+            } else if (fieldClass == Email.class) {
+                new Email(value);
+            } else if (fieldClass == Address.class) {
+                new Address(value);
+            } else if (fieldClass == Role.class) {
+                new Role(value);
+            }
+        } catch (IllegalArgumentException e) {
+            contactErrors.add("Invalid field - " + e.getMessage());
+        }
+    }
+
+    private static ParseFields getParseFields(String fullName, int rowNumber, VCard vcard, List<String> contactErrors) {
+        String contactIdentifier = createContactIdentifier(fullName, rowNumber);
+
+        String phoneText = extractField(vcard, contactIdentifier, contactErrors, (
+                v, id, errors) -> parsePhone(v, id, errors), "phone");
+
+        String emailText = extractField(vcard, contactIdentifier, contactErrors, (
+                v, id, errors) -> parseEmail(v, id, errors), "email");
+
+        String addressText = extractField(vcard, contactIdentifier, contactErrors, (
+                v, id, errors) -> parseAddress(v, id, errors), "address");
+
+        String roleText = extractField(vcard, contactIdentifier, contactErrors, (
+                v, id, errors) -> parseRole(v, id, errors), "role");
+
+        return new ParseFields(contactIdentifier, phoneText, emailText, addressText, roleText);
+    }
+
+    private static String createContactIdentifier(String fullName, int rowNumber) {
+        return fullName.isEmpty() ? "Contact " + rowNumber : "Contact Number " + rowNumber + " " + fullName;
+    }
+
+    private static String extractField(VCard vcard, String contactIdentifier, List<String> contactErrors,
+                                       FieldExtractor extractor, String fieldName) {
+        try {
+            return extractor.extract(vcard, contactIdentifier, contactErrors);
+        } catch (Exception e) {
+            contactErrors.add("Error parsing " + fieldName + " - " + e.getMessage());
+            return "";
+        }
+    }
+
+    @FunctionalInterface
+    private interface FieldExtractor {
+        String extract(VCard vcard, String contactIdentifier, List<String> errors);
+    }
+
+    private record ParseFields(String contactIdentifier, String phoneText, String emailText, String addressText,
+                               String roleText) {
+    }
+
+    private record Result(String contactIdentifier, String phoneText, String emailText, String addressText,
+                          String roleText) {
+    }
+
     private static String parseName(VCard vcard, int rowNumber, List<String> errors) {
         if (vcard.getFormattedNames().size() > 1) {
-            errors.add("Contact " + rowNumber + " contains more than one formatted name");
+            errors.add("Cannot contain more than one formatted name");
         }
 
         FormattedName formattedName = vcard.getFormattedName();
         if (formattedName == null || isBlank(formattedName.getValue())) {
-            errors.add("Contact " + rowNumber + ": Missing required field 'FN' (Formatted Name)");
+            errors.add("Missing required field 'FN' (Formatted Name)");
             return "";
         }
 
@@ -89,10 +201,10 @@ public class VcfParser {
 
     private static String parsePhone(VCard vcard, String name, List<String> errors) {
         if (vcard.getTelephoneNumbers().size() > 1) {
-            errors.add(name + " contains more than one telephone number");
+            errors.add("Cannot contain more than one telephone number");
         }
         if (vcard.getTelephoneNumbers().isEmpty() || isBlank(vcard.getTelephoneNumbers().get(0).getText())) {
-            errors.add(name + ": Missing required field 'Phone'");
+            errors.add("Missing required field 'Phone'");
             return "";
         }
 
@@ -101,10 +213,10 @@ public class VcfParser {
 
     private static String parseEmail(VCard vcard, String name, List<String> errors) {
         if (vcard.getEmails().size() > 1) {
-            errors.add(name + " contains more than one email address");
+            errors.add("Cannot contain more than one email address");
         }
         if (vcard.getEmails().isEmpty() || isBlank(vcard.getEmails().get(0).getValue())) {
-            errors.add(name + ": Missing required field 'Email'");
+            errors.add("Missing required field 'Email'");
             return "";
         }
 
@@ -113,7 +225,7 @@ public class VcfParser {
 
     private static String parseAddress(VCard vcard, String name, List<String> errors) {
         if (vcard.getAddresses().isEmpty()) {
-            errors.add(name + ": Missing required field 'Address'");
+            errors.add("Missing required field 'Address'");
             return "";
         }
 
@@ -156,7 +268,7 @@ public class VcfParser {
 
     private static String parseRole(VCard vcard, String name, List<String> errors) {
         if (vcard.getTitles().size() > 1) {
-            errors.add(name + " contains more than one title");
+            errors.add("Cannot contain more than one title");
         }
 
         if (!vcard.getTitles().isEmpty()) {

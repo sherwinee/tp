@@ -4,7 +4,7 @@
   pageNav: 3
 ---
 
-# AB-3 Developer Guide
+# Listify Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -13,7 +13,9 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+* Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5), [ez-vcard](https://github.com/mangstadt/ez-vcard)
+* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -158,6 +160,137 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Sort command
+
+The `sort` command follows the standard flow of other commands in the **Logic component**, ensuring seamless integration with the system. The `SortCommand` class is responsible for sorting the list of contacts based on ascending or descending order. The parsing logic is handled by `SortCommandParser`.
+
+Sorting is performed using Java’s `Comparator` interface. When executed, `SortCommand` updates the displayed list by applying the selected sorting criteria on name or phone (if duplicate name). The sorting options include:
+- **Name** (alphabetical order)
+- **Phone** (numerical order)
+
+How the sorting command works:
+1. The user inputs a valid sort command (e.g., `sort asc`).
+2. `SortCommandParser` parses the input and extracts the sorting criterion.
+3. `SortCommand` is created with the appropriate comparator.
+4. The `Model`'s filtered contact list is updated with the sorted order.
+5. The updated list is displayed in the UI.
+
+A sequence diagram illustrating the parsing of the command `sort asc` is provided below:
+
+<puml src="diagrams/SortCommandParser.puml" width="550" />
+
+**NOTE**: As with other sequence diagrams, the destruction of temporary objects may not be fully represented due to PlantUML limitations.
+
+By implementing `SortCommand`, the system ensures an organized and structured way for users to manage their contacts efficiently.
+
+### Contact command
+
+The `contact` command follows the standard flow of other commands in the **Logic component**, ensuring seamless integration with the system. The `ContactCommand` class is responsible for marking a person as contacted based on the current time when the command is executed and updating their last contacted time in the system. This command interacts primarily with the `Model` component to retrieve and update the person’s record. The parsing logic is handled by `ContactCommandParser`.
+
+`Contact Command` operates by taking a zero-based `Index` as input and marking the corresponding person in the filtered person list as contacted. The updated person is then saved back into the `Model`.
+
+How the contact command works:
+1. The `execute(Model model)` method first retrieves the filtered list of persons.
+2. If the given index is invalid (out of bounds), an error is thrown.
+3. Otherwise, the corresponding `Person` object is retrieved and updated using the `markAsContacted()` method.
+4. The updated `Person` is set back in the model, and the list is refreshed.
+5. A success message is returned with the index of the marked person.
+
+A sequence diagram illustrating the execution flow of `ContactCommand` when a user enters `contact 2`:
+
+<puml src="diagrams/ContactCommand.puml" width="550" />
+
+**NOTE**: As with other sequence diagrams, the destruction of temporary objects may not be fully represented due to PlantUML limitations.
+
+### Export feature
+The export feature exports the entire address book into a csv or vcf file using the same command.
+
+This is facilitated by the jackson-dataformat-csv and ez-vcard library, jackson is already used for Storage. Classes for this feature follow the structure of existing
+Storage classes used for reading/writing to json storage with necessary modifications to facilitate CSV and VCF
+formatting.
+
+#### Added classes
+* `CsvAddressBookStorage` and `VcfAddressBookStorage` — Implementations of AddressBookStorage with methods tailored to the target filetypes
+* `CsvAdaptedPerson` and `VcfAdaptedPerson` — Adapted Person classes with datatypes suitable to be stored in the target filetype
+* `CsvSerializableAddressBook` and `VcfSerializableAddressBook` — Holds Adapted Persons for processing in implementations of AddressBookStorage
+* `VcfMapper` — Contains static methods to convert `VcfAdaptedPerson`s to Vcard objects
+
+#### Sequence diagram of Export to CSV feature
+<puml src="diagrams/ExportSequenceDiagram.puml" alt="ExportSequenceDiagram.puml" />
+
+The flow applies to vcf exports as well. However, the logic in the methods of the above classes are different as they
+utilise different libraries.
+
+### Import feature
+
+The `import` command allows users to import contact data from CSV and VCF files into the address book.
+
+#### Implementation
+
+The import feature is implemented through the `ImportCommand` class, which supports both CSV and VCF file formats. The command works by parsing the specified file and adding valid contacts to the address book, while handling duplicates and reporting errors.
+
+#### Class structure
+
+The import functionality is implemented through several classes:
+
+* `ImportCommandParser`: Parses user input and creates an ImportCommand object.
+* `ImportCommand`: Executes the import operation.
+* `CsvParser`: Handles parsing of CSV files.
+* `VcfParser`: Handles parsing of VCF files using the ez-vcard library.
+
+#### Sequence flow
+
+The sequence diagram below illustrates how the `import` command works:
+
+<puml src="diagrams/ImportSequenceDiagram.puml" />
+
+How the `import` command works:
+
+1. The user enters an import command (e.g., `import addressbook.csv`).
+2. `LogicManager` passes the command to `AddressBookParser`.
+3. `AddressBookParser` creates an `ImportCommandParser` to parse the arguments.
+4. `ImportCommandParser` validates the file path and creates an `ImportCommand`.
+5. `LogicManager` executes the `ImportCommand` with the current model.
+6. `ImportCommand` determines the file type and calls the appropriate parser:
+    - For CSV files: `CsvParser` reads and parses the CSV file, then `ImportCommand` processes the raw data and creates `Person` objects.
+    - For VCF files: `VcfParser` reads and parses the VCF file using the ez-vcard library and returns a list of `Person` objects.
+7. `ImportCommand` adds each valid person to the model.
+8. Duplicate entries are detected during the `addPerson` operation.
+9. A `CommandResult` is returned with a message indicating success or listing errors.
+
+#### Error handling
+
+The import command handles several types of errors:
+* File format errors (invalid headers, malformed data).
+* Validation errors (invalid phone numbers, emails, etc.).
+* Duplicate entries (contacts that already exist in the address book).
+* Duplicate entries within the imported file itself.
+
+Errors are collected and reported to the user in the command result, allowing partial imports to succeed while clearly indicating which entries failed and why.
+
+#### Design considerations:
+
+**Aspect: How to handle duplicate entries:**
+
+* **Alternative 1 (current choice):** Skip duplicates and report them to the user.
+    * Pros: Prevents accidental data duplication and provides clear feedback about which entries were skipped.
+    * Cons: Requires additional error handling and reporting logic.
+
+* **Alternative 2:** Allow duplicates to be added.
+    * Pros: Simpler implementation.
+    * Cons: Could lead to data integrity issues.
+
+**Aspect: File location:**
+
+* **Alternative 1 (current choice):** Use a fixed imports directory.
+    * Pros: Simplifies the command syntax and provides a standard location for import files.
+    * Con: Less flexible for users.
+
+* **Alternative 2:** Allow arbitrary file paths.
+    * Pros: More flexibility for users.
+    * Cons: More complex command syntax and security considerations
+
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -249,12 +382,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -288,20 +415,45 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | view all contacts            |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* * *`  | user                                       | find a person by number      | locate details of persons without having to go through the entire list |
-| `* *`    | user with many persons in the address book | sort contacts alphabetically | organise details of persons easily                                       |
-| `* *`    | user                                       | import contacts from a VCF   | load multiple entries of persons details quickly                         |
-| `*`      | user with wrong details of a person        | edit the persons information | modify a persons information                                             |
-| `*`      | user contacting the same person frequently | mark a person as favourite   | quickly access the persons information                                   |
+| Priority | As a/an …​                                    | I want to …​                                                                               | So that I can…​                                                        |
+|--------|--------------------------------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| `* * *` | new user                                   | see usage instructions                                                                     | refer to instructions when I forget how to use the App                 |
+| `* * *` | user                                       | add a new person                                                                           | so that I can save basic contact details                                                                       |
+| `* * *` | user                                       | view all contacts                                                                          | so that I can see all the contacts in my address book                                                                       |
+| `* * *` | user                                       | delete a person                                                                            | remove entries that I no longer need                                   |
+| `* * *` | user                                       | find a person by name                                                                      | locate details of persons without having to go through the entire list |
+| `* * *` | user                                       | find a person by number                                                                    | locate details of persons without having to go through the entire list |
+| `* * *` | user	                                    | export contacts to a vCard (vcf) or Csv file                                               | easily share or import them into other applications                    |
+| `* * *` | user                                       | identify duplicate contacts                                                                | maintain a clean address book                                          |
+| `* * *` | user                                       | delete multiple contacts at once through tags                                              | maintain a clean address book easier                   |
+| `* * *` | user                                       | add notes to certain contacts                                                              | get details of a contact                                               |
+| `* * *` | event organiser                            | import contacts from a CSV file and VCF file                                               | add multiple contacts quickly                                       |
+| `* *`  | event organiser                            | quickly type out contacts from handwritten contact details                                 | quickly add them to group chats          |
+| `* *`  | user with many persons in the address book | sort contacts alphabetically                                                               | organise details of persons easily                                     |
+| `* *`  | user                                       | restore accidentally deleted contacts                                                      | don't lose important information                              |
+| `* *`  | user                                       | have the option to add contacts step-by-step for each contact detail                       | don't need to use unfamiliar flags |
+| `*`    | user with wrong details of a person        | edit the persons information                                                               | modify a persons information                                           |
+| `*`    | user contacting the same person frequently | mark a person as favourite                                                                 | quickly access the persons information                                 |
+| `*`    | user                                       | set certain contacts as VIPs                                                               | find important contacts faster                                         |
+| `*`    | user                                       | be warned before deleting a contact                                                        | don't accidentally remove important information                 |
+| `*`    | user                                       | add multiple phone numbers or emails for a contact                                         | have alternate ways to contact that person        |
+| `*`    | event organiser                            | tag contacts into groups                                                                   | categorize them                                                        |
+| `*`    | event organiser                            | add multiple contacts in one command                                                       | save time when entering bulk data                              |
+| `*`    | event organiser                            | bulk edit multiple contacts                                                                | update common details efficiently                                      |
+| `*`    | user                                       | share selected contacts via email                                                          | send them to my colleagues                                        |
+| `*`    | user                                       | enable dark mode                                                                           | use the application comfortably in low-light environments              |
+| `*`    | event organiser                            | set reminders for follow-ups                                                               | stay on top of communication tasks                                     |
+| `*`    | user                                       | search for a contact using partial matches                                                 | find people even if I don't remember their full details   |
+| `*`    | user                                       | interact with the application fully through keyboard                                       | do tasks quickly                               |
+| `*`    | user                                       | undo my last action                                                                        | recover from mistakes/typos                                            |
+| `*`    | user                                       | view recently added contacts                                                               | verify my latest entries                                               |
+| `*`    | event organiser                            | see autocomplete suggestions and use them                                                  | do tasks quicker                                          |
+| `*`    | user                                       | view contact history (last modified, date added etc)                                       | track updates                                 |
+| `*`    | user                                       | use natural language commands                                                              | don't have to memorize syntax                                        |
+| `*`    | event organiser                            | email a group of contacts directly from the app                                            | send bulk communications                           |
+| `*`    | event organiser                            | filter contacts by details quickly and get an updated list of matching contacts on the fly | find contacts easier |
+| `*`    | event organiser                            | edit a contact's details                                                                   | update outdated information                                            |
 
-*{More to be added}*
 
 ### Use cases
 
@@ -311,10 +463,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  AddressBook deletes the person.
 
     Use case ends.
 
@@ -330,12 +482,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+---
+
 **Use case: View all contacts**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
 
     Use case ends.
 
@@ -344,50 +498,52 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The list is empty.
 
   Use case ends.
+---
 
 **Use case: Find a person by name**
 
 **MSS**
 
-1.  User requests to find a person by name
-2.  AddressBook shows the specific person user requested
+1.  User requests to find a person by name.
+2.  AddressBook shows the specific person user requested.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The persons name is not added to AddressBook
+* 2a. The persons name is not added to AddressBook.
 
     * 2a1. AddressBook shows an error message.
 
+      Use case ends.
 
-Use case ends.
-
+---
 **Use case: Find a person by number**
 
 **MSS**
 
-1.  User requests to find a person by number
-2.  AddressBook shows the specific person user requested
+1.  User requests to find a person by number.
+2.  AddressBook shows the specific person user requested.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The persons number is not added to AddressBook
+* 2a. The persons number is not added to AddressBook.
 
     * 2a1. AddressBook shows an error message.
 
-  Use case ends.
+      Use case ends.
 
+---
 **Use case: Sort contacts alphabetically**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to sort contacts based on persons name
-4.  AddressBook shows sorted list of persons
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
+3.  User requests to sort contacts based on persons name.
+4.  AddressBook shows sorted list of persons.
 
     Use case ends.
 
@@ -397,35 +553,112 @@ Use case ends.
 
   Use case ends.
 
-**Use case: Import contacts from VCF**
+---
+**Use case: Import contacts from CSV**
 
 **MSS**
 
-1.  User requests to import contacts from a VCF file
-2.  AddressBook takes in a VCF file
-3.  AddressBook adds contacts from VCF file to current contact list
-4.  AddressBook shows list of persons with added contacts from VCF file
+1.  User requests to import contacts from a CSV file.
+2.  System validates the file path and format.
+3.  System reads the CSV file and parses the contact data.
+4.  System adds valid contacts to the address book.
+5.  System displays a success message with the number of contacts imported.
 
     Use case ends.
 
 **Extensions**
 
-* 3a. The VCF file is empty.
+* 2a. File path is invalid or file does not exist.
 
-  Use case ends.
+    * 2a1. System displays an error message.
 
-* 3a. The list is empty.
+      Use case ends.
 
-  Use case ends.
+* 2b. File format is not CSV.
 
+    * 2b1. System displays an error message.
+
+      Use case ends.
+
+* 3a. CSV file has an invalid header.
+
+    * 3a1. System displays an error message.
+
+      Use case ends.
+
+* 3b. CSV file is empty.
+
+    * 3b1. System displays a message indicating no contacts were imported.
+
+      Use case ends.
+
+* 4a. Some contacts have invalid data.
+
+    * 4a1. System skips invalid contacts.
+    * 4a2. System continues importing valid contacts.
+    * 4a3. System reports the rows with errors in the result message.
+
+      Use case resumes from step 5.
+
+* 4b. Some contacts are duplicates of existing contacts.
+
+    * 4b1. System skips duplicate contacts.
+    * 4b2. System continues importing non-duplicate contacts.
+    * 4b3. System reports the duplicate entries in the result message.
+
+      Use case resumes from step 5.
+---
+**Use case: Import contacts from VCF**
+
+**MSS**
+
+1.  User requests to import contacts from a VCF file.
+2.  System validates the file path and format.
+3.  System reads the VCF file and parses the contact data.
+4.  System adds valid contacts to the address book.
+5.  System displays a success message with the number of contacts imported.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. File path is invalid or file does not exist.
+
+    * 2a1. System displays an error message.
+
+      Use case ends.
+
+* 2b. File format is not VCF.
+
+    * 2b1. System displays an error message.
+
+      Use case ends.
+
+* 4a. Some contacts have invalid data.
+
+    * 4a1. System skips invalid contacts.
+    * 4a2. System continues importing valid contacts.
+    * 4a3. System reports the contacts with errors in the result message.
+
+      Use case resumes from step 5.
+
+* 4b. Some contacts are duplicates of existing contacts.
+
+    * 4b1. System skips duplicate contacts.
+    * 4b2. System continues importing non-duplicate contacts.
+    * 4b3. System reports the duplicate entries in the result message.
+
+      Use case resumes from step 5.
+
+---
 **Use case: Edit persons information**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to edit a specific person in the list
-4.  AddressBook updates the person information
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
+3.  User requests to edit a specific person in the list.
+4.  AddressBook updates the person information.
 
     Use case ends.
 
@@ -442,14 +675,15 @@ Use case ends.
       Use case resumes at step 2.
       *{More to be added}*
 
-**Use case: Mark person as favourite**
+
+**Use case: Mark a contact as contacted**
 
 **MSS**
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
-3.  User requests to favourite a specific person in the list
-4.  AddressBook favourites the person
+3.  User requests to mark a specific person in the list as contacted
+4.  AddressBook updates the person's last contacted time
 
     Use case ends.
 
@@ -465,6 +699,9 @@ Use case ends.
 
       Use case resumes at step 2.
 
+
+---
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -475,16 +712,14 @@ Use case ends.
 6.  The programme should not use more than 1GB of memory with no contacts added.
 7.  The programme should be persistent.
 
-*{More to be added}*
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Admin Staff** - An individual performing secretarial and administrative duties such as managing, liaising, and scheduling contacts
 * **Contact** - An individual an organisation/party has interest in communicating with.
 * **Contact Details** - Adjectives that can describe a contact including but not limited to Contact Name, Phone Number, and Email
 * **CSV File** - a simple text file that stores data in a tabular format, where each line represents a row and values within a row are separated by commas
+* **Event Organisers** – Tech-savvy event organisers who are fast typists and deal with large amounts of contacts.
 * **Tag** - To associate a Contact with a particular group
 
 --------------------------------------------------------------------------------------------------------------------
@@ -515,7 +750,6 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
 
 ### Deleting a person
 
@@ -532,12 +766,111 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Export/Import Data
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Test case: Export data to a different format (CSV/VCF), delete all contacts, then import.
 
-1. _{ more test cases …​ }_
+      Expected: All contacts should be restored after import.
+
+2. Auto save on exit
+
+    1. Test case: Modify data, then exit application.
+
+       Expected: Changes are automatically saved without explicit save command.
+
+### Importing data
+**Prerequisites**
+* Ensure the application is running and the imports directory is accessible.
+* Prepare test CSV and VCF files with various scenarios (valid entries, invalid entries, duplicates).
+
+**Test Cases**
+1. Basic Import Functionality
+
+    1. Execute: `import validfile.csv`
+
+        Expected: Success message with the number of contacts imported.
+
+2. File Format Handling
+
+    1. Execute: `import validfile.vcf`
+
+       Expected: Success message with the number of contacts imported.
+
+    1. Execute: import `invalidfile.txt`
+
+       Expected: Error message about unsupported file type.
+
+3. Empty File Handling
+
+    1. Import an empty CSV/VCF file.
+
+       Expected: Error message stating no contacts in file.
+
+4. Duplicate Handling
+
+    1. Import a file with duplicate entries only.
+
+       Expected: Error message with duplicates reported.
+
+5. Invalid Data Handling
+
+    1. Import a CSV/VCF file with invalid data (e.g., malformed email, invalid phone number).
+
+       Expected: Error message listing invalid entries, valid entries still imported.
+
+6. Large File Handling
+
+    1. Import a CSV/VCF file with a large number of valid entries (e.g., 1000+).
+
+       Expected: Success message, all valid entries imported.
+
+7. Partial Import
+
+    1. Import a file with some valid and some invalid entries.
+
+       Expected: Success message for valid entries, error messages for invalid ones.
+
+
+
+### Exporting contacts
+1. Exporting contacts with valid filename and contacts added
+
+   1. Prerequisites: Have contacts added in the app.
+
+   1. Test case: export to valid csv filename `export a.csv`.<br>
+   Expected: File exports successfully.
+
+   1. Test case: export to valid vcf filename `export b.vcf`.<br>
+   Expected: File exports successfully.
+
+1. Exporting contacts with invalid filename and contacts added.
+
+   1. Prerequisites: Have contacts added in the app.
+
+   1. Test case: export to invalid csv filename `export .csv`.<br>
+   Expected: Error message about invalid filename.
+
+   1. Test case: export to invalid vcf filename `export !@#$%^'::'.vcf`.<br>
+   Expected: Error message about invalid filename.
+
+   1. Test case: export to invalid filename `export aaa`.<br>
+   Expected: Error message about invalid filename.
+
+1. Exporting contacts with no contacts added
+
+   1. Prerequisites: run the `clear` command to remove all contacts.<br> 
+   Expected: All contacts removed from app.
+
+   1. Test case: export to valid csv filename `export a.csv`.<br>
+   Expected: Error message about no contacts.
+
+   1. Test case: export to valid vcf filename `export b.vcf`.<br>
+   Expected: Error message about no contacts.
+
+## **Appendix: Planned Enhancements**
+
+* (This section will be done after PE-D bug reports have been received).
