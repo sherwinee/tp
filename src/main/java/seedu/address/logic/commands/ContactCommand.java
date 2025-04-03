@@ -23,6 +23,7 @@ public class ContactCommand extends Command {
             + "Example: " + COMMAND_WORD + " 2";
 
     public static final String MESSAGE_SUCCESS = "Contact %d marked as contacted.";
+
     public static final String MESSAGE_INVALID_INDEX = "Invalid index number.";
 
     private final Index targetIndex;

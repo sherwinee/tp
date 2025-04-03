@@ -4,9 +4,9 @@
   pageNav: 3
 ---
 
-# AB-3 User Guide
+# Listify User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+Listify is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Listify can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -18,11 +18,11 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+1. Download the latest `.jar` file from [here](https://github.com/AY2425S2-CS2103-F09-3/tp/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+1. Copy the file to the folder you want to use as the _home folder_ for your Listify App.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar listify.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -73,7 +73,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 ### Viewing help : `help`
 
-Shows a message explaning how to access the help page.
+Shows a message explaining how to access the help page.
 
 ![help message](images/helpMessage.png)
 
@@ -150,6 +150,49 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Importing contacts : `import`
+
+Import contacts from CSV or VCF files into the address book.
+
+Format: `import FILENAME`
+
+* `FILENAME` : The name of the file to import (must end with .csv or .vcf).
+* The file must be located in the `imports/` directory of the application.
+
+Examples:
+* `import addressbook.csv`: Imports contacts from a CSV named `addressbook.csv`.
+* `import contacts.vcf`: Imports contacts from a VCF named `contacts.vcf`.
+
+#### CSV Format
+* The first row must be the header: `Name,Phone,Email,Address,Role,Tags`.
+* Each subsequent row represents one contact.
+* Tags are optional and can be separated by commas or semicolons.
+
+Example:<br>
+```
+Name,Phone,Email,Address,Role,Tags
+Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6 #08-111,Organizer,friends;colleagues
+```
+
+#### VCF Format
+* Must follow standard vCard file format.
+* Name must be present in a single `FN` field.
+* There must be one and only one `TEL`, `EMAIL` and `ADDRESS` field.
+* Role is parsed from the `TITLE` field (defaults to "Unassigned" if missing).
+* All other fields are ignored.
+
+Example:
+```
+BEGIN:VCARD
+VERSION:4.0
+FN:Alice Pauline
+TEL:98761234
+EMAIL:alice@example.com
+ADR:PO Box 123;Suite 456;123 Jurong West Ave 6 #08-111;Singapore;Central;600123;Singapore
+TITLE:Organizer
+END:VCARD
+```
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -164,29 +207,26 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+Listify data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Listify data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
 
 **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, Listify will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause Listify to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Listify home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -208,3 +248,4 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
 **Help**   | `help`
+**Import**   | `import FILENAME` <br> e.g., `import contacts.vcf`
