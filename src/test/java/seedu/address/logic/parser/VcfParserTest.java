@@ -267,5 +267,3 @@ public class VcfParserTest {
         assertTrue(errors.stream().anyMatch(e -> e.contains("Phone numbers should only contain numbers")));
     }
 }
-
-

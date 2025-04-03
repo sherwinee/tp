@@ -126,7 +126,7 @@ public class AddressBookParserTest {
     public void parseCommand_deleteAll() throws Exception {
         List<String> keywords = Arrays.asList("foo");
         DeleteAllWithTagCommand command = (DeleteAllWithTagCommand) parser.parseCommand(
-              DeleteAllWithTagCommand.COMMAND_WORD + " foo");
+                DeleteAllWithTagCommand.COMMAND_WORD + " foo");
         assertEquals(new DeleteAllWithTagCommand(new TagMatchesKeywordPredicate(keywords)), command);
     }
 
@@ -147,4 +147,3 @@ public class AddressBookParserTest {
     }
 
 }
-
