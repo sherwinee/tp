@@ -146,6 +146,19 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Deleting multiple people : `deletewithtag`
+
+Deletes the all people with a matching tag from the address book.
+
+Format: `delete TAGNAME`
+
+* Deletes all people with the specified `TAGNAME`.
+* The tagname refers to a tag a person is associated with, shown in the displayed person list.
+* The tagname **must be an exact match (case-insensitive) to the tag name of the desired persons(s) to delete**.
+
+Examples:
+* `list` followed by `delete colleagues` deletes everyone with the tag `colleagues` in listify.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
