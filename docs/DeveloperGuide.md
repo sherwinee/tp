@@ -360,20 +360,45 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | view all contacts            |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* * *`  | user                                       | find a person by number      | locate details of persons without having to go through the entire list |
-| `* *`    | user with many persons in the address book | sort contacts alphabetically | organise details of persons easily                                       |
-| `* *`    | user                                       | import contacts from a VCF   | load multiple entries of persons details quickly                         |
-| `*`      | user with wrong details of a person        | edit the persons information | modify a persons information                                             |
-| `*`      | user contacting the same person frequently | mark a person as favourite   | quickly access the persons information                                   |
+| Priority | As a …​                                    | I want to …​                                                                               | So that I can…​                                                        |
+|--------|--------------------------------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| `* * *` | new user                                   | see usage instructions                                                                     | refer to instructions when I forget how to use the App                 |
+| `* * *` | user                                       | add a new person                                                                           | so that I can save basic contact details                                                                       |
+| `* * *` | user                                       | view all contacts                                                                          | so that I can see all the contacts in my address book                                                                       |
+| `* * *` | user                                       | delete a person                                                                            | remove entries that I no longer need                                   |
+| `* * *` | user                                       | find a person by name                                                                      | locate details of persons without having to go through the entire list |
+| `* * *` | user                                       | find a person by number                                                                    | locate details of persons without having to go through the entire list |
+| `* * *` | user	                                    | export contacts to a vCard (vcf) or Csv file                                               | easily share or import them into other applications                    |
+| `* * *` | user                                       | identify duplicate contacts                                                                | maintain a clean address book                                          |
+| `* * *` | user                                       | delete multiple contacts at once through tags                                              | maintain a clean address book easier                   |
+| `* * *` | user                                       | add notes to certain contacts                                                              | get details of a contact                                               |
+| `* * *` | event organiser                            | import contacts from a CSV file and VCF file                                               | add multiple contacts quickly                                       |
+| `* *`  | event organiser                            | quickly type out contacts from handwritten contact details                                 | quickly add them to group chats          |
+| `* *`  | user with many persons in the address book | sort contacts alphabetically                                                               | organise details of persons easily                                     |
+| `* *`  | user                                       | restore accidentally deleted contacts                                                      | don't lose important information                              |
+| `* *`  | user                                       | have the option to add contacts step-by-step for each contact detail                       | don't need to use unfamiliar flags |
+| `*`    | user with wrong details of a person        | edit the persons information                                                               | modify a persons information                                           |
+| `*`    | user contacting the same person frequently | mark a person as favourite                                                                 | quickly access the persons information                                 |
+| `*`    | user                                       | set certain contacts as VIPs                                                               | find important contacts faster                                         |
+| `*`    | user                                       | be warned before deleting a contact                                                        | don't accidentally remove important information                 |
+| `*`    | user                                       | add multiple phone numbers or emails for a contact                                         | have alternate ways to contact that person        |
+| `*`    | event organiser                            | tag contacts into groups                                                                   | categorize them                                                        |
+| `*`    | event organiser                            | add multiple contacts in one command                                                       | save time when entering bulk data                              |
+| `*`    | event organiser                            | bulk edit multiple contacts                                                                | update common details efficiently                                      |
+| `*`    | user                                       | share selected contacts via email                                                          | send them to my colleagues                                        |
+| `*`    | user                                       | enable dark mode                                                                           | use the application comfortably in low-light environments              |
+| `*`    | event organiser                            | set reminders for follow-ups                                                               | stay on top of communication tasks                                     |
+| `*`    | user                                       | search for a contact using partial matches                                                 | find people even if I don't remember their full details   |
+| `*`    | user                                       | interact with the application fully through keyboard                                       | do tasks quickly                               |
+| `*`    | user                                       | undo my last action                                                                        | recover from mistakes/typos                                            |
+| `*`    | user                                       | view recently added contacts                                                               | verify my latest entries                                               |
+| `*`    | event organiser                            | see autocomplete suggestions and use them                                                  | do tasks quicker                                          |
+| `*`    | user                                       | view contact history (last modified, date added etc)                                       | track updates                                 |
+| `*`    | user                                       | use natural language commands                                                              | don't have to memorize syntax                                        |
+| `*`    | event organiser                            | email a group of contacts directly from the app                                            | send bulk communications                           |
+| `*`    | event organiser                            | filter contacts by details quickly and get an updated list of matching contacts on the fly | find contacts easier |
+| `*`    | event organiser                            | edit a contact's details                                                                   | update outdated information                                            |
 
-*{More to be added}*
 
 ### Use cases
 
@@ -688,46 +713,46 @@ testers are expected to do more *exploratory* testing.
 
     i. Execute: `import validfile.vcf`
 
-    Expected: Success message with the number of contacts imported
+    Expected: Success message with the number of contacts imported.
 
     ii. Execute: import `invalidfile.txt`
 
-    Expected: Error message about unsupported file type
+    Expected: Error message about unsupported file type.
 
 3. Empty File Handling
 
-    i. Import an empty CSV/VCF file
+    i. Import an empty CSV/VCF file.
 
-    Expected: Appropriate error message
+    Expected: Error message stating no contacts in file.
 
 4. Duplicate Handling
 
-    i. Import a file with duplicate entries only
+    i. Import a file with duplicate entries only.
 
-    Expected: Error message with duplicates reported
+    Expected: Error message with duplicates reported.
 
 5. Invalid Data Handling
 
-    i. Import a CSV/VCF file with invalid data (e.g., malformed email, invalid phone number)
+    i. Import a CSV/VCF file with invalid data (e.g., malformed email, invalid phone number).
 
-    Expected: Error message listing invalid entries, valid entries still imported
+    Expected: Error message listing invalid entries, valid entries still imported.
 
 6. Large File Handling
 
-    i. Import a CSV/VCF file with a large number of entries (e.g., 1000+)
+    i. Import a CSV/VCF file with a large number of valid entries (e.g., 1000+).
 
-    Expected: Success message, all valid entries imported
+    Expected: Success message, all valid entries imported.
 
 7. Partial Import
 
-    i. Import a file with some valid and some invalid entries
+    i. Import a file with some valid and some invalid entries.
 
-    Expected: Success message for valid entries, error messages for invalid ones
+    Expected: Success message for valid entries, error messages for invalid ones.
 
 8. Error Reporting
 
-    For each error case, verify that error messages are clear and informative
+    For each error case, verify that error messages are clear and informative.
 
 9. Post-Import Verification
 
-    After successful imports, use other commands (e.g., list, find) to verify imported data 
+    After successful imports, use other commands (e.g., list, find) to verify imported data.
