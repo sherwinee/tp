@@ -6,16 +6,12 @@ import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_COLLEAGUE;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_COLLEAGUE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -28,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.PhoneNumberContainsKeywordsPredicate;
-import seedu.address.model.person.RoleContainsKeywordsPredicate;
 import seedu.address.model.person.TagsContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
