@@ -146,6 +146,45 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Importing contacts : `import`
+
+Import contacts from CSV or VCF files into the address book.
+
+Format: `import FILENAME`
+
+* `FILENAME` : The name of the file to import (must end with .csv or .vcf).
+* The file must be located in the `imports/` directory of the application.
+
+Examples:
+* `import addressbook.csv`: Imports contacts from a CSV named `addressbook.csv`.
+* `import contacts.vcf`: Imports contacts from a VCF named `contacts.vcf`.
+
+File Formats:
+CSV Format
+* The first row must be the header: `Name,Phone,Email,Address,Role,Tags`.
+* Each subsequent row represents one contact
+* Tags are optional and can be separated by commas or semicolons
+
+Example:
+* Name,Phone,Email,Address,Role,Tags
+  Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6 #08-111,Organizer,friends;colleagues
+
+VCF Format
+* Standard vCard format
+* Must include name, phone, email, and address fields
+* Role is taken from the TITLE field (defaults to "Unassigned" if missing)
+
+Example:
+* BEGIN:VCARD
+  VERSION:4.0
+  FN:Alice Pauline
+  TEL:94351253
+  EMAIL:alice@example.com
+  ADR:;;123 Jurong West Ave 6 #08-111;Singapore;;600123;
+  TITLE:Organizer
+  END:VCARD
+
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
