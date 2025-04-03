@@ -44,28 +44,28 @@ public class VcfParser {
             VCard vcard = vcards.get(i);
             int rowNumber = i + 1;
             String fullName = "";
+            List<String> contactErrors = new ArrayList<>();
 
             try {
-                fullName = parseName(vcard, rowNumber, errors);
-                String phone = parsePhone(vcard, fullName, errors);
-                String email = parseEmail(vcard, fullName, errors);
-                String address = parseAddress(vcard, fullName, errors);
-                String role = parseRole(vcard, fullName, errors);
+                fullName = parseName(vcard, rowNumber, contactErrors);
+            } catch (Exception e) {
+                contactErrors.add("Error parsing name - " + e.getMessage());
+            }
 
-                if (!errors.isEmpty()) {
-                    continue;
+            Result result = getResult(fullName, rowNumber, vcard, contactErrors);
+
+            if (contactErrors.isEmpty()) {
+                try {
+                    persons.add(new Person(new Name(fullName), new Phone(result.phoneText()),
+                            new Email(result.emailText()), new Address(result.addressText()),
+                            new Role(result.roleText()), new HashSet<>(), Optional.empty()));
+                } catch (Exception e) {
+                    contactErrors.add("Error creating person - " + e.getMessage());
                 }
+            }
 
-                persons.add(new Person(new Name(fullName), new Phone(phone), new Email(email), new Address(address),
-                        new Role(role), new HashSet<>(), Optional.empty()
-                ));
-
-            } catch (IllegalArgumentException e) {
-                errors.add((fullName.isEmpty() ? "Contact " + rowNumber : fullName) + ": Invalid field - "
-                        + e.getMessage());
-            } catch (NullPointerException e) {
-                errors.add((fullName.isEmpty() ? "Contact " + rowNumber : fullName) + ": Missing required field - "
-                        + e.getMessage());
+            for (String error : contactErrors) {
+                errors.add(result.contactIdentifier() + ": " + error);
             }
         }
 
@@ -74,6 +74,89 @@ public class VcfParser {
         }
 
         return persons;
+    }
+
+    private static Result getResult(String fullName, int rowNumber, VCard vcard, List<String> contactErrors) {
+        ParseFields fields = getParseFields(fullName, rowNumber, vcard, contactErrors);
+
+        // Validate all fields explicitly
+        validateField(fullName, Name.class, contactErrors);
+        validateField(fields.phoneText(), Phone.class, contactErrors);
+        validateField(fields.emailText(), Email.class, contactErrors);
+        validateField(fields.addressText(), Address.class, contactErrors);
+        validateField(fields.roleText(), Role.class, contactErrors);
+
+        Result result = new Result(fields.contactIdentifier(), fields.phoneText(), fields.emailText(),
+                fields.addressText(), fields.roleText());
+        return result;
+    }
+
+    private static void validateField(String value, Class<?> fieldClass, List<String> contactErrors) {
+        if (value.isEmpty()) {
+            return;
+        }
+
+        try {
+            if (fieldClass == Name.class) {
+                new Name(value);
+            } else if (fieldClass == Phone.class) {
+                new Phone(value);
+            } else if (fieldClass == Email.class) {
+                new Email(value);
+            } else if (fieldClass == Address.class) {
+                new Address(value);
+            } else if (fieldClass == Role.class) {
+                new Role(value);
+            }
+        } catch (IllegalArgumentException e) {
+            contactErrors.add("Invalid field - " + e.getMessage());
+        }
+    }
+
+    private static ParseFields getParseFields(String fullName, int rowNumber, VCard vcard, List<String> contactErrors) {
+        String contactIdentifier = createContactIdentifier(fullName, rowNumber);
+
+        String phoneText = extractField(vcard, contactIdentifier, contactErrors, (
+                v, id, errors) -> parsePhone(v, id, errors), "phone");
+
+        String emailText = extractField(vcard, contactIdentifier, contactErrors, (
+                v, id, errors) -> parseEmail(v, id, errors), "email");
+
+        String addressText = extractField(vcard, contactIdentifier, contactErrors, (
+                v, id, errors) -> parseAddress(v, id, errors), "address");
+
+        String roleText = extractField(vcard, contactIdentifier, contactErrors, (
+                v, id, errors) -> parseRole(v, id, errors), "role");
+
+        return new ParseFields(contactIdentifier, phoneText, emailText, addressText, roleText);
+    }
+
+    private static String createContactIdentifier(String fullName, int rowNumber) {
+        return fullName.isEmpty() ? "Contact " + rowNumber : "Contact Number " + rowNumber + " " + fullName;
+    }
+
+    private static String extractField(VCard vcard, String contactIdentifier, List<String> contactErrors,
+                                       FieldExtractor extractor, String fieldName) {
+        try {
+            return extractor.extract(vcard, contactIdentifier, contactErrors);
+        } catch (Exception e) {
+            contactErrors.add("Error parsing " + fieldName + " - " + e.getMessage());
+            return "";
+        }
+    }
+
+    @FunctionalInterface
+    private interface FieldExtractor {
+        String extract(VCard vcard, String contactIdentifier, List<String> errors);
+    }
+
+
+    private record ParseFields(String contactIdentifier, String phoneText, String emailText, String addressText,
+                               String roleText) {
+    }
+
+    private record Result(String contactIdentifier, String phoneText, String emailText, String addressText,
+                          String roleText) {
     }
 
 
