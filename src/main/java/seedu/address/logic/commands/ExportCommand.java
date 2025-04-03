@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.storage.CsvAddressBookStorage;
 import seedu.address.storage.VcfAddressBookStorage;
@@ -24,6 +25,7 @@ public class ExportCommand extends Command {
     public static final String MESSAGE_EXPORT_SUCCESS_VCF = MESSAGE_EXPORT_SUCCESS_CSV
             + "\nNote: Tags are NOT exported in the vcf file format.";
     public static final String MESSAGE_EXPORT_FAILURE = "Failed to export contacts to %1$s due to:\n%2$s";
+    public static final String MESSAGE_NO_CONTACTS = "There are no contacts to export.";
     public static final String MESSAGE_INVALID_FILENAME =
             "Filename must be 1–255 characters long, not start with a dot, not be empty, \n"
             + "contain only letters, numbers, dots, hyphens, underscores, or spaces, \n"
@@ -58,6 +60,10 @@ public class ExportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        if (model.getAddressBook().equals(new AddressBook())) {
+            throw new CommandException(String.format(MESSAGE_EXPORT_FAILURE,
+                    filename, MESSAGE_NO_CONTACTS));
+        }
         if (!validateFilename(filename)) {
             throw new CommandException(String.format(MESSAGE_EXPORT_FAILURE,
                     filename, MESSAGE_INVALID_FILENAME));
