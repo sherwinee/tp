@@ -22,6 +22,8 @@ import seedu.address.model.person.Role;
  */
 public class VcfParser {
 
+    private static List<String> lastParseErrors = new ArrayList<>();
+
     /**
      * Parses the given .vcf file into a list of Person objects.
      *
@@ -33,6 +35,7 @@ public class VcfParser {
         List<Person> persons = new ArrayList<>();
         List<String> errors = new ArrayList<>();
         List<VCard> vcards;
+        assert filePath != null : "File path should not be null";
 
         try {
             vcards = Ezvcard.parse(new File(filePath)).all();
@@ -79,9 +82,6 @@ public class VcfParser {
 
         return persons;
     }
-
-    // Static field to store errors that can be retrieved by ImportCommand
-    private static List<String> lastParseErrors = new ArrayList<>();
 
     /**
      * Stores the errors from the last parse operation.
