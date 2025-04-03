@@ -67,6 +67,10 @@ Listify is a **desktop app for managing contacts, optimized for use via a  Line 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
+**General Programme Limitations:**<br>
+
+* The maximum number of contacts that Listify supports is limited to the _Java Integer Max Value_ supported by the system running Listify.<br>
+
 ### Viewing help : `help`
 
 Shows a message explaining how to access the help page.
