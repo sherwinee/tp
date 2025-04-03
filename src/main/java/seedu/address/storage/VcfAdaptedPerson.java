@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import static java.util.Objects.requireNonNull;
+
 import seedu.address.model.person.Person;
 
 /**
@@ -13,6 +15,7 @@ public class VcfAdaptedPerson {
     private final String title;
 
     VcfAdaptedPerson(Person p) {
+        requireNonNull(p);
         this.fn = p.getName().fullName;
         this.tel = p.getPhone().value;
         this.email = p.getEmail().value;

@@ -13,8 +13,14 @@ import seedu.address.model.person.Person;
 public class SortCommand extends Command {
 
     public static final String COMMAND_WORD = "sort";
-    public static final String MESSAGE_SUCCESS = "Contacts sorted in %s order.";
-    public static final String MESSAGE_INVALID_ORDER = "Invalid sort order. Use 'asc' or 'desc'.";
+
+    public static final String MESSAGE_SUCCESS = "Contacts sorted by name in %s order.";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Sort contacts by name in ascending or descending order.\n"
+            + "Parameters: asc or desc\n"
+            + "Example: " + COMMAND_WORD + " asc";
+
     public static final String MESSAGE_NO_CONTACTS = "No contacts to sort.";
 
     private final boolean isAscending;
@@ -40,5 +46,16 @@ public class SortCommand extends Command {
 
         model.sortFilteredPersonList(comparator);
         return new CommandResult(String.format(MESSAGE_SUCCESS, isAscending ? "ascending" : "descending"));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof SortCommand otherCommand)) {
+            return false;
+        }
+        return this.isAscending == otherCommand.isAscending;
     }
 }
