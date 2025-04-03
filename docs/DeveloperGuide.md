@@ -158,6 +158,48 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Sort command
+
+The `sort` command follows the standard flow of other commands in the **Logic component**, ensuring seamless integration with the system. The `SortCommand` class is responsible for sorting the list of contacts based on ascending or descending order. The parsing logic is handled by `SortCommandParser`.
+
+Sorting is performed using Java’s `Comparator` interface. When executed, `SortCommand` updates the displayed list by applying the selected sorting criteria on name or phone (if duplicate name). The sorting options include:
+- **Name** (alphabetical order)
+- **Phone** (numerical order)
+
+How the sorting command works:
+1. The user inputs a valid sort command (e.g., `sort asc`).
+2. `SortCommandParser` parses the input and extracts the sorting criterion.
+3. `SortCommand` is created with the appropriate comparator.
+4. The `Model`'s filtered contact list is updated with the sorted order.
+5. The updated list is displayed in the UI.
+
+A sequence diagram illustrating the parsing of the command `sort asc` is provided below:
+
+<puml src="diagrams/SortCommandParser.puml" width="550" />
+
+**NOTE**: As with other sequence diagrams, the destruction of temporary objects may not be fully represented due to PlantUML limitations.
+
+By implementing `SortCommand`, the system ensures an organized and structured way for users to manage their contacts efficiently.
+
+### Contact command
+
+The `contact` command follows the standard flow of other commands in the **Logic component**, ensuring seamless integration with the system. The `ContactCommand` class is responsible for marking a person as contacted based on the current time when the command is executed and updating their last contacted time in the system. This command interacts primarily with the `Model` component to retrieve and update the person’s record. The parsing logic is handled by `ContactCommandParser`.
+
+`Contact Command` operates by taking a zero-based `Index` as input and marking the corresponding person in the filtered person list as contacted. The updated person is then saved back into the `Model`.
+
+How the contact command works:
+1. The `execute(Model model)` method first retrieves the filtered list of persons.
+2. If the given index is invalid (out of bounds), an error is thrown.
+3. Otherwise, the corresponding `Person` object is retrieved and updated using the `markAsContacted()` method.
+4. The updated `Person` is set back in the model, and the list is refreshed.
+5. A success message is returned with the index of the marked person.
+
+A sequence diagram illustrating the execution flow of `ContactCommand` when a user enters `contact 2`:
+
+<puml src="diagrams/ContactCommand.puml" width="550" />
+
+**NOTE**: As with other sequence diagrams, the destruction of temporary objects may not be fully represented due to PlantUML limitations.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -450,6 +492,29 @@ Use case ends.
 2.  AddressBook shows a list of persons
 3.  User requests to favourite a specific person in the list
 4.  AddressBook favourites the person
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. AddressBook shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case: Delete a person**
+
+**MSS**
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+3.  User requests to mark a specific person in the list as contacted
+4.  AddressBook updates the person's last contacted time
 
     Use case ends.
 
