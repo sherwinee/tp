@@ -151,7 +151,6 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-<<<<<<< HEAD
 ### Deleting multiple people : `deletewithtag`
 
 Deletes the all people with a matching tag from the address book.
@@ -164,7 +163,7 @@ Format: `delete TAGNAME`
 
 Examples:
 * `list` followed by `delete colleagues` deletes everyone with the tag `colleagues` in listify.
-=======
+
 ### Sorting contacts : `sort`
 
 Sort the address book in ascending or descending order by name or by phone if there are duplicate names.
@@ -175,7 +174,6 @@ Format: `sort ORDER`
 
 Examples:
 * `list` followed by `sort asc` sorts the list of contacts by name or by phone if there are duplicate names in ascending order.
->>>>>>> upstream/master
 
 ### Mark person as contacted : `contact`
 
@@ -193,12 +191,8 @@ Examples:
 
 ### Exporting all contacts : `export`
 
-<<<<<<< HEAD
-Exports contacts to a csv or vcf file.
-=======
 Exports all contacts in the app (viewable with the `list` command) into a `vcf` (Vcard) or a proprietary
 `csv` (Comma Separated Vector) file. `vcf` files can be imported into common contact applications.
->>>>>>> upstream/master
 
 Format: `export FILENAME`
 
@@ -315,7 +309,3 @@ Action     | Format, Examples
 **Export** | `export FILENAME`<br> e.g., `export contacts.csv` 
 **List**   | `list`
 **Help**   | `help`
-<<<<<<< HEAD
-**Delete With Tag**   | `deletewithtag TAGNAME` <br> e.g., `deletewithtag colleague`
-=======
->>>>>>> upstream/master
