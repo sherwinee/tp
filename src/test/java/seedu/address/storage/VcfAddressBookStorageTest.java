@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.ExportCommand.EXPORT_DIR_PREFIX;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
@@ -16,11 +17,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.logic.commands.ExportCommand;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 
 public class VcfAddressBookStorageTest {
-    private static final String RELATIVE_FILE_NAME = "TempAddressBook.vcf";
+    private static final String RELATIVE_FILE_NAME = EXPORT_DIR_PREFIX + "TempAddressBook.vcf";
 
     @TempDir
     public Path tempFolder;
@@ -45,7 +47,7 @@ public class VcfAddressBookStorageTest {
     public void saveAddressBook_createsVcfFile_success() throws Exception {
         AddressBook original = getTypicalAddressBook();
         VcfAddressBookStorage vcfStorage = new VcfAddressBookStorage(RELATIVE_FILE_NAME);
-        Path filePath = Paths.get("./exports/" + RELATIVE_FILE_NAME);
+        Path filePath = Paths.get(RELATIVE_FILE_NAME);
 
         vcfStorage.saveAddressBook(original, filePath);
 
@@ -74,15 +76,17 @@ public class VcfAddressBookStorageTest {
     @Test
     public void getAddressBookFilePath_returnsCorrectPath() {
         String fileName = "TestFile.vcf";
-        VcfAddressBookStorage vcfStorage = new VcfAddressBookStorage(fileName);
-        Path expected = Path.of("./exports/" + fileName);
+        VcfAddressBookStorage vcfStorage = new VcfAddressBookStorage(
+                EXPORT_DIR_PREFIX + fileName);
+        Path expected = Path.of(ExportCommand.getAbsoluteExportFilePath(fileName));
         assertEquals(expected, vcfStorage.getAddressBookFilePath());
     }
 
     @Test
     public void saveAddressBook_noArg_savesFileCorrectly() throws Exception {
         String fileName = "TempAddressBook_noArg.vcf";
-        VcfAddressBookStorage vcfStorage = new VcfAddressBookStorage(fileName);
+        VcfAddressBookStorage vcfStorage = new VcfAddressBookStorage(
+                EXPORT_DIR_PREFIX + fileName);
         Path filePath = vcfStorage.getAddressBookFilePath();
 
         AddressBook original = getTypicalAddressBook();

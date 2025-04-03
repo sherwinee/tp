@@ -118,10 +118,7 @@ public class AddressBookParserTest {
         ImportCommand command = (ImportCommand) parser.parseCommand(ImportCommand.COMMAND_WORD
                 + " " + filePath);
 
-        // Ensure that the parsed command is correctly constructed
-        assertEquals(new ImportCommand(Path.of(filePath)), command);
-
-        // Test if missing file path throws an exception
+        assertEquals(new ImportCommand(Path.of(ImportCommand.IMPORT_DIR_PREFIX + filePath)), command);
         assertThrows(ParseException.class, () -> parser.parseCommand(ImportCommand.COMMAND_WORD));
     }
 
@@ -129,7 +126,7 @@ public class AddressBookParserTest {
     public void parseCommand_deleteAll() throws Exception {
         List<String> keywords = Arrays.asList("foo");
         DeleteAllWithTagCommand command = (DeleteAllWithTagCommand) parser.parseCommand(
-              DeleteAllWithTagCommand.COMMAND_WORD + " foo");
+                DeleteAllWithTagCommand.COMMAND_WORD + " foo");
         assertEquals(new DeleteAllWithTagCommand(new TagMatchesKeywordPredicate(keywords)), command);
     }
 
@@ -150,4 +147,3 @@ public class AddressBookParserTest {
     }
 
 }
-
