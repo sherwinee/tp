@@ -834,46 +834,43 @@ testers are expected to do more *exploratory* testing.
 
        Expected: Success message for valid entries, error messages for invalid ones.
 
-8. Error Reporting
-
-    1. For each error case, verify that error messages are clear and informative.
-
-9. Post-Import Verification
-
-    1. After successful imports, use other commands (e.g., list, find) to verify imported data.
 
 
 ### Exporting contacts
 1. Exporting contacts with valid filename and contacts added
 
-   1. Prerequisites: Have contacts added in the app
+   1. Prerequisites: Have contacts added in the app.
 
-   1. Test case: export to valid csv filename `export a.csv`<br>
-   Expected: File exports successfully
+   1. Test case: export to valid csv filename `export a.csv`.<br>
+   Expected: File exports successfully.
 
-   1. Test case: export to valid vcf filename `export b.vcf`<br>
-   Expected: File exports successfully
+   1. Test case: export to valid vcf filename `export b.vcf`.<br>
+   Expected: File exports successfully.
 
-1. Exporting contacts with invalid filename and contacts added
+1. Exporting contacts with invalid filename and contacts added.
 
    1. Prerequisites: Have contacts added in the app.
 
-   1. Test case: export to invalid csv filename `export .csv`<br>
+   1. Test case: export to invalid csv filename `export .csv`.<br>
    Expected: Error message about invalid filename.
 
-   1. Test case: export to invalid vcf filename `export !@#$%^'::'.vcf`<br>
+   1. Test case: export to invalid vcf filename `export !@#$%^'::'.vcf`.<br>
    Expected: Error message about invalid filename.
 
-   1. Test case: export to invalid filename `export aaa`<br>
+   1. Test case: export to invalid filename `export aaa`.<br>
    Expected: Error message about invalid filename.
 
 1. Exporting contacts with no contacts added
 
-   1. Prerequisites: run the `clear` command to remove all contacts
-   Expected: All contacts removed from app
+   1. Prerequisites: run the `clear` command to remove all contacts.<br> 
+   Expected: All contacts removed from app.
 
-   1. Test case: export to valid csv filename `export a.csv`<br>
-   Expected: Error message about no contacts
+   1. Test case: export to valid csv filename `export a.csv`.<br>
+   Expected: Error message about no contacts.
 
-   1. Test case: export to valid vcf filename `export b.vcf`<br>
-   Expected: Error message about no contacts
+   1. Test case: export to valid vcf filename `export b.vcf`.<br>
+   Expected: Error message about no contacts.
+
+## **Appendix: Planned Enhancements**
+
+* (This section will be done after PE-D bug reports have been received).
