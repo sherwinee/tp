@@ -151,6 +151,17 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Sorting contacts : `sort`
+
+Sort the address book in ascending or descending order by name or by phone if there are duplicate names.
+
+Format: `sort ORDER`
+
+* Sort the list of contacts by name or by phone if there are duplicate names in ascending or descending order.
+
+Examples:
+* `list` followed by `sort asc` sorts the list of contacts by name or by phone if there are duplicate names in ascending order.
+
 ### Mark person as contacted : `contact`
 
 Marks a person as contacted at the current date and time.
@@ -165,16 +176,21 @@ Examples:
 * `list` followed by `contact 2` changes the status of the 2nd person in the address book to 'Last Contacted: <Current Date & Time>'.
 * `find Betsy` followed by `contact 1` marks the 1st person in the results of the `find` command as contacted at the current date & time.
 
-### Exporting new entries : `export`
+### Exporting all contacts : `export`
 
-Exports contacts to a csv or vcf file. 
+Exports all contacts in the app (viewable with the `list` command) into a `vcf` (Vcard) or a proprietary
+`csv` (Comma Separated Vector) file. `vcf` files can be imported into common contact applications.
 
-Format: `export FILENAME.[csv/vcf]`
+Format: `export FILENAME`
 
-* Exports current contacts to a csv or vcf file into the exports folder.
+* Filenames must end with `.vcf` or `.csv`, the programme will automatically export them to the respective format
+* Exported files are created in the programme's `exports` folder
+* Tags are NOT exported in the `vcf` format
+* Last-contacted times are NOT exported
 
 Examples:
-* `export addressbook.csv` exports all current contacts in address book to a csv file.
+* `export contacts.vcf` exports all contacts to a vcf file at `exports/contacts.vcf`
+* `export contacts_dump.csv` exports all contacts to a csv file at `exports/contacts_dump.csv`
 
 ### Importing contacts : `import`
 
@@ -225,22 +241,6 @@ Clears all entries from the address book.
 
 Format: `clear`
 
-### Exporting all contacts : `export`
-
-Exports all contacts in the app (viewable with the `list` command) into a `vcf` (Vcard) or a proprietary
-`csv` (Comma Separated Vector) file. `vcf` files can be imported into common contact applications.
-
-Format: `export FILENAME`
-
-* Filenames must end with `.vcf` or `.csv`, the programme will automatically export them to the respective format
-* Exported files are created in the programme's `exports` folder
-* Tags are NOT exported in the `vcf` format
-* Last-contacted times are NOT exported
-
-Examples:
-* `export contacts.vcf` exports all contacts to a vcf file at `exports/contacts.vcf`
-* `export contacts_dump.csv` exports all contacts to a csv file at `exports/contacts_dump.csv`
-
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -290,6 +290,7 @@ Action     | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/ROLE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Sort**   | `sort ORDER`<br> e.g., `sort asc`
 **Contact**   | `contact INDEX` <br> e.g., `contact 2`
 **Import**   | `import FILENAME` <br> e.g., `import contacts.vcf`
 **Export** | `export FILENAME`<br> e.g., `export contacts.csv` 
