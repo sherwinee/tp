@@ -6,8 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static seedu.address.commons.util.FileUtil.readFromFile;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_SUCCESS;
-import static seedu.address.storage.CsvAddressBookStorage.EXPORT_DIR_PREFIX;
+import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_SUCCESS_CSV;
+import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_SUCCESS_VCF;
+import static seedu.address.logic.commands.ExportCommand.getAbsoluteExportFilePath;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
@@ -31,11 +32,11 @@ public class ExportCommandTest {
     public void execute_emptyAddressBook_emptyFile() {
         String filename = "emptyfile.csv";
         ExportCommand ec = new ExportCommand(filename);
-        String expectedMsg = String.format(MESSAGE_EXPORT_SUCCESS, EXPORT_DIR_PREFIX, filename);
+        String expectedMsg = String.format(MESSAGE_EXPORT_SUCCESS_CSV, getAbsoluteExportFilePath(filename));
         assertCommandSuccess(ec, model, expectedMsg, expectedModel);
         try {
             assertEquals("name,phone,email,address,role,tags\n",
-                    readFromFile(Path.of(EXPORT_DIR_PREFIX + filename)));
+                    readFromFile(Path.of(getAbsoluteExportFilePath(filename))));
         } catch (IOException e) {
             fail();
         }
@@ -45,9 +46,9 @@ public class ExportCommandTest {
     public void execute_typicalAddressBook_populatedFile() {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        String filename = "typical.csv";
+        String filename = "typical.vcf";
         ExportCommand ec = new ExportCommand(filename);
-        String expectedMsg = String.format(MESSAGE_EXPORT_SUCCESS, EXPORT_DIR_PREFIX, filename);
+        String expectedMsg = String.format(MESSAGE_EXPORT_SUCCESS_VCF, getAbsoluteExportFilePath(filename));
         assertCommandSuccess(ec, model, expectedMsg, expectedModel);
     }
 

@@ -19,19 +19,17 @@ import seedu.address.model.ReadOnlyAddressBook;
  * A class to access AddressBook data stored as a VCF file on the hard disk.
  */
 public class VcfAddressBookStorage implements AddressBookStorage {
-    public static final String EXPORT_DIR_PREFIX = "./exports/";
-
     private static final Logger logger = LogsCenter.getLogger(VcfAddressBookStorage.class);
 
     private final Path filePath;
 
     public VcfAddressBookStorage(String filePath) {
-        this.filePath = Path.of(EXPORT_DIR_PREFIX + filePath);
+        this.filePath = Path.of(filePath);
     }
 
     @Override
     public Path getAddressBookFilePath() {
-        return filePath;
+        return filePath.toAbsolutePath();
     }
 
     @Override
