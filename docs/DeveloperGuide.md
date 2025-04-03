@@ -202,6 +202,24 @@ A sequence diagram illustrating the execution flow of `ContactCommand` when a us
 
 **NOTE**: As with other sequence diagrams, the destruction of temporary objects may not be fully represented due to PlantUML limitations.
 
+### Export feature
+The export feature exports the entire address book into a csv or vcf file using the same command.
+
+This is facilitated by the jackson-dataformat-csv and ez-vcard library, jackson is already used for Storage. Classes for this feature follow the structure of existing
+Storage classes used for reading/writing to json storage with necessary modifications to facilitate CSV and VCF
+formatting.
+
+#### Added classes
+* `CsvAddressBookStorage` and `VcfAddressBookStorage` — Implementations of AddressBookStorage with methods tailored to the target filetypes
+* `CsvAdaptedPerson` and `VcfAdaptedPerson` — Adapted Person classes with datatypes suitable to be stored in the target filetype
+* `CsvSerializableAddressBook` and `VcfSerializableAddressBook` — Holds Adapted Persons for processing in implementations of AddressBookStorage
+* `VcfMapper` — Contains static methods to convert `VcfAdaptedPerson`s to Vcard objects
+
+#### Sequence diagram of Export to CSV feature
+<puml src="diagrams/ExportSequenceDiagram.puml" alt="ExportSequenceDiagram.puml" />
+
+The flow applies to vcf exports as well. However, the logic in the methods of the above classes are different as they
+utilise different libraries.
 
 ### Import feature
 
@@ -397,7 +415,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                                                                               | So that I can…​                                                        |
+| Priority | As a/an …​                                    | I want to …​                                                                               | So that I can…​                                                        |
 |--------|--------------------------------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
 | `* * *` | new user                                   | see usage instructions                                                                     | refer to instructions when I forget how to use the App                 |
 | `* * *` | user                                       | add a new person                                                                           | so that I can save basic contact details                                                                       |
@@ -823,3 +841,39 @@ testers are expected to do more *exploratory* testing.
 9. Post-Import Verification
 
     1. After successful imports, use other commands (e.g., list, find) to verify imported data.
+
+
+### Exporting contacts
+1. Exporting contacts with valid filename and contacts added
+
+   1. Prerequisites: Have contacts added in the app
+
+   1. Test case: export to valid csv filename `export a.csv`<br>
+   Expected: File exports successfully
+
+   1. Test case: export to valid vcf filename `export b.vcf`<br>
+   Expected: File exports successfully
+
+1. Exporting contacts with invalid filename and contacts added
+
+   1. Prerequisites: Have contacts added in the app.
+
+   1. Test case: export to invalid csv filename `export .csv`<br>
+   Expected: Error message about invalid filename.
+
+   1. Test case: export to invalid vcf filename `export !@#$%^'::'.vcf`<br>
+   Expected: Error message about invalid filename.
+
+   1. Test case: export to invalid filename `export aaa`<br>
+   Expected: Error message about invalid filename.
+
+1. Exporting contacts with no contacts added
+
+   1. Prerequisites: run the `clear` command to remove all contacts
+   Expected: All contacts removed from app
+
+   1. Test case: export to valid csv filename `export a.csv`<br>
+   Expected: Error message about no contacts
+
+   1. Test case: export to valid vcf filename `export b.vcf`<br>
+   Expected: Error message about no contacts
