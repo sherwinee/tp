@@ -1,21 +1,14 @@
 package seedu.address.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-import static seedu.address.commons.util.FileUtil.readFromFile;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_FAILURE;
-import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_SUCCESS_CSV;
 import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_SUCCESS_VCF;
 import static seedu.address.logic.commands.ExportCommand.MESSAGE_NO_CONTACTS;
 import static seedu.address.logic.commands.ExportCommand.getAbsoluteExportFilePath;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
