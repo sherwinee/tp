@@ -224,7 +224,7 @@ The import functionality is implemented through several classes:
 
 The sequence diagram below illustrates how the `import` command works:
 
-<puml src="diagrams/ImportSequenceDiagram.puml"
+<puml src="diagrams/ImportSequenceDiagram.puml">
 
 How the `import` command works:
 
