@@ -180,7 +180,7 @@ Examples:
 
 ### Exporting new entries : `export`
 
-Exports contacts to a csv or vcf file. 
+Exports contacts to a csv or vcf file.
 
 Format: `export FILENAME.[csv/vcf]`
 
