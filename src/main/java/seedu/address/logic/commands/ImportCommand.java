@@ -45,7 +45,8 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_CONSTRAINTS = "File name must end with .csv or .vcf";
     public static final String MESSAGE_READ_INPUT_ERROR = "Error reading file due to: ";
     public static final String MESSAGE_ERROR_DURING_IMPORT = "Import failed due to the following errors: \n";
-    public static final String MESSAGE_EMPTY_FILE = "No persons were imported. Check your file.";
+    public static final String MESSAGE_EMPTY_FILE = "No contacts were imported. The file has no contacts. "
+        + "Please check your file.";
     public static final String MESSAGE_SUCCESS = "Successfully imported %d contacts!";
 
     private static final Logger logger = Logger.getLogger(ImportCommand.class.getName());
