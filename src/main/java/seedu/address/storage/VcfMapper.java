@@ -1,6 +1,9 @@
 package seedu.address.storage;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
+import java.util.Objects;
 
 import ezvcard.VCard;
 import ezvcard.parameter.TelephoneType;
@@ -16,11 +19,13 @@ public class VcfMapper {
      */
     public static List<VCard> mapToVcards(List<VcfAdaptedPerson> persons) {
         return persons.stream()
+                .peek(Objects::requireNonNull)
                 .map(VcfMapper::toVcard)
                 .toList();
     }
 
     private static VCard toVcard(VcfAdaptedPerson person) {
+        requireNonNull(person);
         VCard vcard = new VCard();
         vcard.setFormattedName(person.getFn());
         vcard.addTelephoneNumber(person.getTel(), TelephoneType.CELL);

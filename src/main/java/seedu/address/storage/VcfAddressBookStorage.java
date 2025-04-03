@@ -19,19 +19,17 @@ import seedu.address.model.ReadOnlyAddressBook;
  * A class to access AddressBook data stored as a VCF file on the hard disk.
  */
 public class VcfAddressBookStorage implements AddressBookStorage {
-    public static final String EXPORT_DIR_PREFIX = "./exports/";
-
     private static final Logger logger = LogsCenter.getLogger(VcfAddressBookStorage.class);
 
     private final Path filePath;
 
     public VcfAddressBookStorage(String filePath) {
-        this.filePath = Path.of(EXPORT_DIR_PREFIX + filePath);
+        this.filePath = Path.of(filePath);
     }
 
     @Override
     public Path getAddressBookFilePath() {
-        return filePath;
+        return filePath.toAbsolutePath();
     }
 
     @Override
@@ -64,5 +62,15 @@ public class VcfAddressBookStorage implements AddressBookStorage {
         // Write to VCF file
         List<VCard> vcards = VcfMapper.mapToVcards(persons);
         Ezvcard.write(vcards).go(filePath.toFile());
+        checkFileCreated(filePath);
+    }
+
+    private static void checkFileCreated(Path filePath) throws IOException {
+        if (FileUtil.isFileExists(filePath)) {
+            logger.info("Exported CSV contacts dump to " + filePath.toAbsolutePath());
+        } else {
+            logger.warning("Export dump file not found at " + filePath.toAbsolutePath());
+            throw new IOException("Export file might not have been created at " + filePath.toAbsolutePath());
+        }
     }
 }
