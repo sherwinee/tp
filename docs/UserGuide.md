@@ -154,7 +154,7 @@ Format: `clear`
 
 ### Exporting all contacts : `export`
 
-Exports all contacts in the app (viewable with the `list` command) into a `vcf` (Vcard) or a proprietary 
+Exports all contacts in the app (viewable with the `list` command) into a `vcf` (Vcard) or a proprietary
 `csv` (Comma Separated Vector) file. `vcf` files can be imported into common contact applications.
 
 Format: `export FILENAME`
@@ -163,7 +163,6 @@ Format: `export FILENAME`
 * Exported files are created in the programme's `exports` folder
 * Tags are NOT exported in the `vcf` format
 * Last-contacted times are NOT exported
-* If the address book is empty, it will be exported as an empty file (with headers for `csv`)
 
 Examples:
 * `export contacts.vcf` exports all contacts to a vcf file at `exports/contacts.vcf`
@@ -199,7 +198,8 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder. 
+Alternatively, use the export command to export a csv file of all contacts, and use the import command on the destination computer to import contacts from that file (last-contacted times not transferred). 
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -222,3 +222,4 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
 **Help**   | `help`
+**Export** | `export FILENAME`<br> e.g., `export contacts.csv` 
