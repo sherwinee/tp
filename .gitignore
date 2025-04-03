@@ -10,6 +10,8 @@ src/main/resources/docs/
 
 bin/*
 
+bin/*
+
 # Storage/log files
 /data/
 /config.json
