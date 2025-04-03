@@ -560,3 +560,38 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+### Exporting contacts
+1. Exporting contacts with valid filename and contacts added
+
+   1. Prerequisites: Have contacts added in the app
+
+   1. Test case: export to valid csv filename `export a.csv`<br>
+   Expected: File exports successfully
+
+   1. Test case: export to valid vcf filename `export b.vcf`<br>
+   Expected: File exports successfully
+
+1. Exporting contacts with invalid filename and contacts added
+
+   1. Prerequisites: Have contacts added in the app.
+
+   1. Test case: export to invalid csv filename `export .csv`<br>
+   Expected: Error message about invalid filename.
+
+   1. Test case: export to invalid vcf filename `export !@#$%^'::'.vcf`<br>
+   Expected: Error message about invalid filename.
+
+   1. Test case: export to invalid filename `export aaa`<br>
+   Expected: Error message about invalid filename.
+
+1. Exporting contacts with no contacts added
+
+   1. Prerequisites: run the `clear` command to remove all contacts
+   Expected: All contacts removed from app
+
+   1. Test case: export to valid csv filename `export a.csv`<br>
+   Expected: Error message about no contacts
+
+   1. Test case: export to valid vcf filename `export b.vcf`<br>
+   Expected: Error message about no contacts
