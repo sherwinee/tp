@@ -80,16 +80,15 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
-
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/ROLE [t/TAG]…​`
 <box type="tip" seamless>
 
 **Tip:** A person can have any number of tags (including 0)
 </box>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 r/Vendor`
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 r/Software Engineer t/criminal`
 
 ### Listing all persons : `list`
 
@@ -101,7 +100,7 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/ROLE] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -145,6 +144,44 @@ Format: `delete INDEX`
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+### Mark person as contacted : `contact`
+
+Marks a person as contacted at the current date and time.
+
+Format: `contact INDEX`
+
+* Marks the person as contacted at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `list` followed by `contact 2` changes the status of the 2nd person in the address book to 'Last Contacted: <Current Date & Time>'.
+* `find Betsy` followed by `contact 1` marks the 1st person in the results of the `find` command as contacted at the current date & time.
+
+### Importing new entries : `import`
+
+Imports a .csv/.vcf file.
+
+Format: `import PATH/FILENAME`
+
+* Imports a csv or vcf file of contacts into the address book. 
+* Duplicate contacts would be detected and not imported.
+
+Examples:
+* `import ./exports/contacts_dump.csv` imports all contacts in the given csv file.
+
+### Exporting new entries : `export`
+
+Exports contacts to a csv or vcf file. 
+
+Format: `export FILENAME.[csv/vcf]`
+
+* Exports current contacts to a csv or vcf file into the exports folder.
+
+Examples:
+* `export addressbook.csv` exports all current contacts in address book to a csv file.
+
 
 ### Clearing all entries : `clear`
 
@@ -197,10 +234,13 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/ROLE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 r/Software Engineer t/friend t/colleague`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/ROLE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Contact**   | `contact INDEX` <br> e.g., `contact 2`
+**Import**   | `import PATH/FILENAME` <br> e.g., `import ./exports/addressbook.csv`
+**Export**   | `export FILENAME.[csv/vcf]` <br> `e.g., export contacts_dump.csv`
 **List**   | `list`
 **Help**   | `help`
