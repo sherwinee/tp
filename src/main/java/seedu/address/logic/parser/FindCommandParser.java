@@ -101,16 +101,12 @@ public class FindCommandParser implements Parser<FindCommand> {
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
 
-<<<<<<< HEAD
             for (String keyword : keywords) {
                 if (!Role.isValidRole(keyword)) {
                     throw new ParseException(MESSAGE_INVALID_ROLE);
                 }
             }
 
-=======
-            // Fixed: Pass the list directly without joining
->>>>>>> upstream/master
             return new FindCommand(new RoleContainsKeywordsPredicate(keywords));
         } else {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
