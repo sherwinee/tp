@@ -178,9 +178,9 @@ Example:
 * BEGIN:VCARD
   VERSION:4.0
   FN:Alice Pauline
-  TEL:94351253
+  TEL:98761234
   EMAIL:alice@example.com
-  ADR:;;123 Jurong West Ave 6 #08-111;Singapore;;600123;
+  ADR:PO Box 123;Suite 456;123 Jurong West Ave 6 #08-111;Singapore;Central;600123;Singapore
   TITLE:Organizer
   END:VCARD
 
@@ -243,3 +243,4 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
 **Help**   | `help`
+**Import**   | `import FILENAME` <br> e.g., `import contacts.vcf`
