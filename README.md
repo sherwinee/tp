@@ -4,7 +4,7 @@
 ![Ui](docs/images/Ui.png)
 
 * Listify is a modified version of AddressBook-Level3 which was done as a project by the [SE-EDU initiative](https://se-education.org). <br>
-* It is designed to streamline contact management for administrative staff, business professionals, and event organizers.<br>
+* It is designed to streamline contact management for tech-savy fast-typing event organisers.<br>
   Example usages:
   * Seamless import and export of contacts via VCF
   * Quick and efficient contact management
