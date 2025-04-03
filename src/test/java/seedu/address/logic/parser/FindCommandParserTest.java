@@ -2,6 +2,14 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_NAME;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PHONE;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_ROLE;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_TAG;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_ROLE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
@@ -52,11 +60,21 @@ public class FindCommandParserTest {
     }
 
     @Test
+    public void parse_invalidNameArgs_throwsParseException() {
+        assertParseFailure(parser, INVALID_NAME_DESC, MESSAGE_INVALID_NAME);
+    }
+
+    @Test
     public void parse_validTagArgs_returnsFindCommand() {
         FindCommand expectedFindCommand =
                 new FindCommand(new TagsContainsKeywordsPredicate(
                         Arrays.asList(VALID_TAG_COLLEAGUE, VALID_TAG_FRIEND)));
         assertParseSuccess(parser, TAG_DESC_COLLEAGUE + " " + TAG_DESC_FRIEND, expectedFindCommand);
+    }
+
+    @Test
+    public void parse_invalidTagArgs_throwsParseException() {
+        assertParseFailure(parser, INVALID_TAG_DESC, MESSAGE_INVALID_TAG);
     }
 
     @Test
@@ -67,4 +85,25 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, PHONE_DESC_AMY + " " + PHONE_DESC_BOB, expectedFindCommand);
     }
 
+<<<<<<< HEAD
+=======
+    @Test
+    public void parse_invalidPhoneArgs_throwsParseException() {
+        assertParseFailure(parser, INVALID_PHONE_DESC, MESSAGE_INVALID_PHONE);
+    }
+
+    @Test
+    public void parse_validRoleArgs_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new RoleContainsKeywordsPredicate(
+                        Arrays.asList(VALID_ROLE_AMY, VALID_ROLE_BOB)));
+        assertParseSuccess(parser, ROLE_DESC_AMY + " " + ROLE_DESC_BOB, expectedFindCommand);
+    }
+
+    @Test
+    public void parse_invalidRoleArgs_throwsParseException() {
+        assertParseFailure(parser, INVALID_ROLE_DESC, MESSAGE_INVALID_ROLE);
+    }
+
+>>>>>>> upstream/master
 }

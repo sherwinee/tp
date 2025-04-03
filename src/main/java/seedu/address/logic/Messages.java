@@ -16,6 +16,9 @@ public class Messages {
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format or usage! \n%1$s";
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
     public static final String MESSAGE_INVALID_PHONE = "The phone number provided is invalid";
+    public static final String MESSAGE_INVALID_NAME = "The name provided is invalid";
+    public static final String MESSAGE_INVALID_TAG = "The tag provided is invalid";
+    public static final String MESSAGE_INVALID_ROLE = "The role provided is invalid";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_PERSONS_DELETED_OVERVIEW = "%1$d persons deleted!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
