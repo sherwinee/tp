@@ -4,11 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_NAME;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PHONE;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_ROLE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_TAG;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_ROLE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
@@ -85,25 +83,9 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, PHONE_DESC_AMY + " " + PHONE_DESC_BOB, expectedFindCommand);
     }
 
-<<<<<<< HEAD
-=======
     @Test
     public void parse_invalidPhoneArgs_throwsParseException() {
         assertParseFailure(parser, INVALID_PHONE_DESC, MESSAGE_INVALID_PHONE);
     }
 
-    @Test
-    public void parse_validRoleArgs_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-                new FindCommand(new RoleContainsKeywordsPredicate(
-                        Arrays.asList(VALID_ROLE_AMY, VALID_ROLE_BOB)));
-        assertParseSuccess(parser, ROLE_DESC_AMY + " " + ROLE_DESC_BOB, expectedFindCommand);
-    }
-
-    @Test
-    public void parse_invalidRoleArgs_throwsParseException() {
-        assertParseFailure(parser, INVALID_ROLE_DESC, MESSAGE_INVALID_ROLE);
-    }
-
->>>>>>> upstream/master
 }
