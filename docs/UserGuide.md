@@ -217,3 +217,4 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
 **Help**   | `help`
+**Delete With Tag**   | `deletewithtag TAGNAME` <br> e.g., `deletewithtag colleague`
