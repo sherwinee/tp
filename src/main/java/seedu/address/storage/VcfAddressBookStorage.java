@@ -62,5 +62,15 @@ public class VcfAddressBookStorage implements AddressBookStorage {
         // Write to VCF file
         List<VCard> vcards = VcfMapper.mapToVcards(persons);
         Ezvcard.write(vcards).go(filePath.toFile());
+        checkFileCreated(filePath);
+    }
+
+    private static void checkFileCreated(Path filePath) throws IOException {
+        if (FileUtil.isFileExists(filePath)) {
+            logger.info("Exported CSV contacts dump to " + filePath.toAbsolutePath());
+        } else {
+            logger.warning("Export dump file not found at " + filePath.toAbsolutePath());
+            throw new IOException("Export file might not have been created at " + filePath.toAbsolutePath());
+        }
     }
 }

@@ -70,5 +70,15 @@ public class CsvAddressBookStorage implements AddressBookStorage {
         // Write them out using Jackson CSV
         CsvSchema schema = csvMapper.schemaFor(CsvAdaptedPerson.class).withHeader();
         csvMapper.writer(schema).writeValue(filePath.toFile(), persons);
+        checkFileCreated(filePath);
+    }
+
+    private static void checkFileCreated(Path filePath) throws IOException {
+        if (FileUtil.isFileExists(filePath)) {
+            logger.info("Exported CSV contacts dump to " + filePath.toAbsolutePath());
+        } else {
+            logger.warning("Export dump file not found at " + filePath.toAbsolutePath());
+            throw new IOException("Export file might not have been created at " + filePath.toAbsolutePath());
+        }
     }
 }
