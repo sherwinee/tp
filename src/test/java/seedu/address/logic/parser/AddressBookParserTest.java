@@ -118,10 +118,7 @@ public class AddressBookParserTest {
         ImportCommand command = (ImportCommand) parser.parseCommand(ImportCommand.COMMAND_WORD
                 + " " + filePath);
 
-        // Ensure that the parsed command is correctly constructed
-        assertEquals(new ImportCommand(Path.of(filePath)), command);
-
-        // Test if missing file path throws an exception
+        assertEquals(new ImportCommand(Path.of(ImportCommand.IMPORT_DIR_PREFIX + filePath)), command);
         assertThrows(ParseException.class, () -> parser.parseCommand(ImportCommand.COMMAND_WORD));
     }
 
