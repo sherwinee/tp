@@ -32,6 +32,7 @@ public class VcfParser {
      * @throws IOException If reading the file fails.
      */
     public static List<Person> parseVcf(String filePath) throws IOException {
+        lastParseErrors.clear();
         List<Person> persons = new ArrayList<>();
         List<String> errors = new ArrayList<>();
         List<VCard> vcards;
@@ -57,6 +58,7 @@ public class VcfParser {
 
             Result result = getResult(fullName, rowNumber, vcard, contactErrors);
 
+            // Only create and add the Person if there are no errors
             if (contactErrors.isEmpty()) {
                 try {
                     persons.add(new Person(new Name(fullName), new Phone(result.phoneText()),
@@ -67,21 +69,20 @@ public class VcfParser {
                 }
             }
 
-            // Instead of adding to global errors list, store them in ImportCommand's errors list
+            // Add all errors for this contact to the global errors list
             for (String error : contactErrors) {
                 errors.add(result.contactIdentifier() + ": " + error);
             }
         }
 
-        // Return the successfully parsed persons and pass errors back to ImportCommand
-        // instead of throwing an exception
+        // Store errors in a static field for retrieval by ImportCommand
         if (!errors.isEmpty()) {
-            // Store errors in a static field or pass them back through a parameter
             storeErrors(errors);
         }
 
         return persons;
     }
+
 
     /**
      * Stores the errors from the last parse operation.
