@@ -14,7 +14,7 @@ public class ContactCommandParser implements Parser<ContactCommand> {
     @Override
     public ContactCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
+        if (trimmedArgs.isEmpty() || !trimmedArgs.matches("\\d+")) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ContactCommand.MESSAGE_USAGE));
         }
