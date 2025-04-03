@@ -161,8 +161,8 @@ Examples:
 
 #### CSV Format
 * The first row must be the header: `Name,Phone,Email,Address,Role,Tags`.
-* Each subsequent row represents one contact
-* Tags are optional and can be separated by commas or semicolons
+* Each subsequent row represents one contact.
+* Tags are optional and can be separated by commas or semicolons.
 
 Example:<br>
 ```
@@ -171,11 +171,11 @@ Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6 #08-111,Organizer
 ```
 
 #### VCF Format
-* Must follow standard vCard file format
-* Name must be present in a single `FN` field
-* There must be one and only one `TEL`, `EMAIL` and `ADDRESS` field
-* Role is parsed from the `TITLE` field (defaults to "Unassigned" if missing)
-* All other fields are ignored
+* Must follow standard vCard file format.
+* Name must be present in a single `FN` field.
+* There must be one and only one `TEL`, `EMAIL` and `ADDRESS` field.
+* Role is parsed from the `TITLE` field (defaults to "Unassigned" if missing).
+* All other fields are ignored.
 
 Example:
 ```
