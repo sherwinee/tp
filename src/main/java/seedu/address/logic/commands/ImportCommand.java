@@ -113,7 +113,9 @@ public class ImportCommand extends Command {
             if (filePath.toString().toLowerCase().endsWith(".csv")) {
                 return importCsv(filePath.toString(), errors);
             } else if (filePath.toString().toLowerCase().endsWith(".vcf")) {
-                return VcfParser.parseVcf(filePath.toString());
+                List<Person> persons = VcfParser.parseVcf(filePath.toString());
+                errors.addAll(VcfParser.getLastParseErrors());
+                return persons;
             } else {
                 throw new CommandException("Unsupported file type. Only .csv and .vcf files are supported.");
             }
@@ -121,6 +123,7 @@ public class ImportCommand extends Command {
             throw new CommandException(MESSAGE_READ_INPUT_ERROR + e.getMessage());
         }
     }
+
 
     private List<String> addPersonsToModel(Model model, List<Person> persons, int startingRowNumber) {
         assert model != null : "Model should not be null";

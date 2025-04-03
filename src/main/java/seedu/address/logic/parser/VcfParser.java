@@ -27,7 +27,7 @@ public class VcfParser {
      *
      * @param filePath The path to the VCF file.
      * @return A list of parsed Person objects.
-     * @throws IOException If reading the file fails or rows contain invalid data.
+     * @throws IOException If reading the file fails.
      */
     public static List<Person> parseVcf(String filePath) throws IOException {
         List<Person> persons = new ArrayList<>();
@@ -64,16 +64,42 @@ public class VcfParser {
                 }
             }
 
+            // Instead of adding to global errors list, store them in ImportCommand's errors list
             for (String error : contactErrors) {
                 errors.add(result.contactIdentifier() + ": " + error);
             }
         }
 
+        // Return the successfully parsed persons and pass errors back to ImportCommand
+        // instead of throwing an exception
         if (!errors.isEmpty()) {
-            throw new IOException("VCF Import failed due to:\n" + String.join("\n", errors));
+            // Store errors in a static field or pass them back through a parameter
+            storeErrors(errors);
         }
 
         return persons;
+    }
+
+    // Static field to store errors that can be retrieved by ImportCommand
+    private static List<String> lastParseErrors = new ArrayList<>();
+
+    /**
+     * Stores the errors from the last parse operation.
+     *
+     * @param errors The errors to store.
+     */
+    private static void storeErrors(List<String> errors) {
+        lastParseErrors.clear();
+        lastParseErrors.addAll(errors);
+    }
+
+    /**
+     * Gets the errors from the last parse operation.
+     *
+     * @return The errors from the last parse operation.
+     */
+    public static List<String> getLastParseErrors() {
+        return new ArrayList<>(lastParseErrors);
     }
 
     private static Result getResult(String fullName, int rowNumber, VCard vcard, List<String> contactErrors) {
@@ -150,7 +176,6 @@ public class VcfParser {
         String extract(VCard vcard, String contactIdentifier, List<String> errors);
     }
 
-
     private record ParseFields(String contactIdentifier, String phoneText, String emailText, String addressText,
                                String roleText) {
     }
@@ -158,7 +183,6 @@ public class VcfParser {
     private record Result(String contactIdentifier, String phoneText, String emailText, String addressText,
                           String roleText) {
     }
-
 
     private static String parseName(VCard vcard, int rowNumber, List<String> errors) {
         if (vcard.getFormattedNames().size() > 1) {
