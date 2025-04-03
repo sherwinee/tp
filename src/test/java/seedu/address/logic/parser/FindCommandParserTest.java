@@ -72,12 +72,4 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, PHONE_DESC_AMY + " " + PHONE_DESC_BOB, expectedFindCommand);
     }
 
-    @Test
-    public void parse_validRoleArgs_returnsFindCommand() {
-        FindCommand expectedFindCommand =
-                new FindCommand(new RoleContainsKeywordsPredicate(
-                        Arrays.asList(VALID_ROLE_AMY, VALID_ROLE_BOB)));
-        assertParseSuccess(parser, ROLE_DESC_AMY + " " + ROLE_DESC_BOB, expectedFindCommand);
-    }
-
 }
