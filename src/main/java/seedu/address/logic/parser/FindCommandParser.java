@@ -83,7 +83,9 @@ public class FindCommandParser implements Parser<FindCommand> {
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
 
-            return new FindCommand(new RoleContainsKeywordsPredicate(keywords));
+            // For role search, join all keywords with space to preserve multi-word roles
+            String rolePhrase = String.join(" ", keywords);
+            return new FindCommand(new RoleContainsKeywordsPredicate(List.of(rolePhrase)));
         } else {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }

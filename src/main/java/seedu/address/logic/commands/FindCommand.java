@@ -25,12 +25,12 @@ public class FindCommand extends Command {
             + "number contain any of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: EITHER " + PREFIX_NAME + "KEYWORD [MORE KEYWORDS] OR "
-            + PREFIX_PHONE + "KEYWORD [MORE_KEYWORDS] OR "
+            + PREFIX_PHONE + "KEYWORD OR "
             + PREFIX_ROLE + "KEYWORD [MORE KEYWORDS] OR "
             + PREFIX_TAG + "KEYWORD [MORE KEYWORDS] \n"
             + "Example for name search: " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob\n"
             + "Example for phone search: " + COMMAND_WORD + " " + PREFIX_PHONE + "81293829\n"
-            + "Example for phone search: " + COMMAND_WORD + " " + PREFIX_ROLE + "Media\n"
+            + "Example for role search: " + COMMAND_WORD + " " + PREFIX_ROLE + "Media\n"
             + "Example for tag search: " + COMMAND_WORD + " " + PREFIX_TAG + "friends colleagues";
 
     private final Predicate<Person> predicate;
