@@ -71,6 +71,9 @@ Listify is a **desktop app for managing contacts, optimized for use via a  Line 
 
 * The maximum number of contacts that Listify supports is limited to the _Java Integer Max Value_ supported by the system running Listify.<br>
 
+**Duplicate Contacts Detection**<br>
+The app identifies duplicate contacts by checking if either the **Phone Number**, **Email**, or both are exactly the same.<br>
+
 ### Viewing help : `help`
 
 Shows a message explaining how to access the help page.
