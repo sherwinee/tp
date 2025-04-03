@@ -75,10 +75,10 @@ public class ImportCommandTest {
 
     @Test
     public void execute_missingFields_importCsvFailure() throws IOException {
-        String csvData = "Name,Phone,Email,Address,Tags\n"
-                + "Alice Tan,91234567,,\"123, Jurong West Ave 6, #08-111\",\n" // Missing email
-                + "Bob Lim,,bob@example.com,456 Avenue\n" // Missing phone
-                + "Carl Kurz,812348,carl@yahoo.com,,\"friend, ,colleague\"\n"; // Missing address
+        String csvData = "Name, Phone, Email, Address, Role, Tags\n"
+                + "Alice Tan,91234567,,\"123, Jurong West Ave 6, #08-111\",,\n" // Missing email and role
+                + "Bob Lim,,bob@example.com,456 Avenue,Banker\n" // Missing phone
+                + "Carl Kurz,812348,carl@yahoo.com, ,Project Manager, \"friend, ,colleague\"\n"; // Missing address
 
         Files.write(tempCsvFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
         ImportCommand command = new ImportCommand(tempCsvFile);
@@ -87,22 +87,21 @@ public class ImportCommandTest {
 
     @Test
     public void importCsv_variousTagCases() throws IOException {
-        String csvData = "Name,Phone,Email,Address,Role,Tags\n"
-                + "Alice Tan,91234567,alice@example.com,123 Street, Software Engineer,\n" // Empty tag
-                + "Bob Lim,98765432,bob@example.com,456 Avenue, Banker\n"
-                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,Project Manager, \"friend, ,colleague\"\n";
+        String csvData = "Name, Phone, Email, Address, Role, Tags\n"
+                + "Alice Tan,91234567,alice@example.com,123 Street,Software Engineer,\n"
+                + "Bob Lim,98765432,bob@example.com,456 Avenue,Banker\n"
+                + "Carl Kurz,812348,carl@yahoo.com,Wall Street,Project Manager,\"friend, ,colleague\"\n";
 
         Files.write(tempCsvFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
 
         List<String> errors = new ArrayList<>();
         List<Person> persons = ImportCommand.importCsv(tempCsvFile.toString(), errors);
 
-        assert persons.size() == 3 : "Expected 3 persons, got " + persons.size();
-        assert persons.get(0).getTags().size() == 0 : "Expected no tags for first person";
-        assert persons.get(1).getTags().size() == 0 : "Expected no tags for second person";
-        assert persons.get(2).getTags().size() == 2 : "Expected 2 tags for third person";
+        assertTrue(persons.size() == 3, "Expected 3 persons, got " + persons.size());
+        assertTrue(persons.get(0).getTags().size() == 0, "Expected no tags for first person");
+        assertTrue(persons.get(1).getTags().size() == 0, "Expected no tags for second person");
+        assertTrue(persons.get(2).getTags().size() == 2, "Expected 2 tags for third person");
     }
-
 
 
     @Test
@@ -117,21 +116,33 @@ public class ImportCommandTest {
     }
 
     @Test
-    public void execute_duplicatePersons_importCsvFailure() throws IOException {
-        String csvData = "Name,Phone,Email,Address,Tags\n"
-                + "Alice Tan,91234567, alice@example.com, \"123, Jurong West Ave 6, #08-111\",friend\n"
-                + "Alice Tan,91234567, alice@example.com, \"123, Jurong West Ave 6, #08-111\",friend";
-
+    public void execute_duplicatePersons_importCsvPartialSuccess() throws IOException {
+        // Partial success as some contacts will be imported successfully
+        String csvData = "Name,Phone,Email,Address,Role,Tags\n"
+                + "Alice Pauline,94351253,alice@example.com,\"123, Jurong West Ave 6, #08-111\",Organizer,friends\n"
+                + "Benson Meier,98765432,johnd@example.com,\"311, Clementi Ave 2, #02-25\","
+                + "Developer,owesMoney;friends\n"
+                + "Carl Kurz,95352563,heinz@example.com,wall street,Booth Vendor,\n"
+                + "Daniel Meier,87652533,cornelia@example.com,10th street,Senior Developer,friends\n"
+                + "Elle Meyer,9482224,werner@example.com,michegan ave,Software Engineer,\n"
+                + "Fiona Kunz,9482427,lydia@example.com,little tokyo,Project Manager,\n"
+                + "George Best,9482442,anna@example.com,4th street,Manager,\n"
+                + "Alice Pauline,94351253,alice@example.com,\"123, Jurong West Ave 6, #08-111\",Organizer,friends\n";
 
         Files.write(tempCsvFile, csvData.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
         ImportCommand command = new ImportCommand(tempCsvFile);
-        assertThrows(CommandException.class, () -> command.execute(model));
+        String expectedMessage = String.format(ImportCommand.MESSAGE_SUCCESS, 7)
+                + "\nHowever, some duplicate entries were found and skipped:\n"
+                + "Row 9: Operation would result in duplicate persons\n";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
+
 
     @Test
     public void execute_emptyCsv_failure() throws IOException {
         // Write only the header (no data)
-        Files.write(tempCsvFile, "Name,Phone,Email,Address,Tags\n".getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(tempCsvFile, "Name, Phone, Email, Address, Role, Tags\n".getBytes(),
+                StandardOpenOption.TRUNCATE_EXISTING);
 
         ImportCommand command = new ImportCommand(tempCsvFile);
         assertCommandFailure(command, model, ImportCommand.MESSAGE_EMPTY_FILE);
