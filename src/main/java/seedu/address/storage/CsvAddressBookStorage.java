@@ -21,9 +21,6 @@ import seedu.address.model.ReadOnlyAddressBook;
  * A class to access AddressBook data stored as a CSV file on the hard disk.
  */
 public class CsvAddressBookStorage implements AddressBookStorage {
-
-    public static final String EXPORT_DIR_PREFIX = "./exports/";
-
     private static final Logger logger = LogsCenter.getLogger(CsvAddressBookStorage.class);
 
     private final Path filePath;
@@ -34,13 +31,13 @@ public class CsvAddressBookStorage implements AddressBookStorage {
      * @param filePath csv filepath relative from ./exports/
      */
     public CsvAddressBookStorage(String filePath) {
-        this.filePath = Path.of(EXPORT_DIR_PREFIX + filePath);
+        this.filePath = Path.of(filePath);
         this.csvMapper = new CsvMapper(); // Jackson CSV mapper
     }
 
     @Override
     public Path getAddressBookFilePath() {
-        return filePath;
+        return filePath.toAbsolutePath();
     }
 
     @Override
@@ -73,5 +70,15 @@ public class CsvAddressBookStorage implements AddressBookStorage {
         // Write them out using Jackson CSV
         CsvSchema schema = csvMapper.schemaFor(CsvAdaptedPerson.class).withHeader();
         csvMapper.writer(schema).writeValue(filePath.toFile(), persons);
+        checkFileCreated(filePath);
+    }
+
+    private static void checkFileCreated(Path filePath) throws IOException {
+        if (FileUtil.isFileExists(filePath)) {
+            logger.info("Exported CSV contacts dump to " + filePath.toAbsolutePath());
+        } else {
+            logger.warning("Export dump file not found at " + filePath.toAbsolutePath());
+            throw new IOException("Export file might not have been created at " + filePath.toAbsolutePath());
+        }
     }
 }

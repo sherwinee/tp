@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.ExportCommand.EXPORT_DIR_PREFIX;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.logic.commands.ExportCommand;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 
@@ -97,9 +99,9 @@ public class CsvAddressBookStorageTest {
     @Test
     public void getAddressBookFilePath_returnsCorrectPath() {
         String fileName = "TestFile.csv";
-        CsvAddressBookStorage csvStorage = new CsvAddressBookStorage(fileName);
-        // The constructor prepends EXPORT_DIR_PREFIX ("./exports/") to the file name.
-        Path expected = Path.of("./exports/" + fileName);
+        CsvAddressBookStorage csvStorage = new CsvAddressBookStorage(
+                EXPORT_DIR_PREFIX + fileName);
+        Path expected = Path.of(ExportCommand.getAbsoluteExportFilePath(fileName));
         assertEquals(expected, csvStorage.getAddressBookFilePath());
     }
 
@@ -115,7 +117,7 @@ public class CsvAddressBookStorageTest {
     public void saveAddressBook_noArg_savesFileCorrectly() throws Exception {
         // Use a relative file name so that the constructed path is valid.
         String fileName = "TempAddressBook_noArg.csv";
-        CsvAddressBookStorage csvStorage = new CsvAddressBookStorage(fileName);
+        CsvAddressBookStorage csvStorage = new CsvAddressBookStorage(EXPORT_DIR_PREFIX + fileName);
         Path filePath = csvStorage.getAddressBookFilePath();
 
         // Get a typical address book from your test utilities.
