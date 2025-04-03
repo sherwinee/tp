@@ -321,12 +321,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -620,7 +614,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case resumes at step 2.
       *{More to be added}*
 
-
+---
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -631,7 +625,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 6.  The programme should not use more than 1GB of memory with no contacts added.
 7.  The programme should be persistent.
 
-*{More to be added}*
 
 ### Glossary
 
@@ -670,7 +663,6 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
 
 ### Deleting a person
 
@@ -687,72 +679,78 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Export/Import Data
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Test case: Export data to a different format (CSV/VCF), delete all contacts, then import.
 
-1. _{ more test cases …​ }_
+      Expected: All contacts should be restored after import.
+
+2. Auto save on exit
+
+    1. Test case: Modify data, then exit application.
+
+       Expected: Changes are automatically saved without explicit save command.
 
 ### Importing data
-**Setup**
+**Prerequisites**
 * Ensure the application is running and the imports directory is accessible.
 * Prepare test CSV and VCF files with various scenarios (valid entries, invalid entries, duplicates).
 
 **Test Cases**
 1. Basic Import Functionality
     
-    i. Execute: `import validfile.csv`
+    1. Execute: `import validfile.csv`
     
-    Expected: Success message with the number of contacts imported.
+        Expected: Success message with the number of contacts imported.
 
 2. File Format Handling
 
-    i. Execute: `import validfile.vcf`
+    1. Execute: `import validfile.vcf`
 
-    Expected: Success message with the number of contacts imported.
+       Expected: Success message with the number of contacts imported.
 
-    ii. Execute: import `invalidfile.txt`
+    1. Execute: import `invalidfile.txt`
 
-    Expected: Error message about unsupported file type.
+       Expected: Error message about unsupported file type.
 
 3. Empty File Handling
 
-    i. Import an empty CSV/VCF file.
+    1. Import an empty CSV/VCF file.
 
-    Expected: Error message stating no contacts in file.
+       Expected: Error message stating no contacts in file.
 
 4. Duplicate Handling
 
-    i. Import a file with duplicate entries only.
+    1. Import a file with duplicate entries only.
 
-    Expected: Error message with duplicates reported.
+       Expected: Error message with duplicates reported.
 
 5. Invalid Data Handling
 
-    i. Import a CSV/VCF file with invalid data (e.g., malformed email, invalid phone number).
+    1. Import a CSV/VCF file with invalid data (e.g., malformed email, invalid phone number).
 
-    Expected: Error message listing invalid entries, valid entries still imported.
+       Expected: Error message listing invalid entries, valid entries still imported.
 
 6. Large File Handling
 
-    i. Import a CSV/VCF file with a large number of valid entries (e.g., 1000+).
+    1. Import a CSV/VCF file with a large number of valid entries (e.g., 1000+).
 
-    Expected: Success message, all valid entries imported.
+       Expected: Success message, all valid entries imported.
 
 7. Partial Import
 
-    i. Import a file with some valid and some invalid entries.
+    1. Import a file with some valid and some invalid entries.
 
-    Expected: Success message for valid entries, error messages for invalid ones.
+       Expected: Success message for valid entries, error messages for invalid ones.
 
 8. Error Reporting
 
-    For each error case, verify that error messages are clear and informative.
+    1. For each error case, verify that error messages are clear and informative.
 
 9. Post-Import Verification
 
-    After successful imports, use other commands (e.g., list, find) to verify imported data.
+    1. After successful imports, use other commands (e.g., list, find) to verify imported data.

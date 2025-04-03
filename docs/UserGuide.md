@@ -216,9 +216,6 @@ If your changes to the data file makes its format invalid, Listify will discard 
 Furthermore, certain edits can cause Listify to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
