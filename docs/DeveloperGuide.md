@@ -160,7 +160,7 @@ This section describes some noteworthy details on how certain features are imple
 
 ### The find command
 
-The find command follows the same high-level flow as other commands in the **Logic component**. To implement the find command, the [java.util.function.Predicate](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html) class is extensively used. The internal `ArgumentMultiMap` class used in the add command parser is also made use of. Parsing is handled by the `FindCommandParser` class, a more lower-level sequence diagram showcasing how the valid input "n/John" is parsed is included below. 
+The find command follows the same high-level flow as other commands in the **Logic component**. To implement the find command, the [java.util.function.Predicate](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html) class is extensively used. The internal `ArgumentMultiMap` class used in the add command parser is also made use of. Parsing is handled by the `FindCommandParser` class, a more lower-level sequence diagram showcasing how the valid input "n/John" is parsed is included below.
 **NOTE**: The sequence diagram omits error checking logic for simplicity.
 
 <puml src="diagrams/InnerFindCommandParser.puml" width="550" />
@@ -367,7 +367,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 2a. The names/phone numbers/roles/tags in Listify do not contain any of the user provided names/phone numbers/roles/tags 
+* 2a. The names/phone numbers/roles/tags in Listify do not contain any of the user provided names/phone numbers/roles/tags
 
     * 2a1. Listify displays an empty list.
 
