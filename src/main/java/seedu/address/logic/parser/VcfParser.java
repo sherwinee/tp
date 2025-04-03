@@ -186,12 +186,12 @@ public class VcfParser {
 
     private static String parseName(VCard vcard, int rowNumber, List<String> errors) {
         if (vcard.getFormattedNames().size() > 1) {
-            errors.add("Contact " + rowNumber + " contains more than one formatted name");
+            errors.add("Cannot contain more than one formatted name");
         }
 
         FormattedName formattedName = vcard.getFormattedName();
         if (formattedName == null || isBlank(formattedName.getValue())) {
-            errors.add("Contact " + rowNumber + ": Missing required field 'FN' (Formatted Name)");
+            errors.add("Missing required field 'FN' (Formatted Name)");
             return "";
         }
 
@@ -200,10 +200,10 @@ public class VcfParser {
 
     private static String parsePhone(VCard vcard, String name, List<String> errors) {
         if (vcard.getTelephoneNumbers().size() > 1) {
-            errors.add(name + " contains more than one telephone number");
+            errors.add("Cannot contain more than one telephone number");
         }
         if (vcard.getTelephoneNumbers().isEmpty() || isBlank(vcard.getTelephoneNumbers().get(0).getText())) {
-            errors.add(name + ": Missing required field 'Phone'");
+            errors.add("Missing required field 'Phone'");
             return "";
         }
 
@@ -212,10 +212,10 @@ public class VcfParser {
 
     private static String parseEmail(VCard vcard, String name, List<String> errors) {
         if (vcard.getEmails().size() > 1) {
-            errors.add(name + " contains more than one email address");
+            errors.add("Cannot contain more than one email address");
         }
         if (vcard.getEmails().isEmpty() || isBlank(vcard.getEmails().get(0).getValue())) {
-            errors.add(name + ": Missing required field 'Email'");
+            errors.add("Missing required field 'Email'");
             return "";
         }
 
@@ -224,7 +224,7 @@ public class VcfParser {
 
     private static String parseAddress(VCard vcard, String name, List<String> errors) {
         if (vcard.getAddresses().isEmpty()) {
-            errors.add(name + ": Missing required field 'Address'");
+            errors.add("Missing required field 'Address'");
             return "";
         }
 
@@ -267,7 +267,7 @@ public class VcfParser {
 
     private static String parseRole(VCard vcard, String name, List<String> errors) {
         if (vcard.getTitles().size() > 1) {
-            errors.add(name + " contains more than one title");
+            errors.add("Cannot contain more than one title");
         }
 
         if (!vcard.getTitles().isEmpty()) {
