@@ -13,7 +13,9 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+* Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5), [ez-vcard](https://github.com/mangstadt/ez-vcard)
+* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -184,20 +186,16 @@ The sequence diagram below illustrates how the `import` command works:
 How the `import` command works:
 
 1. The user enters an import command (e.g., `import addressbook.csv`).
-1. `LogicManager` passes the command to `AddressBookParser`.
-1. `AddressBookParser` creates an `ImportCommandParser` to parse the arguments.
-1. `ImportCommandParser` validates the file path and creates an `ImportCommand`.
-1. `LogicManager` executes the `ImportCommand` with the current model.
-1. `ImportCommand` determines the file type and calls the appropriate parser.
-1. For CSV files:
- * `CsvParser` reads and parses the CSV file.
- * `ImportCommand` processes the raw data and creates `Person` objects.
-1. For VCF files:
- * `VcfParser` reads and parses the VCF file using the ez-vcard library.
- * The parser directly returns a list of `Person` objects.
-1. `ImportCommand` adds each valid person to the model.
-1. Duplicate entries are detected during the `addPerson` operation.
-1. A `CommandResult` is returned with a message indicating success or listing errors.
+2. `LogicManager` passes the command to `AddressBookParser`.
+3. `AddressBookParser` creates an `ImportCommandParser` to parse the arguments.
+4. `ImportCommandParser` validates the file path and creates an `ImportCommand`.
+5. `LogicManager` executes the `ImportCommand` with the current model.
+6. `ImportCommand` determines the file type and calls the appropriate parser:
+    - For CSV files: `CsvParser` reads and parses the CSV file, then `ImportCommand` processes the raw data and creates `Person` objects.
+    - For VCF files: `VcfParser` reads and parses the VCF file using the ez-vcard library and returns a list of `Person` objects.
+7. `ImportCommand` adds each valid person to the model.
+8. Duplicate entries are detected during the `addPerson` operation.
+9. A `CommandResult` is returned with a message indicating success or listing errors.
 
 #### Error handling
 
@@ -225,7 +223,7 @@ Errors are collected and reported to the user in the command result, allowing pa
 
 * **Alternative 1 (current choice):** Use a fixed imports directory.
     * Pros: Simplifies the command syntax and provides a standard location for import files.
-    * Cons: Less flexible for users.
+    * Con: Less flexible for users.
 
 * **Alternative 2:** Allow arbitrary file paths.
     * Pros: More flexibility for users.
@@ -385,10 +383,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  AddressBook deletes the person.
 
     Use case ends.
 
@@ -404,12 +402,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+---
+
 **Use case: View all contacts**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
 
     Use case ends.
 
@@ -418,50 +418,52 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The list is empty.
 
   Use case ends.
+---
 
 **Use case: Find a person by name**
 
 **MSS**
 
-1.  User requests to find a person by name
-2.  AddressBook shows the specific person user requested
+1.  User requests to find a person by name.
+2.  AddressBook shows the specific person user requested.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The persons name is not added to AddressBook
+* 2a. The persons name is not added to AddressBook.
 
     * 2a1. AddressBook shows an error message.
+    
+      Use case ends.
 
-
-Use case ends.
-
+---
 **Use case: Find a person by number**
 
 **MSS**
 
-1.  User requests to find a person by number
-2.  AddressBook shows the specific person user requested
+1.  User requests to find a person by number.
+2.  AddressBook shows the specific person user requested.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The persons number is not added to AddressBook
+* 2a. The persons number is not added to AddressBook.
 
     * 2a1. AddressBook shows an error message.
 
-  Use case ends.
+      Use case ends.
 
+---
 **Use case: Sort contacts alphabetically**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to sort contacts based on persons name
-4.  AddressBook shows sorted list of persons
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
+3.  User requests to sort contacts based on persons name.
+4.  AddressBook shows sorted list of persons.
 
     Use case ends.
 
@@ -471,6 +473,7 @@ Use case ends.
 
   Use case ends.
 
+---
 **Use case: Import contacts from CSV**
 
 **MSS**
@@ -488,38 +491,44 @@ Use case ends.
 * 2a. File path is invalid or file does not exist.
 
     * 2a1. System displays an error message.
-    Use case ends.
+    
+      Use case ends.
 
 * 2b. File format is not CSV.
 
     * 2b1. System displays an error message.
-    Use case ends.
+    
+      Use case ends.
 
 * 3a. CSV file has an invalid header.
 
     * 3a1. System displays an error message.
-    Use case ends.
+    
+      Use case ends.
 
 * 3b. CSV file is empty.
 
     * 3b1. System displays a message indicating no contacts were imported.
-    Use case ends.
+    
+      Use case ends.
 
 * 4a. Some contacts have invalid data.
 
     * 4a1. System skips invalid contacts.
     * 4a2. System continues importing valid contacts.
     * 4a3. System reports the rows with errors in the result message.
-    Use case resumes from step 5.
+    
+      Use case resumes from step 5.
 
 * 4b. Some contacts are duplicates of existing contacts.
 
     * 4b1. System skips duplicate contacts.
     * 4b2. System continues importing non-duplicate contacts.
     * 4b3. System reports the duplicate entries in the result message.
-    Use case resumes from step 5.
-
-**Use case: Import contacts from CSV**
+    
+      Use case resumes from step 5.
+---
+**Use case: Import contacts from VCF**
 
 **MSS**
 
@@ -536,40 +545,40 @@ Use case ends.
 * 2a. File path is invalid or file does not exist.
 
     * 2a1. System displays an error message.
-    Use case ends.
+    
+      Use case ends.
 
 * 2b. File format is not VCF.
 
     * 2b1. System displays an error message.
-    Use case ends.
-
-* 3a. Some VCF entries are missing required fields.
-
-    * 3a1. System reports the contacts with missing fields
-    Use case ends.
+    
+      Use case ends.
 
 * 4a. Some contacts have invalid data.
 
     * 4a1. System skips invalid contacts.
     * 4a2. System continues importing valid contacts.
     * 4a3. System reports the contacts with errors in the result message.
-    Use case resumes from step 5.
+    
+      Use case resumes from step 5.
 
 * 4b. Some contacts are duplicates of existing contacts.
 
     * 4b1. System skips duplicate contacts.
     * 4b2. System continues importing non-duplicate contacts.
     * 4b3. System reports the duplicate entries in the result message.
-    Use case resumes from step 5.
+    
+      Use case resumes from step 5.
 
+---
 **Use case: Edit persons information**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to edit a specific person in the list
-4.  AddressBook updates the person information
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
+3.  User requests to edit a specific person in the list.
+4.  AddressBook updates the person information.
 
     Use case ends.
 
@@ -586,28 +595,6 @@ Use case ends.
       Use case resumes at step 2.
       *{More to be added}*
 
-**Use case: Mark person as favourite**
-
-**MSS**
-
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to favourite a specific person in the list
-4.  AddressBook favourites the person
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. The list is empty.
-
-  Use case ends.
-
-* 3a. The given index is invalid.
-
-    * 3a1. AddressBook shows an error message.
-
-      Use case resumes at step 2.
 
 ### Non-Functional Requirements
 
@@ -624,11 +611,10 @@ Use case ends.
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Admin Staff** - An individual performing secretarial and administrative duties such as managing, liaising, and scheduling contacts
 * **Contact** - An individual an organisation/party has interest in communicating with.
 * **Contact Details** - Adjectives that can describe a contact including but not limited to Contact Name, Phone Number, and Email
 * **CSV File** - a simple text file that stores data in a tabular format, where each line represents a row and values within a row are separated by commas
+* **Event Organisers** – Tech-savvy event organisers who are fast typists and deal with large amounts of contacts.
 * **Tag** - To associate a Contact with a particular group
 
 --------------------------------------------------------------------------------------------------------------------
@@ -685,3 +671,63 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+### Importing data
+**Setup**
+* Ensure the application is running and the imports directory is accessible.
+* Prepare test CSV and VCF files with various scenarios (valid entries, invalid entries, duplicates).
+
+**Test Cases**
+1. Basic Import Functionality
+    
+    i. Execute: `import validfile.csv`
+    
+    Expected: Success message with the number of contacts imported.
+
+2. File Format Handling
+
+    i. Execute: `import validfile.vcf`
+
+    Expected: Success message with the number of contacts imported
+
+    ii. Execute: import `invalidfile.txt`
+
+    Expected: Error message about unsupported file type
+
+3. Empty File Handling
+
+    i. Import an empty CSV/VCF file
+
+    Expected: Appropriate error message
+
+4. Duplicate Handling
+
+    i. Import a file with duplicate entries only
+
+    Expected: Error message with duplicates reported
+
+5. Invalid Data Handling
+
+    i. Import a CSV/VCF file with invalid data (e.g., malformed email, invalid phone number)
+
+    Expected: Error message listing invalid entries, valid entries still imported
+
+6. Large File Handling
+
+    i. Import a CSV/VCF file with a large number of entries (e.g., 1000+)
+
+    Expected: Success message, all valid entries imported
+
+7. Partial Import
+
+    i. Import a file with some valid and some invalid entries
+
+    Expected: Success message for valid entries, error messages for invalid ones
+
+8. Error Reporting
+
+    For each error case, verify that error messages are clear and informative
+
+9. Post-Import Verification
+
+    After successful imports, use other commands (e.g., list, find) to verify imported data 

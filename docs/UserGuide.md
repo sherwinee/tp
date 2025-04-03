@@ -159,31 +159,35 @@ Examples:
 * `import addressbook.csv`: Imports contacts from a CSV named `addressbook.csv`.
 * `import contacts.vcf`: Imports contacts from a VCF named `contacts.vcf`.
 
-File Formats:
-CSV Format
+#### CSV Format
 * The first row must be the header: `Name,Phone,Email,Address,Role,Tags`.
 * Each subsequent row represents one contact
 * Tags are optional and can be separated by commas or semicolons
 
+Example:<br>
+```
+Name,Phone,Email,Address,Role,Tags
+Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6 #08-111,Organizer,friends;colleagues
+```
+
+#### VCF Format
+* Must follow standard vCard file format
+* Name must be present in a single `FN` field
+* There must be one and only one `TEL`, `EMAIL` and `ADDRESS` field
+* Role is parsed from the `TITLE` field (defaults to "Unassigned" if missing)
+* All other fields are ignored
+
 Example:
-* Name,Phone,Email,Address,Role,Tags
-  Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6 #08-111,Organizer,friends;colleagues
-
-VCF Format
-* Standard vCard format
-* Must include name, phone, email, and address fields
-* Role is taken from the TITLE field (defaults to "Unassigned" if missing)
-
-Example:
-* BEGIN:VCARD
-  VERSION:4.0
-  FN:Alice Pauline
-  TEL:98761234
-  EMAIL:alice@example.com
-  ADR:PO Box 123;Suite 456;123 Jurong West Ave 6 #08-111;Singapore;Central;600123;Singapore
-  TITLE:Organizer
-  END:VCARD
-
+```
+BEGIN:VCARD
+VERSION:4.0
+FN:Alice Pauline
+TEL:98761234
+EMAIL:alice@example.com
+ADR:PO Box 123;Suite 456;123 Jurong West Ave 6 #08-111;Singapore;Central;600123;Singapore
+TITLE:Organizer
+END:VCARD
+```
 
 ### Clearing all entries : `clear`
 

@@ -89,7 +89,7 @@ loop for each person in persons
     deactivate Model
 end
 
-ImportCommand --> ImportCommand : duplicateErrors
+
 deactivate ImportCommand
 
 create CommandResult
