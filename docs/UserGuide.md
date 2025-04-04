@@ -301,8 +301,9 @@ Action     | Format, Examples
 **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/ROLE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 r/Software Engineer t/friend t/colleague`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Delete with Tag**   | `deletewithtag TAGNAME` <br> e.g., `deletewithtag colleague`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/ROLE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find**   | `find PREFIX/KEYWORD [PREFIX/MORE_KEYWORDS]`<br> e.g., `find n/James n/Matthew`
 **Sort**   | `sort ORDER`<br> e.g., `sort asc`
 **Contact**   | `contact INDEX` <br> e.g., `contact 2`
 **Import**   | `import FILENAME` <br> e.g., `import contacts.vcf`
