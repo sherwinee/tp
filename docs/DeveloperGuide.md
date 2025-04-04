@@ -286,6 +286,7 @@ Errors are collected and reported to the user in the command result, allowing pa
 * **Alternative 1 (current choice):** Skip duplicates and report them to the user.
     * Pros: Prevents accidental data duplication and provides clear feedback about which entries were skipped.
     * Cons: Requires additional error handling and reporting logic.
+    * The app identifies duplicate contacts by checking if either the Phone Number, Email, or both are exactly the same.
 
 * **Alternative 2:** Allow duplicates to be added.
     * Pros: Simpler implementation.
