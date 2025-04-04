@@ -302,8 +302,6 @@ Errors are collected and reported to the user in the command result, allowing pa
     * Pros: More flexibility for users.
     * Cons: More complex command syntax and security considerations
 
->>>>>>> master
-
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
