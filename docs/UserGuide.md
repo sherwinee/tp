@@ -67,9 +67,17 @@ Listify is a **desktop app for managing contacts, optimized for use via a  Line 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
-**General Programme Limitations:**<br>
+<box type="info" seamless>
 
-* The maximum number of contacts that Listify supports is limited to the _Java Integer Max Value_ supported by the system running Listify.<br>
+**Maximum Number of Contacts:**<br>
+The maximum number of contacts that Listify supports is limited to the _Java Integer Max Value_ supported by the system running Listify.
+</box>
+
+<box type="info" seamless>
+
+**Duplicate Contacts Detection**<br>
+The app identifies duplicate contacts by checking if either the **Phone Number**, **Email**, or _both_ are exactly the same.
+</box>
 
 ### Viewing help : `help`
 
@@ -150,6 +158,19 @@ Format: `delete INDEX`
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+### Deleting multiple people : `deletewithtag`
+
+Deletes the all people with a matching tag from the address book.
+
+Format: `delete TAGNAME`
+
+* Deletes all people with the specified `TAGNAME`.
+* The tagname refers to a tag a person is associated with, shown in the displayed person list.
+* The tagname **must be an exact match (case-insensitive) to the tag name of the desired persons(s) to delete**.
+
+Examples:
+* `list` followed by `delete colleagues` deletes everyone with the tag `colleagues` in listify.
 
 ### Sorting contacts : `sort`
 
@@ -288,8 +309,9 @@ Action     | Format, Examples
 **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/ROLE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 r/Software Engineer t/friend t/colleague`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Delete with Tag**   | `deletewithtag TAGNAME` <br> e.g., `deletewithtag colleague`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/ROLE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find**   | `find PREFIX/KEYWORD [PREFIX/MORE_KEYWORDS]`<br> e.g., `find n/James n/Matthew`
 **Sort**   | `sort ORDER`<br> e.g., `sort asc`
 **Contact**   | `contact INDEX` <br> e.g., `contact 2`
 **Import**   | `import FILENAME` <br> e.g., `import contacts.vcf`

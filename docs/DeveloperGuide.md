@@ -160,6 +160,17 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### The find command
+
+The find command follows the same high-level flow as other commands in the **Logic component**. To implement the find command, the [java.util.function.Predicate](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html) class is extensively used. The internal `ArgumentMultiMap` class used in the add command parser is also made use of. Parsing is handled by the `FindCommandParser` class, a more lower-level sequence diagram showcasing how the valid input "n/John" is parsed is included below.
+**NOTE**: The sequence diagram omits error checking logic for simplicity.
+
+<puml src="diagrams/InnerFindCommandParser.puml" width="550" />
+<puml src="diagrams/arePrefixesPresent.puml" width="550" />
+
+**NOTE**: As like other sequence diagrams in this guide, the lifeline for `a:ArgumenMultiMap` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+Parsing other valid prefixes ("t/", "r/" "p/") is different to how "n/" is parsed in the use of other XYZContainsKeywordsPredicates than NameContainsKeywordsPredicate class (`TagsContainsKeywordsPredicate`, `RoleContainsKeywordsPredicate`, `PhoneNumberContainsKeywordsPredicate` respectively).
+
 ### Sort command
 
 The `sort` command follows the standard flow of other commands in the **Logic component**, ensuring seamless integration with the system. The `SortCommand` class is responsible for sorting the list of contacts based on ascending or descending order. The parsing logic is handled by `SortCommandParser`.
@@ -275,6 +286,7 @@ Errors are collected and reported to the user in the command result, allowing pa
 * **Alternative 1 (current choice):** Skip duplicates and report them to the user.
     * Pros: Prevents accidental data duplication and provides clear feedback about which entries were skipped.
     * Cons: Requires additional error handling and reporting logic.
+    * The app identifies duplicate contacts by checking if either the Phone Number, Email, or both are exactly the same.
 
 * **Alternative 2:** Allow duplicates to be added.
     * Pros: Simpler implementation.
@@ -290,6 +302,7 @@ Errors are collected and reported to the user in the command result, allowing pa
     * Pros: More flexibility for users.
     * Cons: More complex command syntax and security considerations
 
+>>>>>>> master
 
 ### \[Proposed\] Undo/redo feature
 
@@ -500,38 +513,20 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   Use case ends.
 ---
 
-**Use case: Find a person by name**
+**Use case: Find person(s)**
 
 **MSS**
 
-1.  User requests to find a person by name.
-2.  AddressBook shows the specific person user requested.
+1.  User requests to find all person(s) containing the same names/phone numbers/roles/tags as the provided names/phone numbers/roles/tags
+2.  AddressBook shows a list of person(s) user requested
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The persons name is not added to AddressBook.
+* 2a. The names/phone numbers/roles/tags in Listify do not contain any of the user provided names/phone numbers/roles/tags
 
-    * 2a1. AddressBook shows an error message.
-
-      Use case ends.
-
----
-**Use case: Find a person by number**
-
-**MSS**
-
-1.  User requests to find a person by number.
-2.  AddressBook shows the specific person user requested.
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. The persons number is not added to AddressBook.
-
-    * 2a1. AddressBook shows an error message.
+    * 2a1. Listify displays an empty list.
 
       Use case ends.
 
@@ -699,6 +694,29 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+
+**Use case: Delete multiple person(s) with the same tag**
+
+**MSS**
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+3.  User requests to delete any person(s) with the same provided tag
+4.  AddressBook deletes all person(s) with the provided tag
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The provided tag doesn't match any existing tags.
+
+    * 3a1. AddressBook shows 0 person(s) deleted.
+
+      Use case resumes at step 2.
 
 ---
 
