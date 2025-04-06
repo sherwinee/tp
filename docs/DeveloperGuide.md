@@ -168,7 +168,7 @@ The find command follows the same high-level flow as other commands in the **Log
 <puml src="diagrams/InnerFindCommandParser.puml" width="550" />
 <puml src="diagrams/arePrefixesPresent.puml" width="550" />
 
-**NOTE**: As like other sequence diagrams in this guide, the lifeline for `a:ArgumenMultiMap` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+**NOTE**: As like other sequence diagrams in this guide, the lifeline for `a:ArgumentMultiMap` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 Parsing other valid prefixes ("t/", "r/" "p/") is different to how "n/" is parsed in the use of other XYZContainsKeywordsPredicates than NameContainsKeywordsPredicate class (`TagsContainsKeywordsPredicate`, `RoleContainsKeywordsPredicate`, `PhoneNumberContainsKeywordsPredicate` respectively).
 
 ### Sort command
