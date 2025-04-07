@@ -6,7 +6,7 @@
 
 # Listify User Guide
 
-Listify is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Listify can get your contact management tasks done faster than traditional GUI apps.
+Listify is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Listify can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -264,6 +264,13 @@ END:VCARD
 
 Clears all entries from the address book.
 
+**Warning: The `clear` command is irreversible.**<br>
+
+* Once executed, all entries will be permanently deleted from the address book.
+* There is currently no `undo` command to restore deleted entries.
+* Future versions may include an `undo` feature, but it is not available at this time. Please proceed with caution.
+</box>
+
 Format: `clear`
 
 ### Exiting the program : `exit`
@@ -293,7 +300,7 @@ Furthermore, certain edits can cause Listify to behave in unexpected ways (e.g.,
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder. 
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Listify home folder. 
 Alternatively, use the export command to export a csv file of all contacts, and use the import command on the destination computer to import contacts from that file (last-contacted times not transferred). 
 
 --------------------------------------------------------------------------------------------------------------------
