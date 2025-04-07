@@ -732,12 +732,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
+* **Mainstream OS**: Windows, Linux, Unix, MacOS.
 * **Contact** - An individual an organisation/party has interest in communicating with.
-* **Contact Details** - Adjectives that can describe a contact including but not limited to Contact Name, Phone Number, and Email
-* **CSV File** - a simple text file that stores data in a tabular format, where each line represents a row and values within a row are separated by commas
+* **Contact Details** - Adjectives that can describe a contact including but not limited to Contact Name, Phone Number, and Email.
+* **CSV File** - a simple text file that stores data in a tabular format, where each line represents a row and values within a row are separated by commas.
 * **Event Organisers** – Tech-savvy event organisers who are fast typists and deal with large amounts of contacts.
-* **Tag** - To associate a Contact with a particular group
+* **Tag** - To associate a Contact with a particular group.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -752,13 +752,14 @@ testers are expected to do more *exploratory* testing.
 
 </box>
 
+
 ### Launch and shutdown
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    1. Double-click the jar file<br> Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 1. Saving window preferences
 
@@ -890,4 +891,16 @@ testers are expected to do more *exploratory* testing.
 
 ## **Appendix: Planned Enhancements**
 
-* (This section will be done after PE-D bug reports have been received).
+* Team size: 5
+
+1. Allow more flexibility for `Name` field: Allow symbols such as s/o, hyphens, @, Arabic and Tamil names so that users can input names such as “Nagaratnam s/o Suppiah”, “Chloe-Jasmine”, “Tan Cheng Bok @ Adrian Tan”, "X Æ A-Xii" and “அபிஷேக்”).
+
+2. More input choices for `contact` command: To allow flexibility to users by allowing other timing and not just current time.
+
+3. Import and export command to include last contacted timing field: Currently, the import and export command only include the following fields: Name, Phone, Email, Address, Role, Tags. We plan to also import/export the `Last contacted` field.
+
+4. Word wrap based on how wide the GUI window is (when input provided by user is too long, line break and specify clearly which field each line belongs to)
+
+5. Input validation for phone numbers to allow alphanumeric chars such as (, ), + and spaces for a clearer view of users input numbers.
+
+6. More sorting choices for `sort` command: Currently, the `sort` command only allows sorting by `name` and `phone`. We plan to allow users to also sort by `tag`, `role` and `last contacted`.
