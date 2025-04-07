@@ -145,7 +145,7 @@ public class ImportCommand extends Command {
                 model.addPerson(person);
                 successfullyImportedPersons.add(person);
             } catch (DuplicatePersonException e) {
-                String errorPrefix = isVcf ? person.getName().fullName + ": " : "Row " + rowNumber + ": ";
+                String errorPrefix = isVcf ? person.getName().fullName + ": " : "Row " + rowNumber + " of CSV: ";
                 duplicateErrors.add(errorPrefix + e.getMessage());
             }
         }
@@ -191,7 +191,7 @@ public class ImportCommand extends Command {
         assert rowNumber > 0 : "Row number should be positive";
 
         if (values.size() < 5) {
-            errors.add("Row " + rowNumber + ": Missing required fields (Name, Phone, Email, Address, Role).");
+            errors.add("Row " + rowNumber + " of CSV: Missing required fields (Name, Phone, Email, Address, Role).");
             return null;
         }
 
@@ -207,7 +207,7 @@ public class ImportCommand extends Command {
             return new Person(name, phone, email, address, role, tags, Optional.empty());
 
         } catch (IllegalArgumentException e) {
-            errors.add("Row " + rowNumber + ": " + e.getMessage());
+            errors.add("Row " + rowNumber + " of CSV: " + e.getMessage());
             return null;
         }
     }

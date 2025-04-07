@@ -54,7 +54,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "A duplicate contact already exists in the address book.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -83,13 +83,26 @@ public class EditCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+        if (hasDuplicate(model, personToEdit, editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+    }
+
+    /**
+     * Checks whether editing this person would result in a duplicate in the provided model
+     * @param model model
+     * @param personToEdit The person object from the model to be edited
+     * @param editedPerson The proposed edited person
+     * @return true if the edit will result in a duplicate in the model
+     */
+    private static boolean hasDuplicate(Model model, Person personToEdit, Person editedPerson) {
+        return model.getAddressBook().getPersonList().stream()
+                .filter(p -> p != personToEdit)
+                .anyMatch(p -> p.isSamePerson(editedPerson));
     }
 
     /**

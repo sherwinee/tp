@@ -14,7 +14,7 @@ public class SortCommand extends Command {
 
     public static final String COMMAND_WORD = "sort";
 
-    public static final String MESSAGE_SUCCESS = "Contacts sorted by name in %s order.";
+    public static final String MESSAGE_SUCCESS = "Contacts sorted by name (then phone) in %s order.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Sort contacts by name in ascending or descending order.\n"
@@ -45,6 +45,7 @@ public class SortCommand extends Command {
         }
 
         model.sortFilteredPersonList(comparator);
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, isAscending ? "ascending" : "descending"));
     }
 

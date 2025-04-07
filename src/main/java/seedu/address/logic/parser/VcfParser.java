@@ -159,7 +159,8 @@ public class VcfParser {
     }
 
     private static String createContactIdentifier(String fullName, int rowNumber) {
-        return fullName.isEmpty() ? "Contact " + rowNumber : "Contact Number " + rowNumber + " " + fullName;
+        return fullName.isEmpty() ? "Contact " + rowNumber + " of VCF" : "Contact "
+                + rowNumber + " of VCF: " + fullName;
     }
 
     private static String extractField(VCard vcard, String contactIdentifier, List<String> contactErrors,

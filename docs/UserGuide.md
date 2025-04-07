@@ -1,4 +1,4 @@
----
+---user
   layout: default.md
   title: "User Guide"
   pageNav: 3
@@ -6,7 +6,7 @@
 
 # Listify User Guide
 
-Listify is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Listify can get your contact management tasks done faster than traditional GUI apps.
+Listify is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Listify can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -31,7 +31,7 @@ Listify is a **desktop app for managing contacts, optimized for use via a  Line 
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 r/Vendor` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 r/Vendor` : Adds a contact named `John Doe` to Listify.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -93,10 +93,12 @@ Format: `help`
 
 ### Adding a person: `add`
 
-Adds a person to the address book.
+Adds a person to Listify.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/ROLE [t/TAG]…​`
 <box type="tip" seamless>
+* Phone numbers must have a length of 3-15 numerical digits only
+
 
 **Tip:** A person can have any number of tags (including 0)
 </box>
@@ -107,13 +109,13 @@ Examples:
 
 ### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+Shows a list of all persons in Listify.
 
 Format: `list`
 
 ### Editing a person : `edit`
 
-Edits an existing person in the address book.
+Edits an existing person in Listify.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/ROLE] [t/TAG]…​`
 
@@ -132,25 +134,32 @@ Examples:
 
 Finds persons whose name/phone/tag/role contain any of the given keywords.
 
-Format: `find PREFIX/KEYWORD [MORE_KEYWORDS]`
+Format: `find PREFIX/KEYWORD [PREFIX/MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * The contacts will be searched based on the given prefix to be searched
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-* find by phone will only allow 1 keyword e.g. find p/98763547
+* Different prefixes can not be used together
+  e.g. `find n/hans p/98763547` will result in an error
+* Keywords are seperated by prefix
+  e.g. `find n/Hans Gruber n/Bo Yang` has keywords `Hans Gruber`, `Bo Yang`
+* #### Name, role, and tag search
+* The search is case-insensitive. e.g `find n/hans` will show `Hans Gruber`
+* Partial keywords **which includes whitespace** will be matched
+e.g. `find n/Hans G` will match `Hans Gruber` but `find n/Han   G` will not match
+* Persons partially matching at least keyword one will be returned (i.e. `OR` search)
+  e.g. `find n/Hans n/Bo` will return `Hans Gruber`, `Bo Yang`
+* #### Phone search
+* find by phone will not allow whitespaces
+e.g. `find p/98763547 98761234` results in an error - instead use `find p/98763547 p/98761234`
 
 Examples:
 * `find n/John` returns `john` and `John Doe`
 * `find r/Software` returns `Software` and `Software Engineer`
-* `find n/alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find n/alex n/david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 ### Deleting a person : `delete`
 
-Deletes the specified person from the address book.
+Deletes the specified person from Listify.
 
 Format: `delete INDEX`
 
@@ -159,32 +168,34 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `list` followed by `delete 2` deletes the 2nd person in Listify.
+* `find n/Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ### Deleting multiple people : `deletewithtag`
 
-Deletes the all people with a matching tag from the address book.
+Deletes all contacts with a matching tag from Listify.
 
-Format: `delete TAGNAME`
+Format: `deletewithtag TAGNAME`
 
 * Deletes all people with the specified `TAGNAME`.
 * The tagname refers to a tag a person is associated with, shown in the displayed person list.
 * The tagname **must be an exact match (case-insensitive) to the tag name of the desired persons(s) to delete**.
 
 Examples:
-* `list` followed by `delete colleagues` deletes everyone with the tag `colleagues` in listify.
+* `list` followed by `deletewithtag colleagues` deletes everyone with the tag `colleagues` in listify.
 
 ### Sorting contacts : `sort`
 
-Sort the address book in ascending or descending order by name or by phone if there are duplicate names.
+Sort Listify in ascending or descending order by name or by phone if there are duplicate names.
 
 Format: `sort ORDER`
 
 * Sort the list of contacts by name or by phone if there are duplicate names in ascending or descending order.
+* The original order of the list will be retained after using `sort` to aid in further operations or after closing the application.
 
 Examples:
 * `list` followed by `sort asc` sorts the list of contacts by name or by phone if there are duplicate names in ascending order.
+* `list` followed by `sort desc` sorts the list of contacts by name or by phone if there are duplicate names in descending order.
 
 ### Mark person as contacted : `contact`
 
@@ -195,10 +206,13 @@ Format: `contact INDEX`
 * Marks the person as contacted at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* The contacted field of the person will be changed to 'Last Contacted: dd mmm yyyy hh:mm'.
+* The contacted field will not be imported or exported as this field is not part of the contact and is for the user to reference while using the application.
 
 Examples:
-* `list` followed by `contact 2` changes the status of the 2nd person in the address book to 'Last Contacted: <Current Date & Time>'.
-* `find Betsy` followed by `contact 1` marks the 1st person in the results of the `find` command as contacted at the current date & time.
+
+* `list` followed by `contact 2` changes the status of the 2nd person in Listify to 'Last Contacted: <Current Date & Time>'.
+* `find n/Betsy` followed by `contact 1` marks the 1st person in the results of the `find` command as contacted at the current date & time.
 
 ### Exporting all contacts : `export`
 
@@ -219,7 +233,7 @@ Examples:
 
 ### Importing contacts : `import`
 
-Import contacts from CSV or VCF files into the address book.
+Import contacts from CSV or VCF files into Listify.
 
 Format: `import FILENAME`
 
@@ -262,7 +276,14 @@ END:VCARD
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from Listify.
+
+**Warning: The `clear` command is irreversible.**<br>
+
+* Once executed, all entries will be permanently deleted from the address book.
+* There is currently no `undo` command to restore deleted entries.
+* Future versions may include an `undo` feature, but it is not available at this time. Please proceed with caution.
+</box>
 
 Format: `clear`
 
@@ -293,7 +314,8 @@ Furthermore, certain edits can cause Listify to behave in unexpected ways (e.g.,
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder. 
+
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Listify home folder. 
 Alternatively, use the export command to export a csv file of all contacts, and use the import command on the destination computer to import contacts from that file (last-contacted times not transferred). 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -319,6 +341,6 @@ Action     | Format, Examples
 **Sort**   | `sort ORDER`<br> e.g., `sort asc`
 **Contact**   | `contact INDEX` <br> e.g., `contact 2`
 **Import**   | `import FILENAME` <br> e.g., `import contacts.vcf`
-**Export** | `export FILENAME`<br> e.g., `export contacts.csv` 
+**Export** | `export FILENAME`<br> e.g., `export contacts.csv`
 **List**   | `list`
 **Help**   | `help`
