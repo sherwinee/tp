@@ -11,7 +11,7 @@ import seedu.address.commons.util.ToStringBuilder;
 public class PhoneNumberContainsKeywordsPredicate implements Predicate<Person> {
     public static final String MESSAGE_CONSTRAINTS =
             "Phone search terms must be 3-18 digits long";
-    private static final String VALIDATION_REGEX = "\\d{3,18}";
+    private static final String VALIDATION_REGEX = "\\d{3,15}";
     private final List<String> keywords;
 
     public PhoneNumberContainsKeywordsPredicate(List<String> keywords) {
