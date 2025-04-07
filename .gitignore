@@ -29,3 +29,4 @@ docs/_markbind/logs/
 
 # Files generated in exports directory
 /exports/*
+/imports/*
