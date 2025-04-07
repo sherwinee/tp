@@ -22,6 +22,12 @@ public class DeleteAllWithTagCommandParserTest {
     }
 
     @Test
+    public void parse_containsWhitespace_throwsParseException() {
+        assertParseFailure(parser, "friends colleagues", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            DeleteAllWithTagCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_validArgs_returnsDeleteAllWithTagCommand() {
         // no leading and trailing whitespaces
         DeleteAllWithTagCommand expectedFindCommand =
