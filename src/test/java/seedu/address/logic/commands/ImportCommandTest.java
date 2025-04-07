@@ -133,7 +133,7 @@ public class ImportCommandTest {
         ImportCommand command = new ImportCommand(tempCsvFile);
         String expectedMessage = String.format(ImportCommand.MESSAGE_SUCCESS, 7)
                 + "\nHowever, some duplicate entries were found and skipped:\n"
-                + "Row 9: Operation would result in duplicate persons\n";
+                + "Row 9 of CSV: Operation would result in duplicate persons\n";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
