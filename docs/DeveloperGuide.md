@@ -214,7 +214,7 @@ A sequence diagram illustrating the execution flow of `ContactCommand` when a us
 **NOTE**: As with other sequence diagrams, the destruction of temporary objects may not be fully represented due to PlantUML limitations.
 
 ### Export feature
-The export feature exports the entire address book into a csv or vcf file using the same command.
+The export feature exports the entire address book into a CSV or VCF file using the same command.
 
 This is facilitated by the jackson-dataformat-csv and ez-vcard library, jackson is already used for Storage. Classes for this feature follow the structure of existing
 Storage classes used for reading/writing to json storage with necessary modifications to facilitate CSV and VCF
@@ -232,9 +232,9 @@ formatting.
 1. `ExportCommand::execute` is invoked, which instantiates a `CsvAddressBookStorage` with the filename
 2. `ExportCommand::execute` invokes the `CsvAddressBookStorage::saveAddressBook` method with the `AddressBook` which saves all contacts in the address book to a file
 3. `CsvAddressBookStorage::saveAddressBook` instantiates a new `CsvSerializableAddressBook` to format all `Person` object properties to CSV friendly formats.
-4. `CsvAddressBookStorage::saveAddressBook` uses the `List` of `CsvAdaptedPersons` to create the export file using the Jackson library (ez-vcard library for vcf)
+4. `CsvAddressBookStorage::saveAddressBook` uses the `List` of `CsvAdaptedPersons` to create the export file using the Jackson library (ez-vcard library for VCF)
 
-The above flow applies to vcf exports as well. However, the implementation logic in the methods of the above classes are very different as they
+The above flow applies to VCF exports as well. However, the implementation logic in the methods of the above classes are very different as they
 utilise different libraries.
 
 #### Error handling
@@ -482,16 +482,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `Listify` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use case: Delete a person**
 
 **MSS**
 
 1.  User requests to list persons.
-2.  AddressBook shows a list of persons.
+2.  Listify shows a list of persons.
 3.  User requests to delete a specific person in the list.
-4.  AddressBook deletes the person.
+4.  Listify deletes the person.
 
     Use case ends.
 
@@ -503,7 +503,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. Listify shows an error message.
 
       Use case resumes at step 2.
 
@@ -514,7 +514,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1.  User requests to list persons.
-2.  AddressBook shows a list of persons.
+2.  Listify shows a list of persons.
 
     Use case ends.
 
@@ -529,14 +529,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to find all person(s) containing the same names/phone numbers/roles/tags as the provided names/phone numbers/roles/tags
-2.  AddressBook shows a list of person(s) user requested
+1.  User requests to find all person(s) containing the same names/phone numbers/roles/tags as the provided names/phone numbers/roles/tags.
+2.  Listify shows a list of person(s) user requested.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The names/phone numbers/roles/tags in Listify do not contain any of the user provided names/phone numbers/roles/tags
+* 2a. The names/phone numbers/roles/tags in Listify do not contain any of the user provided names/phone numbers/roles/tags.
 
     * 2a1. Listify displays an empty list.
 
@@ -548,9 +548,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1.  User requests to list persons.
-2.  AddressBook shows a list of persons.
+2.  Listify shows a list of persons.
 3.  User requests to sort contacts based on persons name.
-4.  AddressBook shows sorted list of persons.
+4.  Listify shows sorted list of persons.
 
     Use case ends.
 
@@ -564,9 +564,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.	User requests to export contacts to a csv file
-2.	Listify exports all contacts to a csv file
-3.	Listify shows a success message with the saved file location
+1.	User requests to export contacts to a csv file.
+2.	Listify exports all contacts to a csv file.
+3.	Listify shows a success message with the saved file location.
 
 Use case ends.
 
@@ -574,44 +574,44 @@ Use case ends.
 
 * 1a. The provided filename is invalid
 
-    * 1a1. Listify shows an error message
+    * 1a1. Listify shows an error message.
       Use case ends.
 
 * 1b. The export file creation failed
 
-    * 1b1. Listify shows an error message
+    * 1b1. Listify shows an error message.
       Use case ends.
 
 * 1c. A file with the given filename given already exists
 
-    * 1c1. Listify shows an error message
+    * 1c1. Listify shows an error message.
       Use case ends
 
 Use case: Export contacts to vcf
 Similar to Export contacts to csv use case, except for the file type
 MSS
-1.	User requests to export contacts to a vcf file
-2.	Listify exports all contacts to a vcf file
-3.	Listify shows a success message with the saved file location
+1.	User requests to export contacts to a vcf file.
+2.	Listify exports all contacts to a vcf file.
+3.	Listify shows a success message with the saved file location.
 
 Use case ends.
 
 **Extensions**
 * 1a. The provided filename is invalid
 
-    * 1a1. Listify shows an error message
+    * 1a1. Listify shows an error message.
 
       Use case ends.
 
 * 1b. The export file creation failed
 
-    * 1b1. Listify shows an error message
+    * 1b1. Listify shows an error message.
 
       Use case ends.
 
 * 1c. A file with the given filename given already exists
 
-    * 1c1. Listify shows an error message
+    * 1c1. Listify shows an error message.
       Use case ends
 
 ---
@@ -717,9 +717,9 @@ Use case ends.
 **MSS**
 
 1.  User requests to list persons.
-2.  AddressBook shows a list of persons.
+2.  Listify shows a list of persons.
 3.  User requests to edit a specific person in the list.
-4.  AddressBook updates the person information.
+4.  Listify updates the person information.
 
     Use case ends.
 
@@ -731,20 +731,18 @@ Use case ends.
 
 * 3a. The updated information is not valid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. Listify shows an error message.
 
       Use case resumes at step 2.
-      *{More to be added}*
-
 
 **Use case: Mark a contact as contacted**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to mark a specific person in the list as contacted
-4.  AddressBook updates the person's last contacted time
+1.  User requests to list persons.
+2.  Listify shows a list of persons.
+3.  User requests to mark a specific person in the list as contacted.
+4.  Listify updates the person's last contacted time.
 
     Use case ends.
 
@@ -756,7 +754,7 @@ Use case ends.
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. Listify shows an error message.
 
       Use case resumes at step 2.
 
@@ -765,10 +763,10 @@ Use case ends.
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete any person(s) with the same provided tag
-4.  AddressBook deletes all person(s) with the provided tag
+1.  User requests to list persons.
+2.  Listify shows a list of persons.
+3.  User requests to delete any person(s) with the same provided tag.
+4.  Listify deletes all person(s) with the provided tag.
 
     Use case ends.
 
@@ -780,7 +778,7 @@ Use case ends.
 
 * 3a. The provided tag doesn't match any existing tags.
 
-    * 3a1. AddressBook shows 0 person(s) deleted.
+    * 3a1. Listify shows 0 person(s) deleted.
 
       Use case resumes at step 2.
 
@@ -802,8 +800,8 @@ Use case ends.
 * **Mainstream OS**: Windows, Linux, Unix, MacOS.
 * **Contact** - An individual an organisation/party has interest in communicating with.
 * **Contact Details** - Adjectives that can describe a contact including but not limited to Contact Name, Phone Number, and Email
-* **CSV File** - a simple text file that stores data in a tabular format, where each line represents a row and values within a row are separated by commas
-* **VCF File** - a common file format used to store and exchange digital contact information across devices and platforms (iCloud, Google Contacts, etc.) 
+* **CSV File** - (Comma Separated Values) a simple text file that stores data in a tabular format, where each line represents a row and values within a row are separated by commas
+* **VCF File** - (Vcard) a common file format used to store and exchange digital contact information across devices and platforms (iCloud, Google Contacts, etc.) 
 * **Event Organisers** – Tech-savvy event organisers who are fast typists and deal with large amounts of contacts.
 * **Tag** - To associate a contact with a particular group
 
@@ -927,20 +925,20 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: Have contacts added in the app.
 
-   1. Test case: export to valid csv filename `export a.csv`.<br>
+   1. Test case: export to valid CSV filename `export a.csv`.<br>
    Expected: File exports successfully.
 
-   1. Test case: export to valid vcf filename `export b.vcf`.<br>
+   1. Test case: export to valid VCF filename `export b.vcf`.<br>
    Expected: File exports successfully.
 
 1. Exporting contacts with invalid filename and contacts added.
 
    1. Prerequisites: Have contacts added in the app.
 
-   1. Test case: export to invalid csv filename `export .csv`.<br>
+   1. Test case: export to invalid CSV filename `export .csv`.<br>
    Expected: Error message about invalid filename.
 
-   1. Test case: export to invalid vcf filename `export !@#$%^'::'.vcf`.<br>
+   1. Test case: export to invalid VCF filename `export !@#$%^'::'.vcf`.<br>
    Expected: Error message about invalid filename.
 
    1. Test case: export to invalid filename `export aaa`.<br>
@@ -951,10 +949,10 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: run the `clear` command to remove all contacts.<br>
    Expected: All contacts removed from app.
 
-   1. Test case: export to valid csv filename `export a.csv`.<br>
+   1. Test case: export to valid CSV filename `export a.csv`.<br>
    Expected: Error message about no contacts.
 
-   1. Test case: export to valid vcf filename `export b.vcf`.<br>
+   1. Test case: export to valid VCF filename `export b.vcf`.<br>
    Expected: Error message about no contacts.
 
 
@@ -967,16 +965,21 @@ testers are expected to do more *exploratory* testing.
 1. Sort contacts in ascending order
 
     1. Execute: `sort asc`
+   
        Expected: Contacts sorted by name (then phone) in ascending order.
 
 2. Sort contacts in descending order
 
     1. Execute: `sort desc`
+   
        Expected: Contacts sorted by name (then phone) in descending order.
 
 3. Sort an empty contact list
-    1. Prerequisites: run the `clear` command to remove all contacts. 
+
+    1. Prerequisites: run the `clear` command to remove all contacts.
+   
     2. Execute: `sort asc`
+   
        Expected: No contacts to sort.
 
 
@@ -989,16 +992,19 @@ testers are expected to do more *exploratory* testing.
 1. Contact the 1st person in the list
 
     1. Execute: `contact 1`
+   
        Expected: Contact 1 marked as contacted.
 
 2. Invalid index number handling
 
     1. Execute: `contact 2147483648`
+   
        Expected: Invalid index number.
 
 3. Invalid string input handling
 
     1. Execute: `contact bob`
+   
        Expected: Invalid command format or usage.
 
 
