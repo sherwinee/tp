@@ -887,6 +887,53 @@ testers are expected to do more *exploratory* testing.
    1. Test case: export to valid vcf filename `export b.vcf`.<br>
    Expected: Error message about no contacts.
 
+
+
+### Sort contacts
+**Prerequisites**
+* List all persons using the `list` command. Multiple persons in the list.
+
+**Test Cases**
+1. Sort contacts in ascending order
+
+    1. Execute: `sort asc`
+       Expected: Contacts sorted by name (then phone) in ascending order.
+
+2. Sort contacts in descending order
+
+    1. Execute: `sort desc`
+       Expected: Contacts sorted by name (then phone) in descending order.
+
+3. Sort an empty contact list
+    1. Prerequisites: run the `clear` command to remove all contacts. 
+    2. Execute: `sort asc`
+       Expected: No contacts to sort.
+
+
+
+### Mark person as contacted
+**Prerequisites**
+* Ensure the application is populated with contacts.
+
+**Test Cases**
+1. Contact the 1st person in the list
+
+    1. Execute: `contact 1`
+       Expected: Contact 1 marked as contacted.
+
+2. Invalid index number handling
+
+    1. Execute: `contact 2147483648`
+       Expected: Invalid index number.
+
+3. Invalid string input handling
+
+    1. Execute: `contact bob`
+       Expected: Invalid command format or usage.
+
+
+
 ## **Appendix: Planned Enhancements**
 
 * (This section will be done after PE-D bug reports have been received).
+
