@@ -3,8 +3,10 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.regex.Pattern;
 
+import seedu.address.commons.util.FileUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
@@ -34,6 +36,7 @@ public class ExportCommand extends Command {
             + "and end with .vcf or .csv (case-insensitive).\n\n"
             + "Directory traversing characters such as '/' are not allowed.\n"
             + "Exported files will be placed in the " + getExportsDirAbsolutePath() + " directory.";
+    public static final String MESSAGE_FILE_EXISTS = "A file with the same name already exists.";
     public static final String EXPORT_DIR_PREFIX = "exports/";
     private static final String FILENAME_REGEX = "^(?!\\.)([a-zA-Z0-9._ -]{1,251})\\.(vcf|csv)$";
 
@@ -63,6 +66,10 @@ public class ExportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(filename);
+        if (FileUtil.isFileExists(Path.of(EXPORT_DIR_PREFIX + filename))) {
+            throw new CommandException(String.format(MESSAGE_EXPORT_FAILURE,
+                    filename, MESSAGE_FILE_EXISTS));
+        }
         if (model.getAddressBook().equals(new AddressBook())) {
             throw new CommandException(String.format(MESSAGE_EXPORT_FAILURE,
                     filename, MESSAGE_NO_CONTACTS));
