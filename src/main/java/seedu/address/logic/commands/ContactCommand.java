@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 
@@ -45,7 +44,6 @@ public class ContactCommand extends Command {
         Person updatedPerson = personToMark.markAsContacted();
 
         model.setPerson(personToMark, updatedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, targetIndex.getOneBased()));
     }
