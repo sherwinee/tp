@@ -21,14 +21,7 @@ public class PhoneNumberContainsKeywordsPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         return keywords.stream()
-                .anyMatch(keyword -> {
-                    // First validate the keyword format
-                    if (!isValidPhoneSearchTerm(keyword)) {
-                        return false;
-                    }
-                    // Then check for match
-                    return person.getPhone().toString().contains(keyword);
-                });
+                .anyMatch(keyword -> person.getPhone().toString().contains(keyword));
     }
 
     public static boolean isValidPhoneSearchTerm(String test) {
