@@ -86,7 +86,10 @@ Shows a message explaining how to access the help page.
 ![help message](images/helpMessage.png)
 
 Format: `help`
+<box type="tip" seamless>
 
+**Note:** See the **Known Issues** section for limitations.
+</box>
 
 ### Adding a person: `add`
 
@@ -200,14 +203,15 @@ Examples:
 ### Exporting all contacts : `export`
 
 Exports all contacts in the app (viewable with the `list` command) into a `vcf` (Vcard) or a proprietary
-`csv` (Comma Separated Vector) file. `vcf` files can be imported into common contact applications.
+`csv` (Comma Separated Values) file. `vcf` files can be imported into common contact applications.
 
 Format: `export FILENAME`
 
 * Filenames must end with `.vcf` or `.csv`, the programme will automatically export them to the respective format
 * Exported files are created in the programme's `exports` folder
+* If a file with the provided fiename already exists in the `exports` folder, you have to delete or rename it first
 * Tags are NOT exported in the `vcf` format
-* Last-contacted times are NOT exported
+* Last-contacted times are NOT exported by design
 
 Examples:
 * `export contacts.vcf` exports all contacts to a vcf file at `exports/contacts.vcf`
