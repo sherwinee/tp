@@ -15,7 +15,8 @@ public class Messages {
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format or usage! \n%1$s";
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
-    public static final String MESSAGE_INVALID_PHONE = "The phone number provided is invalid";
+    public static final String MESSAGE_INVALID_PHONE = "The phone number provided is invalid! "
+            + "\nPlease enter a phone number containing 3 to 15 digits";
     public static final String MESSAGE_INVALID_NAME = "The name provided is invalid";
     public static final String MESSAGE_INVALID_TAG = "The tag provided is invalid";
     public static final String MESSAGE_INVALID_ROLE = "The role provided is invalid";
@@ -48,6 +49,8 @@ public class Messages {
                 .append(person.getEmail())
                 .append("; Address: ")
                 .append(person.getAddress())
+                .append("; Role: ")
+                .append(person.getRole())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();
