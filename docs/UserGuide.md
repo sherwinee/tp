@@ -94,6 +94,8 @@ Adds a person to the address book.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/ROLE [t/TAG]…​`
 <box type="tip" seamless>
+* Phone numbers must have a length of 3-15 numerical digits only
+
 
 **Tip:** A person can have any number of tags (including 0)
 </box>
@@ -157,7 +159,7 @@ Format: `delete INDEX`
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `find n/Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ### Deleting multiple people : `deletewithtag`
 
@@ -195,7 +197,7 @@ Format: `contact INDEX`
 
 Examples:
 * `list` followed by `contact 2` changes the status of the 2nd person in the address book to 'Last Contacted: <Current Date & Time>'.
-* `find Betsy` followed by `contact 1` marks the 1st person in the results of the `find` command as contacted at the current date & time.
+* `find n/Betsy` followed by `contact 1` marks the 1st person in the results of the `find` command as contacted at the current date & time.
 
 ### Exporting all contacts : `export`
 
