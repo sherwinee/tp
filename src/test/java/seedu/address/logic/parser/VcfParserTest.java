@@ -265,6 +265,6 @@ public class VcfParserTest {
         List<String> errors = VcfParser.getLastParseErrors();
         assertTrue(errors.stream().anyMatch(e -> e.contains("Invalid field")));
         assertTrue(errors.stream().anyMatch(e ->
-                e.contains("Phone numbers should only contain numeric digits between 3 and 15 characters in length")));
+                e.contains("Phone numbers should only contain numeric digits between 3 and 15 digits in length")));
     }
 }
