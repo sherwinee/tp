@@ -545,6 +545,60 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The list is empty.
 
   Use case ends.
+---
+**Use case: Export contacts to csv**
+
+**MSS**
+
+1.	User requests to export contacts to a csv file
+2.	Listify exports all contacts to a csv file
+3.	Listify shows a success message with the saved file location
+
+Use case ends.
+
+**Extensions**
+
+* 1a. The provided filename is invalid
+
+    * 1a1. Listify shows an error message
+      Use case ends.
+
+* 1b. The export file creation failed
+
+    * 1b1. Listify shows an error message
+      Use case ends.
+
+* 1c. A file with the given filename given already exists
+
+    * 1c1. Listify shows an error message
+      Use case ends
+
+Use case: Export contacts to vcf
+Similar to Export contacts to csv use case, except for the file type
+MSS
+1.	User requests to export contacts to a vcf file
+2.	Listify exports all contacts to a vcf file
+3.	Listify shows a success message with the saved file location
+
+Use case ends.
+
+**Extensions**
+* 1a. The provided filename is invalid
+
+    * 1a1. Listify shows an error message
+
+      Use case ends.
+
+* 1b. The export file creation failed
+
+    * 1b1. Listify shows an error message
+
+      Use case ends.
+
+* 1c. A file with the given filename given already exists
+
+    * 1c1. Listify shows an error message
+      Use case ends
 
 ---
 **Use case: Import contacts from CSV**
