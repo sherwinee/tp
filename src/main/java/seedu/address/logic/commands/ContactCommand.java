@@ -45,7 +45,6 @@ public class ContactCommand extends Command {
         Person updatedPerson = personToMark.markAsContacted();
 
         model.setPerson(personToMark, updatedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, targetIndex.getOneBased()));
     }
