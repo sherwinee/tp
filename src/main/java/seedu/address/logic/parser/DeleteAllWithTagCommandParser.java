@@ -22,7 +22,8 @@ public class DeleteAllWithTagCommandParser implements Parser<DeleteAllWithTagCom
      */
     public DeleteAllWithTagCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
+
+        if (trimmedArgs.isEmpty() || trimmedArgs.matches(".*\\s+.*")) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteAllWithTagCommand.MESSAGE_USAGE));
         }

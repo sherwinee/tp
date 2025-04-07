@@ -20,6 +20,7 @@ public class DeleteAllWithTagCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes all person(s) associated with the specified tag in the person list.\n"
+            + "The specified tag must be alphanumeric and contain no whitespace.\n"
             + "Parameters: TAG\n"
             + "Example: " + COMMAND_WORD + " wedding";
 
