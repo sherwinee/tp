@@ -179,9 +179,11 @@ Sort the address book in ascending or descending order by name or by phone if th
 Format: `sort ORDER`
 
 * Sort the list of contacts by name or by phone if there are duplicate names in ascending or descending order.
+* The original order of the list will be retained after using `sort` to aid in further operations or after closing the application.
 
 Examples:
 * `list` followed by `sort asc` sorts the list of contacts by name or by phone if there are duplicate names in ascending order.
+* `list` followed by `sort desc` sorts the list of contacts by name or by phone if there are duplicate names in descending order.
 
 ### Mark person as contacted : `contact`
 
@@ -192,6 +194,8 @@ Format: `contact INDEX`
 * Marks the person as contacted at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* The contacted field of the person will be changed to 'Last Contacted: dd mmm yyyy hh:mm'.
+* The contacted field will not be imported or exported as this field is not part of the contact and is for the user to reference while using the application.
 
 Examples:
 * `list` followed by `contact 2` changes the status of the 2nd person in the address book to 'Last Contacted: <Current Date & Time>'.
