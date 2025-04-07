@@ -9,11 +9,11 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Address {
 
-    public static final String MESSAGE_CONSTRAINTS = "Addresses must only contain the following values:\n" +
-            "Alphanumeric and space characters\n" +
-            "Symbol characters: -,.#/'()&:;\n" +
-            "Maximum length is 255 Characters.\n" +
-            "Address cannot be blank.";
+    public static final String MESSAGE_CONSTRAINTS = "Addresses must only contain the following values:\n"
+            + "Alphanumeric and space characters\n"
+            + "Symbol characters: -,.#/'()&:;\n"
+            + "Maximum length is 255 Characters.\n"
+            + "Address cannot be blank.";
 
     /*
      * The first character of the address must not be a whitespace,
