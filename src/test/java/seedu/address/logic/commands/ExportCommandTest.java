@@ -6,12 +6,17 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_FAILURE;
 import static seedu.address.logic.commands.ExportCommand.MESSAGE_EXPORT_SUCCESS_VCF;
+import static seedu.address.logic.commands.ExportCommand.MESSAGE_FILE_EXISTS;
 import static seedu.address.logic.commands.ExportCommand.MESSAGE_NO_CONTACTS;
 import static seedu.address.logic.commands.ExportCommand.getAbsoluteExportFilePath;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.io.File;
+
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.util.FileUtil;
+import seedu.address.commons.util.FileUtilTest;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -36,10 +41,16 @@ public class ExportCommandTest {
     public void execute_typicalAddressBook_populatedFile() {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        String filename = "typical.vcf";
+        String filename = "typicalTest.vcf";
         ExportCommand ec = new ExportCommand(filename);
         String expectedMsg = String.format(MESSAGE_EXPORT_SUCCESS_VCF, getAbsoluteExportFilePath(filename));
         assertCommandSuccess(ec, model, expectedMsg, expectedModel);
+
+        // Test for same filename failure
+        ec = new ExportCommand(filename);
+        expectedMsg = String.format(MESSAGE_EXPORT_FAILURE, filename, MESSAGE_FILE_EXISTS);
+        assertCommandFailure(ec, model, expectedMsg);
+        new File(filename).delete();
     }
 
     @Test
