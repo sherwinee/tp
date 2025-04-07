@@ -9,6 +9,9 @@ import seedu.address.commons.util.ToStringBuilder;
  * Tests that a {@code Person}'s {@code Phone} matches any of the keywords given.
  */
 public class PhoneNumberContainsKeywordsPredicate implements Predicate<Person> {
+    public static final String MESSAGE_CONSTRAINTS =
+            "Phone search terms must be 3-18 digits long";
+    private static final String VALIDATION_REGEX = "\\d{3,18}";
     private final List<String> keywords;
 
     public PhoneNumberContainsKeywordsPredicate(List<String> keywords) {
@@ -18,7 +21,18 @@ public class PhoneNumberContainsKeywordsPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         return keywords.stream()
-                .anyMatch(keyword -> person.getPhone().toString().contains(keyword));
+                .anyMatch(keyword -> {
+                    // First validate the keyword format
+                    if (!isValidPhoneSearchTerm(keyword)) {
+                        return false;
+                    }
+                    // Then check for match
+                    return person.getPhone().toString().contains(keyword);
+                });
+    }
+
+    public static boolean isValidPhoneSearchTerm(String test) {
+        return test.matches(VALIDATION_REGEX);
     }
 
     @Override
