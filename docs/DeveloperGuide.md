@@ -878,7 +878,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Exporting contacts with no contacts added
 
-   1. Prerequisites: run the `clear` command to remove all contacts.<br> 
+   1. Prerequisites: run the `clear` command to remove all contacts.<br>
    Expected: All contacts removed from app.
 
    1. Test case: export to valid csv filename `export a.csv`.<br>

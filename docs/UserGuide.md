@@ -296,8 +296,8 @@ Furthermore, certain edits can cause Listify to behave in unexpected ways (e.g.,
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder. 
-Alternatively, use the export command to export a csv file of all contacts, and use the import command on the destination computer to import contacts from that file (last-contacted times not transferred). 
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+Alternatively, use the export command to export a csv file of all contacts, and use the import command on the destination computer to import contacts from that file (last-contacted times not transferred).
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -322,6 +322,6 @@ Action     | Format, Examples
 **Sort**   | `sort ORDER`<br> e.g., `sort asc`
 **Contact**   | `contact INDEX` <br> e.g., `contact 2`
 **Import**   | `import FILENAME` <br> e.g., `import contacts.vcf`
-**Export** | `export FILENAME`<br> e.g., `export contacts.csv` 
+**Export** | `export FILENAME`<br> e.g., `export contacts.csv`
 **List**   | `list`
 **Help**   | `help`
