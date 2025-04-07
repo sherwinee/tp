@@ -31,7 +31,7 @@ Listify is a **desktop app for managing contacts, optimized for use via a  Line 
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 r/Vendor` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 r/Vendor` : Adds a contact named `John Doe` to Listify.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -90,7 +90,7 @@ Format: `help`
 
 ### Adding a person: `add`
 
-Adds a person to the address book.
+Adds a person to Listify.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/ROLE [t/TAG]…​`
 <box type="tip" seamless>
@@ -106,13 +106,13 @@ Examples:
 
 ### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+Shows a list of all persons in Listify.
 
 Format: `list`
 
 ### Editing a person : `edit`
 
-Edits an existing person in the address book.
+Edits an existing person in Listify.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/ROLE] [t/TAG]…​`
 
@@ -149,7 +149,7 @@ Examples:
 
 ### Deleting a person : `delete`
 
-Deletes the specified person from the address book.
+Deletes the specified person from Listify.
 
 Format: `delete INDEX`
 
@@ -158,12 +158,12 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
+* `list` followed by `delete 2` deletes the 2nd person in Listify.
 * `find n/Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ### Deleting multiple people : `deletewithtag`
 
-Deletes the all people with a matching tag from the address book.
+Deletes the all people with a matching tag from Listify.
 
 Format: `delete TAGNAME`
 
@@ -176,7 +176,7 @@ Examples:
 
 ### Sorting contacts : `sort`
 
-Sort the address book in ascending or descending order by name or by phone if there are duplicate names.
+Sort Listify in ascending or descending order by name or by phone if there are duplicate names.
 
 Format: `sort ORDER`
 
@@ -196,7 +196,7 @@ Format: `contact INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `contact 2` changes the status of the 2nd person in the address book to 'Last Contacted: <Current Date & Time>'.
+* `list` followed by `contact 2` changes the status of the 2nd person in Listify to 'Last Contacted: <Current Date & Time>'.
 * `find n/Betsy` followed by `contact 1` marks the 1st person in the results of the `find` command as contacted at the current date & time.
 
 ### Exporting all contacts : `export`
@@ -217,7 +217,7 @@ Examples:
 
 ### Importing contacts : `import`
 
-Import contacts from CSV or VCF files into the address book.
+Import contacts from CSV or VCF files into Listify.
 
 Format: `import FILENAME`
 
@@ -260,7 +260,7 @@ END:VCARD
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from Listify.
 
 Format: `clear`
 
