@@ -226,11 +226,24 @@ formatting.
 * `CsvSerializableAddressBook` and `VcfSerializableAddressBook` — Holds Adapted Persons for processing in implementations of AddressBookStorage
 * `VcfMapper` — Contains static methods to convert `VcfAdaptedPerson`s to Vcard objects
 
-#### Sequence diagram of Export to CSV feature
+#### Sequence flow of Export to CSV feature
 <puml src="diagrams/ExportSequenceDiagram.puml" alt="ExportSequenceDiagram.puml" />
 
-The flow applies to vcf exports as well. However, the logic in the methods of the above classes are different as they
+1. `ExportCommand::execute` is invoked, which instantiates a `CsvAddressBookStorage` with the filename
+2. `ExportCommand::execute` invokes the `CsvAddressBookStorage::saveAddressBook` method with the `AddressBook` which saves all contacts in the address book to a file
+3. `CsvAddressBookStorage::saveAddressBook` instantiates a new `CsvSerializableAddressBook` to format all `Person` object properties to CSV friendly formats.
+4. `CsvAddressBookStorage::saveAddressBook` uses the `List` of `CsvAdaptedPersons` to create the export file using the Jackson library (ez-vcard library for vcf)
+
+The above flow applies to vcf exports as well. However, the implementation logic in the methods of the above classes are very different as they
 utilise different libraries.
+
+#### Error handling
+
+The export command handles several types of errors:
+* Filename validity
+* File with same name exists in `exports/` directory
+* Address book is empty
+* IO errors when creating file
 
 ### Import feature
 
@@ -789,8 +802,9 @@ Use case ends.
 * **Contact** - An individual an organisation/party has interest in communicating with.
 * **Contact Details** - Adjectives that can describe a contact including but not limited to Contact Name, Phone Number, and Email
 * **CSV File** - a simple text file that stores data in a tabular format, where each line represents a row and values within a row are separated by commas
+* **VCF File** - a common file format used to store and exchange digital contact information across devices and platforms (iCloud, Google Contacts, etc.) 
 * **Event Organisers** – Tech-savvy event organisers who are fast typists and deal with large amounts of contacts.
-* **Tag** - To associate a Contact with a particular group
+* **Tag** - To associate a contact with a particular group
 
 --------------------------------------------------------------------------------------------------------------------
 
